@@ -35,6 +35,10 @@ let g:neodark#use_256color = 1
 let g:neodark#terminal_transparent = 1
 " show buffers in tabline
 Plug 'ap/vim-buftabline'
+" LaTeX
+Plug 'lervag/vimtex'
+let g:vimtex_compiler_latexmk = {'callback' : 0}
+let g:vimtex_view_method = 'skim'
 call plug#end()
 
 " Turn on syntax highlighting
@@ -45,6 +49,12 @@ filetype plugin indent on
 
 " Show line numbers
 set number
+
+" set cursorline
+
+" Last line
+set showmode
+set showcmd
 
 " Split to the right
 set splitright
@@ -59,8 +69,10 @@ set visualbell
 set encoding=utf-8
 
 " Whitespace
-set wrap
+set wrap linebreak nolist
 set textwidth=79
+set breakindent
+set showbreak=↳
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -71,6 +83,8 @@ set autoindent
 set cindent
 
 " General key mappings and commands
+nnoremap <space> <nop>
+let maplocalleader = " "
 inoremap jj <esc>
 cnoremap jj <esc>
 nnoremap <c-l> :bn <CR>
@@ -92,10 +106,6 @@ set mouse=a
 
 " Rendering
 set ttyfast
-
-" Last line
-set showmode
-set showcmd
 
 " Searching
 set hlsearch
