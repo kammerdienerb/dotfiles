@@ -20,6 +20,8 @@ Plug 'romainl/vim-cool'
 Plug 'godlygeek/tabular'
 " asyncronous linting
 Plug 'w0rp/ale'
+let g:ale_linters = { 'cpp' : ['gcc', 'clang'] }
+let g:ale_enable_completion = 1
 " completion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -70,9 +72,9 @@ set encoding=utf-8
 
 " Whitespace
 set wrap linebreak nolist
-set textwidth=79
+" set textwidth=79
 set breakindent
-set showbreak=↳
+let &showbreak="  ↳"
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -80,7 +82,7 @@ set softtabstop=4
 set expandtab
 set noshiftround
 set autoindent
-set cindent
+set smartindent
 
 " General key mappings and commands
 nnoremap <space> <nop>
@@ -106,6 +108,9 @@ set mouse=a
 
 " Rendering
 set ttyfast
+
+" Wildmenu
+set wildmenu
 
 " Searching
 set hlsearch
