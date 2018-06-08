@@ -14,23 +14,28 @@ endif
 call plug#begin('~/.vim/plugged')
  " better find on line
 Plug 'justinmk/vim-sneak'
-" unhighlight search results after movement
-Plug 'romainl/vim-cool'
 " alignment
 Plug 'godlygeek/tabular'
-" asyncronous linting
+" asynchronous linting
 Plug 'w0rp/ale'
-let g:ale_linters = { 'cpp' : ['gcc', 'clang'] }
-let g:ale_enable_completion = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_save = 1
+let g:ale_linters = { 'c' : ['clang', 'gcc'], 'cpp' : ['clang', 'gcc'] }
+let g:ale_c_gcc_options     = '-std=c99 -Iinclude'
+let g:ale_c_clang_options   = '-std=c99 -Iinclude'
+let g:ale_cpp_gcc_options   = '-std=c++11 -Iinclude'
+let g:ale_cpp_clang_options = '-std=c++11 -Iinclude'
 " completion
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+Plug 'maralla/completor.vim'
+let g:completor_clang_binary = 'clang'
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:deoplete#enable_at_startup = 1
 " neodark colorscheme
 Plug 'KeitaNakamura/neodark.vim'
 let g:neodark#use_256color = 1
@@ -41,6 +46,18 @@ Plug 'ap/vim-buftabline'
 Plug 'lervag/vimtex'
 let g:vimtex_compiler_latexmk = {'callback' : 0}
 let g:vimtex_view_method = 'skim'
+" fzf fuzzy file finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+nnoremap <c-f> :Files <CR>
+" improved search
+Plug 'pgdouyon/vim-evanesco'
+" C++ highlighting
+Plug 'octol/vim-cpp-enhanced-highlight'
+let g:cpp_experimental_template_highlight = 1
+" Comment stuff out
+Plug 'tpope/vim-commentary'
+autocmd FileType bjou setlocal commentstring=#\ %s
 call plug#end()
 
 " Turn on syntax highlighting
@@ -50,21 +67,23 @@ syntax on
 filetype plugin indent on
 
 " Show line numbers
-set number
+" set number relativenumber
+set number relativenumber
 
-" set cursorline
+set cursorline
 
 " Last line
 set showmode
 set showcmd
 
-" Split to the right
+" Splits go to the right or down
 set splitright
+set splitbelow
 
 " Show file stats
 set ruler
 
-" Blink cursor on error instead of beeping (grr)
+" Blink cursor on error instead of beeping
 set visualbell
 
 " Encoding
@@ -72,9 +91,9 @@ set encoding=utf-8
 
 " Whitespace
 set wrap linebreak nolist
-" set textwidth=79
 set breakindent
-let &showbreak="  ↳"
+" let &showbreak="  ↳"
+let &showbreak=  "  ⋯"
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -94,6 +113,10 @@ nnoremap <c-h> :bp <CR>
 command W w
 command Q q
 command Wq wq
+
+" system clipboard
+map <silent> <c-y> "+y
+map <silent> <c-p> "+p
 
 " Cursor motion
 set scrolloff=3
