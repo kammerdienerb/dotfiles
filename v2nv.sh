@@ -16,5 +16,5 @@ if [[ "$NVIM" != "" ]]; then
     mkdir -p $NVIM_PATH/runtime/autoload
     cp $HM/.vim/ftdetect/bjou.vim $NVIM_PATH/runtime/ftdetect
     cp $HM/.vim/syntax/bjou.vim $NVIM_PATH/runtime/syntax
-    cp $HM/.vim/autoload/plug.vim $NVIM_PATH/runtime/autload
+    cp $HM/.vim/autoload/plug.vim $NVIM_PATH/runtime/autoload
 fi
