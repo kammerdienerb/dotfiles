@@ -13,7 +13,7 @@ mkdir -p $HM/.vim/syntax
 mkdir -p $HM/.vim/autoload
 cp .vim/ftdetect/bjou.vim $HM/.vim/ftdetect
 cp .vim/syntax/bjou.vim $HM/.vim/syntax
-cp .vim/autoload/$HM.vim $HM/.vim/autoload
+cp .vim/autoload/plug.vim $HM/.vim/autoload
 cp vvish.vim $HM
 
 ./v2nv.sh
