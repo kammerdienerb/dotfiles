@@ -4,22 +4,24 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd $DIR
 
-cp .vimrc ~/.vimrc
-mkdir -p ~/.vim
-mkdir -p ~/.vim/ftdetect
-mkdir -p ~/.vim/syntax
-mkdir -p ~/.vim/autoload
-cp .vim/ftdetect/bjou.vim ~/.vim/ftdetect
-cp .vim/syntax/bjou.vim ~/.vim/syntax
-cp .vim/autoload/plug.vim ~/.vim/autoload
-cp vvish.vim ~
+eval HM=$(echo ~$(logname))
+
+cp .vimrc $HM/.vimrc
+mkdir -p $HM/.vim
+mkdir -p $HM/.vim/ftdetect
+mkdir -p $HM/.vim/syntax
+mkdir -p $HM/.vim/autoload
+cp .vim/ftdetect/bjou.vim $HM/.vim/ftdetect
+cp .vim/syntax/bjou.vim $HM/.vim/syntax
+cp .vim/autoload/$HM.vim $HM/.vim/autoload
+cp vvish.vim $HM
 
 ./v2nv.sh
 
-cp Default.vifm ~/.config/vifm/colors
+cp Default.vifm $HM/.config/vifm/colors
 
-cp config.fish ~/.config/fish
+cp config.fish $HM/.config/fish
 
-cp kitty.conf.dark ~/.config/kitty
-cp kitty.conf.light ~/.config/kitty
-cp kittyconf.sh ~
+cp kitty.conf.dark $HM/.config/kitty
+cp kitty.conf.light $HM/.config/kitty
+cp kittyconf.sh $HM
