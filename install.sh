@@ -8,8 +8,11 @@ cp .vimrc ~/.vimrc
 mkdir -p ~/.vim
 mkdir -p ~/.vim/ftdetect
 mkdir -p ~/.vim/syntax
+mkdir -p ~/.vim/autoload
 cp .vim/ftdetect/bjou.vim ~/.vim/ftdetect
 cp .vim/syntax/bjou.vim ~/.vim/syntax
+cp .vim/autoload/plug.vim ~/.vim/autoload
+cp vvish.vim ~
 
 ./v2nv.sh
 

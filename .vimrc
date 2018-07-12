@@ -12,7 +12,7 @@ endif
 " Plugins
 
 " vvish, my vim shell
-source ~/Documents/Programming/vvish/vvish.vim
+source ~/vvish.vim
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
