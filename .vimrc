@@ -4,7 +4,16 @@ set nocompatible
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
 
+" https://github.com/vim/vim/issues/3117
+if has('python3')
+  silent! python3 1
+endif
+
 " Plugins
+
+" vvish, my vim shell
+source ~/Documents/Programming/vvish/vvish.vim
+
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -14,6 +23,7 @@ endif
 call plug#begin('~/.vim/plugged')
  " better find on line
 Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
 " alignment
 Plug 'godlygeek/tabular'
 " asynchronous linting
@@ -26,16 +36,21 @@ let g:ale_c_clang_options   = '-std=c99 -Iinclude'
 let g:ale_cpp_gcc_options   = '-std=c++11 -Iinclude'
 let g:ale_cpp_clang_options = '-std=c++11 -Iinclude'
 " completion
-Plug 'maralla/completor.vim'
-let g:completor_clang_binary = 'clang'
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" let g:deoplete#enable_at_startup = 1
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+" enable ncm2 for all buffer
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" note that must keep noinsert in completeopt, the others is optional
+set completeopt=noinsert,menuone,noselect
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-pyclang'
+let g:ncm2_pyclang#library_path = substitute(system('dirname $(which llvm-config)'), '\n$', '', '').'/../lib'
+" put a .clang_complete in your project path to get better C/C++ completion
+
 " neodark colorscheme
 Plug 'KeitaNakamura/neodark.vim'
 let g:neodark#use_256color = 1
@@ -58,6 +73,8 @@ let g:cpp_experimental_template_highlight = 1
 " Comment stuff out
 Plug 'tpope/vim-commentary'
 autocmd FileType bjou setlocal commentstring=#\ %s
+" Restore cursor position
+Plug 'farmergreg/vim-lastplace'
 call plug#end()
 
 " Turn on syntax highlighting
@@ -92,8 +109,8 @@ set encoding=utf-8
 " Whitespace
 set wrap linebreak nolist
 set breakindent
-" let &showbreak="  ↳"
-let &showbreak=  "  ⋯"
+let &showbreak="  ↳"
+" let &showbreak=  "  ⋯"
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
