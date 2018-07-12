@@ -10,6 +10,9 @@ if [[ "$NVIM" != "" ]]; then
 
     printf "source ~/.vimrc\nset guicursor=" > $NVIM_PATH/sysinit.vim
     mkdir -p $NVIM_PATH/runtime/ftdetect
+    mkdir -p $NVIM_PATH/runtime/syntax
+    mkdir -p $NVIM_PATH/runtime/autoload
     cp ~/.vim/ftdetect/bjou.vim $NVIM_PATH/runtime/ftdetect
     cp ~/.vim/syntax/bjou.vim $NVIM_PATH/runtime/syntax
+    cp ~/.vim/autoload/plug.vim $NVIM_PATH/runtime/autload
 fi
