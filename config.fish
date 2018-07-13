@@ -1,3 +1,5 @@
+fenv source ~/.bashrc
+
 # THEME PURE #
 set fish_function_path ~/.config/fish/functions/theme-pure $fish_function_path
 

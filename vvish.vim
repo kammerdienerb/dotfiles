@@ -56,7 +56,7 @@ function! Vvish_ovr_cd(line)
 endfunction
 
 function! Vvish_Init()
-    setlocal hidden bufhidden=wipe noswapfile
+    setlocal buftype=nofile noswapfile
     setlocal syntax=sh
     setlocal omnifunc=syntaxcomplete#Complete
 
