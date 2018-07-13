@@ -1,5 +1,5 @@
 # THEME PURE #
-set fish_function_path /Users/kammerdienerb/.config/fish/functions/theme-pure $fish_function_path
+set fish_function_path ~/.config/fish/functions/theme-pure $fish_function_path
 
 function fish_user_key_bindings.fish
   fish_vi_key_bindings
