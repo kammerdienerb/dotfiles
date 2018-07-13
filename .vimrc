@@ -55,6 +55,8 @@ let g:ncm2_pyclang#library_path = substitute(system('dirname $(which llvm-config
 Plug 'KeitaNakamura/neodark.vim'
 let g:neodark#use_256color = 1
 let g:neodark#terminal_transparent = 1
+" stellarized colorscheme
+Plug 'nightsense/stellarized'
 " show buffers in tabline
 Plug 'ap/vim-buftabline'
 " LaTeX
@@ -160,13 +162,20 @@ set showmatch
 
 " Color scheme (terminal)
 set t_Co=256
-set background=dark
 
-color neodark
-
-" Solarized
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-" put https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-" in ~/.vim/colors/ and uncomment:
-" colorscheme solarized
+if $TERM == 'xterm-kitty'
+    if filereadable(expand('~/.config/kitty/kitty.conf'))
+        if system("file -h ~/.config/kitty/kitty.conf | grep -c 'symbolic link'") == "1\n"
+            if system("realpath ~/.config/kitty/kitty.conf | grep -c 'light'") == "1\n"
+                set termguicolors
+                color stellarized
+            else
+                set background=dark
+                color neodark
+            endif
+        endif
+    endif
+else
+    set background=dark
+    color neodark
+endif
