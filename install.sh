@@ -20,10 +20,6 @@ cp vvish.vim $HM
 
 cp Default.vifm $HM/.config/vifm/colors
 
-cp config.fish $HM/.config/fish
-
 cp kitty.conf.dark $HM/.config/kitty
-sed -iE "s#^shell fish#shell $(which fish)#g" $HM/.config/kitty/kitty.conf.dark
 cp kitty.conf.light $HM/.config/kitty
-sed -iE "s#^shell fish#shell $(which fish)#g" $HM/.config/kitty/kitty.conf.light
 cp kittyconf.sh $HM
