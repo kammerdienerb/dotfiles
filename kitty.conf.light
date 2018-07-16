@@ -67,7 +67,7 @@ font_size        14.0
 
 # Cursor customization {{{
 # The cursor color
-# cursor           #cccccc
+cursor           #000000
 
 # The cursor shape can be one of (block, beam, underline)
 cursor_shape     beam
@@ -245,10 +245,10 @@ background       #f4f4d7
 background_opacity 0.9
 
 # The foreground for selections
-# selection_foreground #000000
+selection_foreground #f4f4d7
 
 # The background for selections
-# selection_background #FFFACD
+selection_background #000000
 
 # The 16 terminal colors. There are 8 basic colors, each color has a dull and
 # bright version. You can also set the remaining colors from the 256 color table
@@ -267,8 +267,8 @@ color2   #1dbb9b
 color10  #3cc5aa
 
 # yellow
-color3   #fef035
-color11  #fffc67
+color3   #ffb84d
+color11  #e6e200
 
 # blue
 color4  #69aff8
