@@ -145,8 +145,8 @@ set backspace=indent,eol,start
 nnoremap j gj
 nnoremap k gk
 
-" Use the mouse
-set mouse=a
+" Don't use the mouse
+set mouse=
 
 " Rendering
 set ttyfast
