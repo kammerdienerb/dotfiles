@@ -10,7 +10,8 @@ if [[ "$NVIM" != "" ]]; then
     NVIM_PATH=$($NVIM --version | awk '/fall-back for \$VIM/{ print $4; }')
     NVIM_PATH=$(echo $NVIM_PATH | sed -E 's/\"//g')
 
-    printf "source $HM/.vimrc\nset guicursor=" > $NVIM_PATH/sysinit.vim
+    printf "source $HM/.vimrc\n" > $NVIM_PATH/sysinit.vim
+    # printf "set guicursor=\n"    > $NVIM_PATH/sysinit.vim
     mkdir -p $NVIM_PATH/runtime/ftdetect
     mkdir -p $NVIM_PATH/runtime/syntax
     mkdir -p $NVIM_PATH/runtime/autoload

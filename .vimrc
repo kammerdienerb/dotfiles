@@ -1,7 +1,7 @@
 " Don't try to be vi compatible
 set nocompatible
 
-" Helps force plugins to load correctly when it is turned back on below
+" helps force plugins to load correctly when it is turned back on below
 filetype off
 
 " https://github.com/vim/vim/issues/3117
@@ -9,7 +9,7 @@ if has('python3')
   silent! python3 1
 endif
 
-" Plugins
+" plugins
 
 " vvish, my vim shell
 source ~/vvish.vim
@@ -89,7 +89,8 @@ filetype plugin indent on
 " set number relativenumber
 set number relativenumber
 
-set cursorline
+autocmd InsertEnter * set cursorline
+autocmd InsertLeave * set nocursorline
 
 " Last line
 set showmode
