@@ -4,6 +4,8 @@ set nocompatible
 " helps force plugins to load correctly when it is turned back on below
 filetype off
 
+let mapleader = " "
+
 " https://github.com/vim/vim/issues/3117
 if has('python3')
   silent! python3 1
@@ -21,6 +23,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+
  " better find on line
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
@@ -40,9 +43,24 @@ if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'roxma/nvim-yarp'
+
+" autocomplete
 Plug 'ncm2/ncm2'
-" enable ncm2 for all buffer
-autocmd BufEnter * call ncm2#enable_for_buffer()
+
+function! Toggle_ac()
+    if exists('b:ncm2_enable')
+        if b:ncm2_enable == 1
+            call ncm2#disable_for_buffer()
+        else
+            call ncm2#enable_for_buffer()
+        endif
+    else
+        call ncm2#enable_for_buffer()
+    endif
+endfunction
+
+noremap <leader>ac :call Toggle_ac()<cr>
+
 " note that must keep noinsert in completeopt, the others is optional
 set completeopt=noinsert,menuone,noselect
 Plug 'ncm2/ncm2-bufword'
@@ -89,8 +107,8 @@ filetype plugin indent on
 " set number relativenumber
 set number relativenumber
 
-autocmd InsertEnter * set cursorline
-autocmd InsertLeave * set nocursorline
+" autocmd InsertEnter * set cursorline
+" autocmd InsertLeave * set nocursorline
 
 " Last line
 set showmode
