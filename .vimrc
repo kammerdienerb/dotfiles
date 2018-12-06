@@ -59,7 +59,7 @@ function! Toggle_ac()
     endif
 endfunction
 
-noremap <leader>ac :call Toggle_ac()<cr>
+noremap <silent> <leader>ac :call Toggle_ac()<cr>
 
 " note that must keep noinsert in completeopt, the others is optional
 set completeopt=noinsert,menuone,noselect
@@ -75,6 +75,11 @@ let g:neodark#use_256color = 1
 let g:neodark#terminal_transparent = 1
 " stellarized colorscheme
 Plug 'nightsense/stellarized'
+" nord colorscheme
+Plug 'arcticicestudio/nord-vim'
+" quantum colorscheme
+Plug 'tyrannicaltoucan/vim-quantum'
+let g:quantum_black=1
 " show buffers in tabline
 Plug 'ap/vim-buftabline'
 " LaTeX
@@ -84,7 +89,50 @@ let g:vimtex_view_method = 'skim'
 " fzf fuzzy file finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-nnoremap <c-f> :Files <CR>
+
+tnoremap jj <esc>
+
+nnoremap <silent> <leader>f :call Fzf_files()<CR>
+nnoremap <silent> <leader>g :FzfGrep<CR>
+
+" ripgrep
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+
+    command! -bang -nargs=* FzfGrep
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color="always" --smart-case --hidden --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'),
+  \   <bang>0)
+
+
+endif
+
+" Files
+function! Fzf_files()
+  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always "{1..}" | head -'.&lines.'"'
+
+  function! s:files()
+    return split(system($FZF_DEFAULT_COMMAND), '\n')
+  endfunction
+
+  function! s:edit_file(item)
+    execute 'silent e ' a:item
+  endfunction
+
+  call fzf#run({
+        \ 'source': <sid>files(),
+        \ 'sink':   function('s:edit_file'),
+        \ 'options': '-m ' . l:fzf_files_options,
+        \ 'down':    '40%' })
+endfunction
+
+function! Fzf_grep()
+    call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case ', 1)
+  " call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" | tr -d "\017"', 1, fzf#vim#with_preview('up:60%'), 1)
+endfunction
+
 " improved search
 Plug 'pgdouyon/vim-evanesco'
 " C++ highlighting
@@ -168,7 +216,15 @@ nnoremap k gk
 set mouse=
 
 " Rendering
+set termguicolors
 set ttyfast
+if &term == "screen"
+  set t_Co=256
+endif
+" disable Background Color Erase (BCE) so that color schemes
+" render properly when inside 256-color tmux and GNU screen.
+" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
+set t_ut=
 
 " Wildmenu
 set wildmenu
@@ -180,21 +236,21 @@ set smartcase
 set showmatch
 
 " Color scheme (terminal)
-set t_Co=256
+set background=dark
+colorscheme nord
 
-if $TERM == 'xterm-kitty'
-    if filereadable(expand('~/.config/kitty/kitty.conf'))
-        if system("file -h ~/.config/kitty/kitty.conf | grep -c 'symbolic link'") == "1\n"
-            if system("realpath ~/.config/kitty/kitty.conf | grep -c 'light'") == "1\n"
-                set termguicolors
-                color stellarized
-            else
-                set background=dark
-                color neodark
-            endif
-        endif
-    endif
-else
-    set background=dark
-    color neodark
-endif
+" if $TERM == 'xterm-kitty'
+"     if filereadable(expand('~/.config/kitty/kitty.conf'))
+"         if system("file -h ~/.config/kitty/kitty.conf | grep -c 'symbolic link'") == "1\n"
+"             if system("realpath ~/.config/kitty/kitty.conf | grep -c 'light'") == "1\n"
+"                 color stellarized
+"             else
+"                 set background=dark
+"                 color neodark
+"             endif
+"         endif
+"     endif
+" else
+"     set background=dark
+"     color neodark
+" endif
