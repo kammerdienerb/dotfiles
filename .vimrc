@@ -29,15 +29,24 @@ Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
 " alignment
 Plug 'godlygeek/tabular'
+
+" rust
+Plug 'rust-lang/rust.vim'
+
+" async commands
+Plug 'tpope/vim-dispatch'
+
 " asynchronous linting
 Plug 'w0rp/ale'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
-let g:ale_linters = { 'c' : ['clang', 'gcc'], 'cpp' : ['clang', 'gcc'] }
-let g:ale_c_gcc_options     = '-std=c99 -Iinclude'
-let g:ale_c_clang_options   = '-std=c99 -Iinclude'
-let g:ale_cpp_gcc_options   = '-std=c++11 -Iinclude'
-let g:ale_cpp_clang_options = '-std=c++11 -Iinclude'
+let g:ale_linters = { 'c' : ['clang', 'gcc'], 'cpp' : ['clang', 'gcc'], 'rust': ['rls'] }
+let g:ale_c_gcc_options      = '-std=c99 -Iinclude'
+let g:ale_c_clang_options    = '-std=c99 -Iinclude'
+let g:ale_cpp_gcc_options    = '-std=c++11 -Iinclude'
+let g:ale_cpp_clang_options  = '-std=c++11 -Iinclude'
+let g:ale_rust_rls_toolchain = 'stable'
+
 " completion
 if !has('nvim')
     Plug 'roxma/vim-hug-neovim-rpc'
@@ -69,6 +78,13 @@ Plug 'ncm2/ncm2-pyclang'
 let g:ncm2_pyclang#library_path = substitute(system('dirname $(which llvm-config)'), '\n$', '', '').'/../lib'
 " put a .clang_complete in your project path to get better C/C++ completion
 
+
+" transparent background
+Plug 'miyakogi/seiya.vim'
+" Default value: ['ctermbg']
+let g:seiya_target_groups = has('nvim') ? ['guibg'] : ['ctermbg']
+let g:seiya_auto_enable=1
+
 " neodark colorscheme
 Plug 'KeitaNakamura/neodark.vim'
 let g:neodark#use_256color = 1
@@ -77,9 +93,16 @@ let g:neodark#terminal_transparent = 1
 Plug 'nightsense/stellarized'
 " nord colorscheme
 Plug 'arcticicestudio/nord-vim'
+let g:nord_cursor_line_number_background = 1
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_italic_comments = 1
+let g:nord_comment_brightness = 12
 " quantum colorscheme
 Plug 'tyrannicaltoucan/vim-quantum'
 let g:quantum_black=1
+" window focus
+Plug 'TaDaa/vimade'
 " show buffers in tabline
 Plug 'ap/vim-buftabline'
 " LaTeX
@@ -97,7 +120,7 @@ nnoremap <silent> <leader>g :FzfGrep<CR>
 
 " ripgrep
 if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  let $FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --glob '!.git/*' --glob '!*/.git/*'"
   set grepprg=rg\ --vimgrep
 
     command! -bang -nargs=* FzfGrep
@@ -155,8 +178,7 @@ filetype plugin indent on
 " set number relativenumber
 set number relativenumber
 
-" autocmd InsertEnter * set cursorline
-" autocmd InsertLeave * set nocursorline
+set cursorline
 
 " Last line
 set showmode
@@ -200,6 +222,9 @@ command W w
 command Q q
 command Wq wq
 
+" unison sicm command
+noremap <silent> <leader>us :wa<cr> :Dispatch! unison sicm > /dev/null<cr>
+
 " system clipboard
 map <silent> <c-y> "+y
 map <silent> <c-p> "+p
@@ -216,7 +241,9 @@ nnoremap k gk
 set mouse=
 
 " Rendering
-set termguicolors
+if has("termguicolors")     " set true colors
+    set termguicolors
+endif
 set ttyfast
 if &term == "screen"
   set t_Co=256

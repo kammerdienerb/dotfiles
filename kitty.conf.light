@@ -169,7 +169,7 @@ cursor_shape     beam
 # visual_bell_duration 0.0
 
 # Enable/disable the audio bell. Useful in environments that require silence.
-# enable_audio_bell yes
+enable_audio_bell no
 # }}}
 
 
