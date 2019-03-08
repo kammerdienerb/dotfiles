@@ -222,6 +222,24 @@ command W w
 command Q q
 command Wq wq
 
+" Spell check toggle
+function! Toggle_sc()
+    if exists('b:use_spell_check')
+        if b:use_spell_check == 1
+            setlocal nospell
+            let b:use_spell_check = 0
+        else
+            setlocal spell spelllang=en_us
+            let b:use_spell_check = 1
+        endif
+    else
+        setlocal spell spelllang=en_us
+        let b:use_spell_check = 1
+    endif
+endfunction
+
+noremap <silent> <leader>sc :call Toggle_sc()<cr>
+
 " unison sicm command
 noremap <silent> <leader>us :wa<cr> :Dispatch! unison sicm > /dev/null<cr>
 
