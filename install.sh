@@ -25,3 +25,5 @@ cp Default.vifm $HM/.config/vifm/colors
 cp kitty.conf.dark $HM/.config/kitty
 cp kitty.conf.light $HM/.config/kitty
 cp kittyconf.sh $HM
+
+cp .tmux.conf $HM
