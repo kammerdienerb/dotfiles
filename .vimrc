@@ -117,6 +117,7 @@ tnoremap jj <esc>
 
 nnoremap <silent> <leader>f :call Fzf_files()<CR>
 nnoremap <silent> <leader>g :FzfGrep<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
 
 " ripgrep
 if executable('rg')
