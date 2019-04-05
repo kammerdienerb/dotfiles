@@ -60,11 +60,14 @@ function! Toggle_ac()
     if exists('b:ncm2_enable')
         if b:ncm2_enable == 1
             call ncm2#disable_for_buffer()
+            echo("Auto-complete off")
         else
             call ncm2#enable_for_buffer()
+            echo("Auto-complete on")
         endif
     else
         call ncm2#enable_for_buffer()
+        echo("Auto-complete on")
     endif
 endfunction
 
@@ -167,6 +170,9 @@ Plug 'tpope/vim-commentary'
 autocmd FileType bjou setlocal commentstring=#\ %s
 " Restore cursor position
 Plug 'farmergreg/vim-lastplace'
+" Conversions
+Plug 'glts/vim-magnum'
+Plug 'glts/vim-radical'
 call plug#end()
 
 " Turn on syntax highlighting
@@ -232,13 +238,16 @@ function! Toggle_sc()
         if b:use_spell_check == 1
             setlocal nospell
             let b:use_spell_check = 0
+            echo("Spell check off")
         else
             setlocal spell spelllang=en_us
             let b:use_spell_check = 1
+            echo("Spell check on")
         endif
     else
         setlocal spell spelllang=en_us
         let b:use_spell_check = 1
+        echo("Spell check on")
     endif
 endfunction
 
