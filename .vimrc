@@ -222,7 +222,7 @@ set smartindent
 nnoremap <space> <nop>
 let maplocalleader = " "
 inoremap jj <esc>
-cnoremap jj <esc>
+cnoremap jj <c-f>
 nnoremap <c-l> :bn <CR>
 nnoremap <c-h> :bp <CR>
 command W w
