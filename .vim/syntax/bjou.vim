@@ -40,7 +40,8 @@ hi def link     bjouInt             Number
 hi def link     bjouFloat           Number
 
 " Characters
-syn region      bjouCharacter       start=+'+ skip=+\\'+ end=+'+
+syn match       bjouCharacter       /'[^\\]'/
+syn match       bjouCharacter       /'\\[\\'\"abefnrtv]'/
 hi def link     bjouCharacter       Character
 
 " Strings

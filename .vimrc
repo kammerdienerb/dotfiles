@@ -38,6 +38,7 @@ Plug 'tpope/vim-dispatch'
 
 " asynchronous linting
 Plug 'w0rp/ale'
+let g:ale_sign_error = '=>'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_save = 1
 let g:ale_linters = { 'c' : ['clang', 'gcc'], 'cpp' : ['clang', 'gcc'], 'rust': ['rls'] }
@@ -100,12 +101,14 @@ let g:nord_cursor_line_number_background = 1
 let g:nord_italic = 1
 let g:nord_underline = 1
 let g:nord_italic_comments = 1
-let g:nord_comment_brightness = 12
+" let g:nord_comment_brightness = 12
 " quantum colorscheme
 Plug 'tyrannicaltoucan/vim-quantum'
 let g:quantum_black=1
 " window focus
 Plug 'TaDaa/vimade'
+let g:vimade = {}
+let g:vimade.fadelevel = 0.8
 " show buffers in tabline
 Plug 'ap/vim-buftabline'
 " LaTeX
