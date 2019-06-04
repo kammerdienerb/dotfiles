@@ -49,39 +49,49 @@ let g:ale_cpp_clang_options  = '-std=c++11 -Iinclude'
 let g:ale_rust_rls_toolchain = 'stable'
 
 " completion
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'roxma/nvim-yarp'
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" autocomplete
-Plug 'ncm2/ncm2'
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 function! Toggle_ac()
-    if exists('b:ncm2_enable')
-        if b:ncm2_enable == 1
-            call ncm2#disable_for_buffer()
-            echo("Auto-complete off")
+    if exists('g:my_coc_enabled')
+        if g:my_coc_enabled == 1
+            exec "CocDisable"
+            let g:my_coc_enabled = 0
         else
-            call ncm2#enable_for_buffer()
-            echo("Auto-complete on")
+            exec "CocEnable"
+            let g:my_coc_enabled = 1
+            echohl MoreMsg
+                echom '[coc.nvim] Enabled'
+            echohl None
         endif
     else
-        call ncm2#enable_for_buffer()
-        echo("Auto-complete on")
+        exec "CocStart"
+        let g:my_coc_enabled = 1
+        echohl MoreMsg
+            echom '[coc.nvim] Enabled'
+        echohl None
     endif
 endfunction
 
 noremap <silent> <leader>ac :call Toggle_ac()<cr>
 
-" note that must keep noinsert in completeopt, the others is optional
-set completeopt=noinsert,menuone,noselect
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-pyclang'
-let g:ncm2_pyclang#library_path = substitute(system('dirname $(which llvm-config)'), '\n$', '', '').'/../lib'
-" put a .clang_complete in your project path to get better C/C++ completion
-
+let g:coc_start_at_startup = 0
 
 " transparent background
 Plug 'miyakogi/seiya.vim'
@@ -249,6 +259,7 @@ nnoremap <c-l> :bn <CR>
 nnoremap <c-h> :bp <CR>
 command W w
 command Q q
+cnoremap Q! q!
 command Wq wq
 
 nnoremap <leader>er :edit scp://
