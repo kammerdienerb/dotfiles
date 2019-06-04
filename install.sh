@@ -19,6 +19,8 @@ cp .vim/syntax/bjou.vim $HM/.vim/syntax
 cp .vim/autoload/plug.vim $HM/.vim/autoload
 cp vvish.vim $HM
 
+cp nord.vim $HM/.vim/plugged/vim-crystalline/autoload/crystalline/theme
+
 ./v2nv.sh
 
 cp Default.vifm $HM/.config/vifm/colors

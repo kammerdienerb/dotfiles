@@ -105,12 +105,31 @@ let g:nord_italic_comments = 1
 " quantum colorscheme
 Plug 'tyrannicaltoucan/vim-quantum'
 let g:quantum_black=1
+" spacecamp colorscheme
+Plug 'jaredgorski/spacecamp'
 " window focus
 Plug 'TaDaa/vimade'
 let g:vimade = {}
 let g:vimade.fadelevel = 0.8
 " show buffers in tabline
 Plug 'ap/vim-buftabline'
+" status line
+Plug 'rbong/vim-crystalline'
+function! StatusLine(...)
+  return crystalline#mode() . crystalline#right_mode_sep('')
+        \ . ' %f%h%w%m%r ' . crystalline#right_sep('', 'Fill') . '%='
+        \ . crystalline#left_sep('', 'Fill') . ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
+endfunction
+let g:crystalline_enable_sep = 1
+let g:crystalline_statusline_fn = 'StatusLine'
+let g:crystalline_theme = 'nord'
+set laststatus=2
+function! TabLine()
+    let l:vimlabel = has('nvim') ?  ' NVIM ' : ' VIM '
+    return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab# ' . l:vimlabel
+endfunction
+let g:crystalline_tabline_fn = 'TabLine'
+set showtabline=2
 " LaTeX
 Plug 'lervag/vimtex'
 let g:vimtex_compiler_latexmk = {'callback' : 0}
