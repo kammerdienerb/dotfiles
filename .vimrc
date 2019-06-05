@@ -95,6 +95,12 @@ let g:coc_start_at_startup = 0
 
 " transparent background
 Plug 'miyakogi/seiya.vim'
+
+" writing
+Plug 'junegunn/goyo.vim'
+
+nnoremap <leader>wr :Goyo<cr>
+
 " Default value: ['ctermbg']
 let g:seiya_target_groups = has('nvim') ? ['guibg'] : ['ctermbg']
 let g:seiya_auto_enable=1
@@ -140,6 +146,27 @@ function! TabLine()
 endfunction
 let g:crystalline_tabline_fn = 'TabLine'
 set showtabline=2
+
+function! Null_statusline_fn(...)
+endfunction
+function! Null_tabline_fn(...)
+endfunction
+
+function! My_goyo_enter()
+    let g:crystalline_statusline_fn = 'Null_statusline_fn'
+    let g:crystalline_tabline_fn    = 'Null_tabline_fn'
+    set showtabline=0
+endfunction
+
+function! My_goyo_leave()
+    let g:crystalline_statusline_fn = 'StatusLine'
+    let g:crystalline_tabline_fn    = 'TabLine'
+    set showtabline=2
+endfunction
+
+autocmd! User GoyoEnter nested call My_goyo_enter()
+autocmd! User GoyoLeave nested call My_goyo_leave()
+
 " LaTeX
 Plug 'lervag/vimtex'
 let g:vimtex_compiler_latexmk = {'callback' : 0}
