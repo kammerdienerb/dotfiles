@@ -230,13 +230,15 @@ autocmd BufReadPost *
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""" Appearance """""""""""""""""""""""""""""""""" 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('termguicolors')
-    set termguicolors
-    set t_8f=[38;2;%lu;%lu;%lum
-    set t_8b=[48;2;%lu;%lu;%lum
-endif
+" in case we're in TMUX
+let &t_8f = "[38;2;%lu;%lu;%lum"
+let &t_8b = "[48;2;%lu;%lu;%lum"
 
 color iceberg
+
+if has('termguicolors')
+    set termguicolors
+endif
 
 " Statusline
 set noshowmode
