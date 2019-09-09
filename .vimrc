@@ -1,261 +1,25 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""" Basic Settings """""""""""""""""""""""""""""""" 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Don't try to be vi compatible
 set nocompatible
-
-" helps force plugins to load correctly when it is turned back on below
-filetype off
-
-let mapleader = " "
-
-" https://github.com/vim/vim/issues/3117
-if has('python3')
-  silent! python3 1
-endif
-
-" plugins
-
-" vvish, my vim shell
-source ~/vvish.vim
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
- " better find on line
-Plug 'justinmk/vim-sneak'
-let g:sneak#label = 1
-" alignment
-Plug 'godlygeek/tabular'
-
-" rust
-Plug 'rust-lang/rust.vim'
-
-" async commands
-Plug 'tpope/vim-dispatch'
-
-" asynchronous linting
-Plug 'w0rp/ale'
-let g:ale_sign_error = '=>'
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_save = 1
-let g:ale_linters = { 'c' : ['clang', 'gcc'], 'cpp' : ['clang', 'gcc'], 'rust': ['rls'] }
-let g:ale_c_gcc_options      = '-std=c99 -Iinclude'
-let g:ale_c_clang_options    = '-std=c99 -Iinclude'
-let g:ale_cpp_gcc_options    = '-std=c++11 -Iinclude'
-let g:ale_cpp_clang_options  = '-std=c++11 -Iinclude'
-let g:ale_rust_rls_toolchain = 'stable'
-
-" completion
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-function! Toggle_ac()
-    if exists('g:my_coc_enabled')
-        if g:my_coc_enabled == 1
-            exec "CocDisable"
-            let g:my_coc_enabled = 0
-        else
-            exec "CocEnable"
-            let g:my_coc_enabled = 1
-            echohl MoreMsg
-                echom '[coc.nvim] Enabled'
-            echohl None
-        endif
-    else
-        exec "CocStart"
-        let g:my_coc_enabled = 1
-        echohl MoreMsg
-            echom '[coc.nvim] Enabled'
-        echohl None
-    endif
-endfunction
-
-noremap <silent> <leader>ac :call Toggle_ac()<cr>
-
-let g:coc_start_at_startup = 0
-
-" transparent background
-Plug 'miyakogi/seiya.vim'
-
-" writing
-Plug 'junegunn/goyo.vim'
-
-nnoremap <leader>wr :Goyo<cr>
-
-" Default value: ['ctermbg']
-let g:seiya_target_groups = has('nvim') ? ['guibg'] : ['ctermbg']
-let g:seiya_auto_enable=1
-
-" neodark colorscheme
-Plug 'KeitaNakamura/neodark.vim'
-let g:neodark#use_256color = 1
-let g:neodark#terminal_transparent = 1
-" stellarized colorscheme
-Plug 'nightsense/stellarized'
-" nord colorscheme
-Plug 'arcticicestudio/nord-vim'
-let g:nord_cursor_line_number_background = 1
-let g:nord_italic = 1
-let g:nord_underline = 1
-let g:nord_italic_comments = 1
-" let g:nord_comment_brightness = 12
-" quantum colorscheme
-Plug 'tyrannicaltoucan/vim-quantum'
-let g:quantum_black=1
-" spacecamp colorscheme
-Plug 'jaredgorski/spacecamp'
-" window focus
-Plug 'TaDaa/vimade'
-let g:vimade = {}
-let g:vimade.fadelevel = 0.8
-" show buffers in tabline
-Plug 'ap/vim-buftabline'
-" status line
-Plug 'rbong/vim-crystalline'
-function! StatusLine(...)
-  return crystalline#mode() . crystalline#right_mode_sep('')
-        \ . ' %f%h%w%m%r ' . crystalline#right_sep('', 'Fill') . '%='
-        \ . crystalline#left_sep('', 'Fill') . ' %{&ft}[%{&enc}][%{&ffs}] %l/%L %c%V %P '
-endfunction
-let g:crystalline_enable_sep = 1
-let g:crystalline_statusline_fn = 'StatusLine'
-let g:crystalline_theme = 'nord'
-set laststatus=2
-function! TabLine()
-    let l:vimlabel = has('nvim') ?  ' NVIM ' : ' VIM '
-    return crystalline#bufferline(2, len(l:vimlabel), 1) . '%=%#CrystallineTab# ' . l:vimlabel
-endfunction
-let g:crystalline_tabline_fn = 'TabLine'
-set showtabline=2
-
-function! Null_statusline_fn(...)
-endfunction
-function! Null_tabline_fn(...)
-endfunction
-
-function! My_goyo_enter()
-    let g:crystalline_statusline_fn = 'Null_statusline_fn'
-    let g:crystalline_tabline_fn    = 'Null_tabline_fn'
-    set showtabline=0
-endfunction
-
-function! My_goyo_leave()
-    let g:crystalline_statusline_fn = 'StatusLine'
-    let g:crystalline_tabline_fn    = 'TabLine'
-    set showtabline=2
-endfunction
-
-autocmd! User GoyoEnter nested call My_goyo_enter()
-autocmd! User GoyoLeave nested call My_goyo_leave()
-
-" LaTeX
-Plug 'lervag/vimtex'
-let g:vimtex_compiler_latexmk = {'callback' : 0}
-let g:vimtex_view_method = 'skim'
-" fzf fuzzy file finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-
-tnoremap jj <esc>
-
-nnoremap <silent> <leader>f :call Fzf_files()<CR>
-nnoremap <silent> <leader>g :FzfGrep<CR>
-nnoremap <silent> <leader>b :Buffers<CR>
-
-" ripgrep
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --glob '!.git/*' --glob '!*/.git/*'"
-  set grepprg=rg\ --vimgrep
-
-    command! -bang -nargs=* FzfGrep
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color="always" --smart-case --hidden --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'),
-  \   <bang>0)
-
-
-endif
-
-" Files
-function! Fzf_files()
-  let l:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color always "{1..}" | head -'.&lines.'"'
-
-  function! s:files()
-    return split(system($FZF_DEFAULT_COMMAND), '\n')
-  endfunction
-
-  function! s:edit_file(item)
-    execute 'silent e ' a:item
-  endfunction
-
-  call fzf#run({
-        \ 'source': <sid>files(),
-        \ 'sink':   function('s:edit_file'),
-        \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
-endfunction
-
-function! Fzf_grep()
-    call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case ', 1)
-  " call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" | tr -d "\017"', 1, fzf#vim#with_preview('up:60%'), 1)
-endfunction
-
-" improved search
-Plug 'pgdouyon/vim-evanesco'
-" C++ highlighting
-Plug 'octol/vim-cpp-enhanced-highlight'
-let g:cpp_experimental_template_highlight = 1
-" Comment stuff out
-Plug 'tpope/vim-commentary'
-autocmd FileType bjou setlocal commentstring=#\ %s
-" Restore cursor position
-Plug 'farmergreg/vim-lastplace'
-" Conversions
-Plug 'glts/vim-magnum'
-Plug 'glts/vim-radical'
-call plug#end()
 
 " Turn on syntax highlighting
 syntax on
 
-" For plugins to load correctly
-filetype plugin indent on
-
 " Show line numbers
-" set number relativenumber
 set number relativenumber
 
+" Highlight the current line differently
 set cursorline
 
-" Last line
-set showmode
+" Show last command
 set showcmd
 
 " Splits go to the right or down
 set splitright
 set splitbelow
-
-" Show file stats
-set ruler
 
 " Blink cursor on error instead of beeping
 set visualbell
@@ -263,7 +27,7 @@ set visualbell
 " Encoding
 set encoding=utf-8
 
-" Whitespace
+" Whitespace and indentation
 set wrap linebreak nolist
 set breakindent
 let &showbreak="  ↳"
@@ -276,21 +40,57 @@ set expandtab
 set noshiftround
 set autoindent
 set smartindent
+filetype indent on
 
-" General key mappings and commands
+" Cursor motion
+set scrolloff=3
+set backspace=indent,eol,start
+
+" Don't use the mouse
+set mouse=
+
+" Wildmenu
+set wildmenu
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""" Key mappings and commands """""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = " "
 nnoremap <space> <nop>
-let maplocalleader = " "
 inoremap jj <esc>
 cnoremap jj <c-f>
-nnoremap <c-l> :bn <CR>
-nnoremap <c-h> :bp <CR>
 command W w
 command Q q
 cnoremap Q! q!
 command Wq wq
 
+" Move up/down editor lines
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+
+" system clipboard
+map <silent> <c-y> "+y
+map <silent> <c-p> "+p
+
+" Remote editing
 nnoremap <leader>er :edit scp://
 nnoremap <leader>vr :vsp  scp://
+
+" Word count
+xnoremap <leader>wc g<C-g>:<C-U>echo v:statusmsg<CR>
+
+" Compile error checking
+function Make_Check()
+    let output = system("make check 2>&1")
+    if v:shell_error == 0
+        echo "No Errors"
+    else
+        let nocolor = system("echo " . shellescape(output) . " | perl -pe 's/\x1b\[[0-9;]*m//g'")
+        echo nocolor
+    endif
+endfunction
+
+nnoremap <silent> <leader>mc :call Make_Check()<CR>
 
 " Spell check toggle
 function! Toggle_sc()
@@ -313,75 +113,164 @@ endfunction
 
 noremap <silent> <leader>sc :call Toggle_sc()<cr>
 
-" unison sicm command
-noremap <silent> <leader>us :wa<cr> :Dispatch! unison sicm > /dev/null<cr>
 
-" system clipboard
-map <silent> <c-y> "+y
-map <silent> <c-p> "+p
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""" Navigation """"""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Buffers
+nnoremap <silent> <c-l> :bn<cr>
+nnoremap <silent> <c-h> :bp<cr>
+set wildcharm=<c-l>
+cnoremap <c-h> <s-tab>
 
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
+fu! Buff_menu()
+    if len(getbufinfo({'buflisted':1})) > 1
+        call feedkeys(":buffer [Z")
+    else
+        echo "No other buffers"
+    endif
+endfu
 
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> <leader>b :call Buff_menu()<cr>
 
-" Don't use the mouse
-set mouse=
+" Files
+nnoremap <leader>f :find <c-l><s-tab>
 
-" Rendering
-"
-"Credit joshdick
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-if (has("nvim"))
-  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-    set t_8b=[48;2;%lu;%lu;%lum
-    set t_8f=[38;2;%lu;%lu;%lum
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-if (has("termguicolors"))
-    set t_8b=[48;2;%lu;%lu;%lum
-    set t_8f=[38;2;%lu;%lu;%lum
-    set termguicolors
-endif
+" Content
+fu! Ggrepper(pattern)
+    execute(":noautocmd vimgrep /" . a:pattern . "/j *")
+    execute(":copen")
+endfu
 
+command! -nargs=+ Grep execute 'silent grep! -Irn . -e <args>' | copen | execute 'silent /<args>'
 
-set ttyfast
-" disable Background Color Erase (BCE) so that color schemes
-" render properly when inside 256-color tmux and GNU screen.
-" see also http://snk.tuxfamily.org/log/vim-256color-bce.html
-set t_ut=
+nnoremap <leader>g :Grep 
 
-" Wildmenu
-set wildmenu
-
-" Searching
-set hlsearch
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""" Searching """"""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch
 set smartcase
 set showmatch
+set hlsearch
+nohl
 
-" Color scheme (terminal)
-set background=dark
-colorscheme nord
+let g:check_search_hl = 0
 
-" if $TERM == 'xterm-kitty'
-"     if filereadable(expand('~/.config/kitty/kitty.conf'))
-"         if system("file -h ~/.config/kitty/kitty.conf | grep -c 'symbolic link'") == "1\n"
-"             if system("realpath ~/.config/kitty/kitty.conf | grep -c 'light'") == "1\n"
-"                 color stellarized
-"             else
-"                 set background=dark
-"                 color neodark
-"             endif
-"         endif
-"     endif
-" else
-"     set background=dark
-"     color neodark
-" endif
+fu! Disable_search_hl()
+    if g:check_search_hl == 1
+        let g:check_search_hl = 0
+        set nohlsearch
+        redraw
+    endif
+endfu
+
+fu! Restore_Disable_search_hl()
+    augroup HLSearch
+        au HLSearch CursorMoved * :call Disable_search_hl()
+        au HLSearch InsertEnter * :call Disable_search_hl()
+    augroup end
+endfu
+
+call Restore_Disable_search_hl()
+
+fu! Skip_once_Disable_search_hl()
+    au! HLSearch
+    augroup HLSearch
+        au HLSearch CursorMoved * :call Restore_Disable_search_hl()
+        au HLSearch InsertEnter * :call Restore_Disable_search_hl()
+    augroup end
+endfu
+
+fu! Enable_search_hl()
+    let g:check_search_hl = 1
+    set hlsearch
+    redraw
+endfu
+
+fu! Keys_with_hl(key)
+    call feedkeys(a:key, 'n')
+    call Enable_search_hl()
+    call Skip_once_Disable_search_hl()
+endfu
+
+fu! Search_with_hl()
+    let @/ = ""
+    call Keys_with_hl("/")
+endfu
+
+nnoremap <silent> /  :call Search_with_hl()<cr>
+nnoremap <silent> n  :call Keys_with_hl("n")<cr>
+nnoremap <silent> N  :call Keys_with_hl("N")<cr>
+nnoremap <silent> *  :call Keys_with_hl("*")<cr>
+nnoremap <silent> #  :call Keys_with_hl("#")<cr>
+nnoremap <silent> g* :call Keys_with_hl("g*")<cr>
+nnoremap <silent> g# :call Keys_with_hl("g#")<cr>
+
+function! s:get_visual_selection()
+    " Why is this not a built-in Vim script function?!
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+    if len(lines) == 0
+        return ''
+    endif
+    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+    return join(lines, "\n")
+endfunction
+
+" Return to last edit position when opening files
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""" Appearance """""""""""""""""""""""""""""""""" 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set termguicolors
+
+color iceberg
+
+" Statusline
+set noshowmode
+set noruler
+set laststatus=2
+
+fu! Visual_mode_kind()
+    let l:m = mode()
+    if l:m == 'v'
+        return 'v'
+    elseif l:m == 'V'
+        return 'l'
+    elseif l:m == ""
+        return 'b'
+    endif
+
+    return ''
+endfu
+
+set statusline=
+set statusline+=%#SpellCap#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+set statusline+=%#SpellLocal#%{(mode()=='i')?'\ \ INSERT\ ':''}
+set statusline+=%#SpellBad#%{(mode()=='R')?'\ \ RPLACE\ ':''}
+set statusline+=%#SpellRare#%{(Visual_mode_kind()=='v')?'\ \ VISUAL\ ':''}
+set statusline+=%#SpellRare#%{(Visual_mode_kind()=='l')?'\ \ V-LINE\ ':''}
+set statusline+=%#SpellRare#%{(Visual_mode_kind()=='b')?'\ \ V-BLCK\ ':''}
+set statusline+=%#IncSearch#     " colour
+set statusline+=\ %t\                   " short file name
+set statusline+=%=                          " right align
+set statusline+=%#IncSearch#   " colour
+set statusline+=\ %Y\                   " file type
+set statusline+=%#SpellCap#     " colour
+set statusline+=\ %3l::%-3c\         " line + column
+set statusline+=%#IncSearch#       " colour
+set statusline+=\ %3p%%\                " percentage
+
+" Tabular
+" Roll my own completion? With toggle
+" LaTeX 
+" Commenting
