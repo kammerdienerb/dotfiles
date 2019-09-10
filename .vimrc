@@ -145,7 +145,7 @@ fu! Ggrepper(pattern)
     redraw!
 endfu
 
-command! -nargs=1 Grep call Ggrepper(<f-args>) | execute 'silent /<args>' | execute 'normal! gg'
+command! -nargs=1 Grep call Ggrepper(<f-args>)
 
 nnoremap <leader>g :Grep 
 
