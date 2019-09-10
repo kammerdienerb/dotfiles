@@ -56,9 +56,9 @@ set wildmenu
 """""""""""""""""""""""""" Key mappings and commands """""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = " "
-nnoremap <space> <nop>
-inoremap jj <esc>
-cnoremap jj <c-f>
+nnoremap <silent> <space> <nop>
+inoremap <silent> jj <esc>
+cnoremap <silent> jj <c-f>
 command W w
 command Q q
 cnoremap Q! q!
@@ -69,15 +69,17 @@ nnoremap <silent> j gj
 nnoremap <silent> k gk
 
 " system clipboard
-map <silent> <c-y> "+y
-map <silent> <c-p> "+p
+map <c-y> "+y
+map <c-p> "+p
 
 " Remote editing
 nnoremap <leader>er :edit scp://
 nnoremap <leader>vr :vsp  scp://
 
 " Word count
-xnoremap <leader>wc g<C-g>:<C-U>echo v:statusmsg<CR>
+xnoremap <silent> <leader>wc g<C-g>:<C-U>echo v:statusmsg<CR>
+nnoremap <silent> <leader>wc <nop>
+
 
 " Compile error checking
 function Make_Check()
@@ -131,18 +133,19 @@ fu! Buff_menu()
     endif
 endfu
 
-nnoremap <silent> <leader>b :call Buff_menu()<cr>
+nnoremap <leader>b :call Buff_menu()<cr>
 
 " Files
 nnoremap <leader>f :find <c-l><s-tab>
 
 " Content
 fu! Ggrepper(pattern)
-    execute(":noautocmd vimgrep /" . a:pattern . "/j *")
-    execute(":copen")
+    execute 'noautocmd silent! grep! -Irn . -e ' . a:pattern
+    copen
+    redraw!
 endfu
 
-command! -nargs=+ Grep execute 'silent grep! -Irn . -e <args>' | copen | execute 'silent /<args>'
+command! -nargs=1 Grep call Ggrepper(<f-args>) | execute 'silent /<args>' | execute 'normal! gg'
 
 nnoremap <leader>g :Grep 
 
@@ -207,18 +210,57 @@ nnoremap <silent> #  :call Keys_with_hl("#")<cr>
 nnoremap <silent> g* :call Keys_with_hl("g*")<cr>
 nnoremap <silent> g# :call Keys_with_hl("g#")<cr>
 
-function! s:get_visual_selection()
-    " Why is this not a built-in Vim script function?!
-    let [line_start, column_start] = getpos("'<")[1:2]
-    let [line_end, column_end] = getpos("'>")[1:2]
-    let lines = getline(line_start, line_end)
-    if len(lines) == 0
-        return ''
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""" Utility """""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Commenting out stuff
+fu! Comment_vim()
+    if getline('.') =~ '^\" '
+        execute 'normal! 0dldl'
+    else
+        execute 'normal! 0i" '
     endif
-    let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
-    let lines[0] = lines[0][column_start - 1:]
-    return join(lines, "\n")
-endfunction
+endfu
+
+fu! Comment_hash()
+    if getline('.') =~ '^# '
+        execute 'normal! 0dldl'
+    else
+        execute 'normal! 0i# '
+    endif
+endfu
+
+fu! Comment_C()
+    if getline('.') =~ '^/\* '
+        execute 'normal! 0dldldl$dldldl'
+    else
+        execute 'normal! 0i/* A */'
+    endif
+endfu
+
+fu! Do_Comment()
+    let l:ft = &ft  
+
+    let l:pos = getpos('.')
+
+    if l:ft == 'vim'
+        call Comment_vim()
+    elseif l:ft == 'bjou' || l:ft == 'bash' || l:ft == 'sh' || l:ft == 'python'
+        call Comment_hash()
+    elseif l:ft == 'c' || l:ft == 'cpp'
+        call Comment_C()
+    else
+        echo "No comment support for filetype " . l:ft
+    endif
+
+    call setpos('.', l:pos)
+endfu
+
+nnoremap <silent> <leader>co :call Do_Comment()<cr>
+vnoremap <silent> <leader>co :call Do_Comment()<cr>
+
 
 " Return to last edit position when opening files
 autocmd BufReadPost *
@@ -226,6 +268,84 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
+
+" Text alignment
+function! Align_selection(regex) range
+  let extra = 1
+  let sep = empty(a:regex) ? '=' : a:regex
+  let maxpos = 0
+  let section = getline(a:firstline, a:lastline)
+  for line in section
+    let pos = match(line, ' *'.sep)
+    if maxpos < pos
+      let maxpos = pos
+    endif
+  endfor
+  call map(section, 'Align_line(v:val, sep, maxpos, extra)')
+  call setline(a:firstline, section)
+endfunction
+
+function! Align_line(line, sep, maxpos, extra)
+  let m = matchlist(a:line, '\(.\{-}\) \{-}\('.a:sep.'.*\)')
+  if empty(m)
+    return a:line
+  endif
+  let spaces = repeat(' ', a:maxpos - strlen(m[1]) + a:extra)
+  return m[1] . spaces . m[2]
+endfunction
+
+command! -range -nargs=? Align <line1>,<line2>call Align_selection('<args>')
+
+nnoremap <leader>al :Align 
+vnoremap <leader>al :Align 
+
+
+
+" Completion
+set completeopt=longest,menuone
+
+function! Tab_or_complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<c-n>"
+  else
+    return "\<tab>"
+  endif
+endfunction
+
+" Determine whether to open the completion menu, or insert a tab.
+inoremap <Tab> <c-r>=Tab_or_complete()<cr>
+" If the completion menu is open, enter selects the competion word.
+inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
+
+
+" LaTeX
+let g:latex_compile_prg="pdflatex -halt-on-error --interaction=nonstopmode"
+let g:latex_view_prg="open -a Skim"
+
+fu! LaTeX_compile()
+    let l:cmd_str=g:latex_compile_prg . " " . expand('%:t')
+    let l:output = system(l:cmd_str)
+    let l:status = v:shell_error
+    if l:status != 0
+        echo l:output
+        echo "There were errors compiling the LaTeX document."
+    else
+        echo "The LaTeX document was successfully compiled."
+    endif
+endfu
+
+fu! LaTeX_view()
+    let l:cmd_str=g:latex_view_prg . " " . expand('%:t:r') . ".pdf"
+    let l:output = system(l:cmd_str)
+    let l:status = v:shell_error
+    if l:status != 0
+        echo l:output
+        echo "There was an error viewing the LaTeX document."
+    endif
+endfu
+
+nnoremap <silent> <leader>lc :call LaTeX_compile()<cr>
+nnoremap <silent> <leader>lv :call LaTeX_view()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""" Appearance """""""""""""""""""""""""""""""""" 
@@ -265,17 +385,12 @@ set statusline+=%#SpellBad#%{(mode()=='R')?'\ \ RPLACE\ ':''}
 set statusline+=%#SpellRare#%{(Visual_mode_kind()=='v')?'\ \ VISUAL\ ':''}
 set statusline+=%#SpellRare#%{(Visual_mode_kind()=='l')?'\ \ V-LINE\ ':''}
 set statusline+=%#SpellRare#%{(Visual_mode_kind()=='b')?'\ \ V-BLCK\ ':''}
-set statusline+=%#IncSearch#     " colour
-set statusline+=\ %t\                   " short file name
-set statusline+=%=                          " right align
-set statusline+=%#IncSearch#   " colour
-set statusline+=\ %Y\                   " file type
-set statusline+=%#SpellCap#     " colour
-set statusline+=\ %3l::%-3c\         " line + column
-set statusline+=%#IncSearch#       " colour
-set statusline+=\ %3p%%\                " percentage
-
-" Tabular
-" Roll my own completion? With toggle
-" LaTeX 
-" Commenting
+set statusline+=%#IncSearch# " colour
+set statusline+=\ %t\        " short file name
+set statusline+=%=           " right align
+set statusline+=%#IncSearch# " colour
+set statusline+=\ %Y\        " file type
+set statusline+=%#SpellCap#  " colour
+set statusline+=\ %3l::%-3c\ " line + column
+set statusline+=%#IncSearch# " colour
+set statusline+=\ %3p%%\     " percentage
