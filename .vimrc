@@ -139,15 +139,25 @@ nnoremap <leader>b :call Buff_menu()<cr>
 nnoremap <leader>f :find <c-l><s-tab>
 
 " Content
+if executable("rg")
+    set grepprg=rg\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+else
+    set grepprg=grep\ -Irn\ .
+endif
+
 fu! Ggrepper(pattern)
-    execute 'noautocmd silent! grep! -Irn . -e ' . a:pattern
-    copen
-    redraw!
+    return system(join([&grepprg, shellescape(a:pattern), ''], ' '))
 endfu
 
-command! -nargs=1 Grep call Ggrepper(<f-args>)
+command! -nargs=1 Grep cgetexpr Ggrepper(<q-args>) | copen
 
 nnoremap <leader>g :Grep 
+
+" Close the quickfix window after selection.
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+
+nnoremap <leader>qf :copen<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""" Searching """"""""""""""""""""""""""""""""""
