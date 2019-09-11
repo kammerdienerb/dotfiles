@@ -5,6 +5,9 @@
 " Don't try to be vi compatible
 set nocompatible
 
+" Recursively consider files
+set path=.,,**
+
 " Turn on syntax highlighting
 syntax on
 
@@ -81,7 +84,7 @@ xnoremap <silent> <leader>wc g<C-g>:<C-U>echo v:statusmsg<CR>
 nnoremap <silent> <leader>wc <nop>
 
 
-" Compile error checking
+""" Compile error checking
 function Make_Check()
     let output = system("make check 2>&1")
     if v:shell_error == 0
@@ -94,7 +97,7 @@ endfunction
 
 nnoremap <silent> <leader>mc :call Make_Check()<CR>
 
-" Spell check toggle
+""" Spell check toggle
 function! Toggle_sc()
     if exists('b:use_spell_check')
         if b:use_spell_check == 1
@@ -119,7 +122,8 @@ noremap <silent> <leader>sc :call Toggle_sc()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""" Navigation """"""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Buffers
+
+""" Buffers
 nnoremap <silent> <c-l> :bn<cr>
 nnoremap <silent> <c-h> :bp<cr>
 set wildcharm=<c-l>
@@ -135,10 +139,10 @@ endfu
 
 nnoremap <leader>b :call Buff_menu()<cr>
 
-" Files
+""" Files
 nnoremap <leader>f :find <c-l><s-tab>
 
-" Content
+""" Content
 if executable("rg")
     set grepprg=rg\ --vimgrep
     set grepformat=%f:%l:%c:%m
@@ -225,7 +229,7 @@ nnoremap <silent> g# :call Keys_with_hl("g#")<cr>
 """""""""""""""""""""""""""""""""""" Utility """""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Commenting out stuff
+""" Commenting out stuff
 fu! Comment_vim()
     if getline('.') =~ '^\" '
         execute 'normal! 0dldl'
@@ -272,14 +276,14 @@ nnoremap <silent> <leader>co :call Do_Comment()<cr>
 xnoremap <silent> <leader>co :call Do_Comment()<cr>
 
 
-" Return to last edit position when opening files
+""" Return to last edit position when opening files
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
 
 
-" Text alignment
+""" Text alignment
 function! Align_selection(regex) range
   let extra = 1
   let sep = empty(a:regex) ? '=' : a:regex
@@ -311,7 +315,7 @@ xnoremap <leader>al :Align
 
 
 
-" Completion
+""" Completion
 set completeopt=longest,menuone
 
 function! Tab_or_complete()
@@ -323,12 +327,16 @@ function! Tab_or_complete()
 endfunction
 
 " Determine whether to open the completion menu, or insert a tab.
-inoremap <Tab> <c-r>=Tab_or_complete()<cr>
+inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<c-r>=Tab_or_complete()\<cr>"
+" Complete file names with ctrl-f.
+inoremap <c-f>          <c-x><c-f><c-n>
+" Use shift-tab to go backwards through the completion list.
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 " If the completion menu is open, enter selects the competion word.
-inoremap <expr> <cr> pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
+inoremap <expr> <cr>    pumvisible() ? "\<c-y>" : "\<c-g>u\<cr>"
 
 
-" LaTeX
+""" LaTeX
 let g:latex_compile_prg="pdflatex -halt-on-error --interaction=nonstopmode"
 let g:latex_view_prg="open -a Skim"
 
@@ -370,7 +378,7 @@ if has('termguicolors')
     set termguicolors
 endif
 
-" Statusline
+""" Statusline
 set noshowmode
 set noruler
 set laststatus=2
@@ -404,7 +412,7 @@ set statusline+=\ %3l::%-3c\  " line + column
 set statusline+=%#CursorLine# " colour
 set statusline+=\ %3p%%\      " percentage
 
-" A color scheme picker
+""" A color scheme picker
 let g:Color_scheme_picker_open     = 0
 let g:Color_scheme_picker_selected = ''
 
