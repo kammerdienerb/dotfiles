@@ -269,7 +269,7 @@ fu! Do_Comment()
 endfu
 
 nnoremap <silent> <leader>co :call Do_Comment()<cr>
-vnoremap <silent> <leader>co :call Do_Comment()<cr>
+xnoremap <silent> <leader>co :call Do_Comment()<cr>
 
 
 " Return to last edit position when opening files
@@ -307,7 +307,7 @@ endfunction
 command! -range -nargs=? Align <line1>,<line2>call Align_selection('<args>')
 
 nnoremap <leader>al :Align 
-vnoremap <leader>al :Align 
+xnoremap <leader>al :Align 
 
 
 
@@ -395,12 +395,73 @@ set statusline+=%#SpellBad#%{(mode()=='R')?'\ \ RPLACE\ ':''}
 set statusline+=%#SpellRare#%{(Visual_mode_kind()=='v')?'\ \ VISUAL\ ':''}
 set statusline+=%#SpellRare#%{(Visual_mode_kind()=='l')?'\ \ V-LINE\ ':''}
 set statusline+=%#SpellRare#%{(Visual_mode_kind()=='b')?'\ \ V-BLCK\ ':''}
-set statusline+=%#IncSearch# " colour
-set statusline+=\ %t\        " short file name
-set statusline+=%=           " right align
-set statusline+=%#IncSearch# " colour
-set statusline+=\ %Y\        " file type
-set statusline+=%#SpellCap#  " colour
-set statusline+=\ %3l::%-3c\ " line + column
-set statusline+=%#IncSearch# " colour
-set statusline+=\ %3p%%\     " percentage
+set statusline+=%#CursorLine# " colour
+set statusline+=\ %t\         " short file name
+set statusline+=%=            " right align
+set statusline+=%#CursorLine# " colour
+set statusline+=\ %Y\         " file type
+set statusline+=\ %3l::%-3c\  " line + column
+set statusline+=%#CursorLine# " colour
+set statusline+=\ %3p%%\      " percentage
+
+" A color scheme picker
+let g:Color_scheme_picker_open     = 0
+let g:Color_scheme_picker_selected = ''
+
+fu! Color_scheme_picker()
+    if g:Color_scheme_picker_open == 1
+        echo 'Color_scheme_picker is alread open!'
+        return
+    endif
+
+    let g:Color_scheme_picker_open     = 1
+    let g:Color_scheme_picker_selected = trim(execute('color'))
+
+    let l:colors = getcompletion('', 'color')
+    silent 12 new color_scheme_picker
+    setlocal nobuflisted buftype=nofile bufhidden=wipe noswapfile
+    put =l:colors
+    norm ggdd
+endfu
+
+fu! Close_Color_scheme_picker()
+    let g:Color_scheme_picker_open = 0
+    execute 'color ' . g:Color_scheme_picker_selected
+    redraw!
+    echo 'Selected color scheme "' . g:Color_scheme_picker_selected . '".'
+endfu
+
+fu! Maybe_update_color()
+    let l:current_color = trim(execute('color'))
+    let l:selected      = getline('.')
+  
+    if l:selected != l:current_color
+        let l:changed = 0
+
+        try
+            execute 'color ' . l:selected
+            let l:changed = 1
+        catch /.*/
+            execute 'color ' . g:Color_scheme_picker_selected
+        finally
+            redraw!
+            if l:changed == 1
+                echo 'Color scheme "' . l:selected . '"'
+            else
+                echom 'No such color scheme "' . l:selected . '" -- showing "' . g:Color_scheme_picker_selected . '"'
+            endif
+        endtry
+    endif
+endfu
+
+fu! Select_Color_scheme()
+    let g:Color_scheme_picker_selected = trim(execute('color'))
+    exe 'q'
+endfu
+
+au BufWipeout  color_scheme_picker call Close_Color_scheme_picker()
+au CursorMoved color_scheme_picker call Maybe_update_color()
+au BufEnter    color_scheme_picker nnoremap <buffer> <silent> <cr> :call Select_Color_scheme()<cr>
+command! ColorSchemePicker call Color_scheme_picker()
+
+nnoremap <leader>csp :ColorSchemePicker<cr>
