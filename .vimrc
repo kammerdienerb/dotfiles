@@ -1,5 +1,5 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""" Basic Settings """""""""""""""""""""""""""""""" 
+"""""""""""""""""""""""""""""""" Basic Settings """"""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Don't try to be vi compatible
@@ -31,10 +31,10 @@ set visualbell
 set encoding=utf-8
 
 " Whitespace and indentation
+autocmd BufWritePre * %s/\s\+$//e " remove trailing whitespace on write
 set wrap linebreak nolist
 set breakindent
 let &showbreak="  ↳"
-" let &showbreak=  "  ⋯"
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
@@ -156,7 +156,7 @@ endfu
 
 command! -nargs=1 Grep cgetexpr Ggrepper(<q-args>) | copen
 
-nnoremap <leader>g :Grep 
+nnoremap <leader>g :Grep
 
 " Close the quickfix window after selection.
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
@@ -255,7 +255,7 @@ fu! Comment_C()
 endfu
 
 fu! Do_Comment()
-    let l:ft = &ft  
+    let l:ft = &ft
 
     let l:pos = getpos('.')
 
@@ -310,8 +310,8 @@ endfunction
 
 command! -range -nargs=? Align <line1>,<line2>call Align_selection('<args>')
 
-nnoremap <leader>al :Align 
-xnoremap <leader>al :Align 
+nnoremap <leader>al :Align
+xnoremap <leader>al :Align
 
 
 
@@ -366,7 +366,7 @@ nnoremap <silent> <leader>lc :call LaTeX_compile()<cr>
 nnoremap <silent> <leader>lv :call LaTeX_view()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""" Appearance """""""""""""""""""""""""""""""""" 
+"""""""""""""""""""""""""""""""""" Appearance """"""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " needed for colors in TMUX
 let &t_8f = "[38;2;%lu;%lu;%lum"
@@ -442,7 +442,7 @@ endfu
 fu! Maybe_update_color()
     let l:current_color = trim(execute('color'))
     let l:selected      = getline('.')
-  
+
     if l:selected != l:current_color
         let l:changed = 0
 
