@@ -31,7 +31,13 @@ set visualbell
 set encoding=utf-8
 
 " Whitespace and indentation
-autocmd BufWritePre * %s/\s\+$//e " remove trailing whitespace on write
+fu! Strip_trailing_whitespace()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd BufWritePre * call Strip_trailing_whitespace() " remove trailing whitespace on write
 set wrap linebreak nolist
 set breakindent
 let &showbreak="  ↳"
