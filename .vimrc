@@ -32,6 +32,11 @@ set encoding=utf-8
 
 " Whitespace and indentation
 fu! Strip_trailing_whitespace()
+    " Don't strip on these filetypes
+    if &ft =~ 'vim\|perl'
+        return
+    endif
+
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
@@ -429,7 +434,7 @@ fu! Color_scheme_picker()
     endif
 
     let g:Color_scheme_picker_open     = 1
-    let g:Color_scheme_picker_selected = trim(execute('color'))
+    let g:Color_scheme_picker_selected = g:colors_name
 
     let l:colors = getcompletion('', 'color')
     silent 12 new color_scheme_picker
@@ -446,7 +451,7 @@ fu! Close_Color_scheme_picker()
 endfu
 
 fu! Maybe_update_color()
-    let l:current_color = trim(execute('color'))
+    let l:current_color = g:colors_name
     let l:selected      = getline('.')
 
     if l:selected != l:current_color
@@ -469,7 +474,7 @@ fu! Maybe_update_color()
 endfu
 
 fu! Select_Color_scheme()
-    let g:Color_scheme_picker_selected = trim(execute('color'))
+    let g:Color_scheme_picker_selected = g:colors_name
     exe 'q'
 endfu
 
