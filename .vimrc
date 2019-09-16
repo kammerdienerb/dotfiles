@@ -383,7 +383,7 @@ nnoremap <silent> <leader>lv :call LaTeX_view()<cr>
 let &t_8f = "[38;2;%lu;%lu;%lum"
 let &t_8b = "[48;2;%lu;%lu;%lum"
 
-color iceberg
+color hybrid_material
 
 if has('termguicolors')
     set termguicolors
