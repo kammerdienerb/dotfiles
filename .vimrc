@@ -2,6 +2,7 @@
 """""""""""""""""""""""""""""""" Basic Settings """"""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+
 " Don't try to be vi compatible
 set nocompatible
 
@@ -42,7 +43,12 @@ fu! Strip_trailing_whitespace()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd BufWritePre * call Strip_trailing_whitespace() " remove trailing whitespace on write
+
+aug Strip_trailing_whitespace_gr
+    au!
+    autocmd BufWritePre * call Strip_trailing_whitespace() " remove trailing whitespace on write
+aug END
+
 set wrap linebreak nolist
 set breakindent
 let &showbreak="  ↳"
@@ -77,6 +83,15 @@ command W w
 command Q q
 cnoremap Q! q!
 command Wq wq
+
+
+" reload this file
+nnoremap <leader>rc :so $MYVIMRC<cr>
+
+
+" Because I forget sometimes..
+nnoremap <c-b>n :echo "You're not in TMUX, dummy!"<cr>
+nnoremap <c-b>p :echo "You're not in TMUX, dummy!"<cr>
 
 " Move up/down editor lines
 nnoremap <silent> j gj
@@ -170,7 +185,10 @@ command! -nargs=1 Grep cgetexpr Ggrepper(<q-args>) | copen
 nnoremap <leader>g :Grep
 
 " Close the quickfix window after selection.
-autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+aug QF_close_gr
+    au!
+    autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
+aug END
 
 nnoremap <leader>qf :copen<cr>
 
@@ -194,19 +212,20 @@ fu! Disable_search_hl()
 endfu
 
 fu! Restore_Disable_search_hl()
-    augroup HLSearch
-        au HLSearch CursorMoved * :call Disable_search_hl()
-        au HLSearch InsertEnter * :call Disable_search_hl()
+    augroup HLSearch_gr
+        au!
+        au CursorMoved * :call Disable_search_hl()
+        au InsertEnter * :call Disable_search_hl()
     augroup end
 endfu
 
 call Restore_Disable_search_hl()
 
 fu! Skip_once_Disable_search_hl()
-    au! HLSearch
-    augroup HLSearch
-        au HLSearch CursorMoved * :call Restore_Disable_search_hl()
-        au HLSearch InsertEnter * :call Restore_Disable_search_hl()
+    augroup HLSearch_gr
+        au!
+        au CursorMoved * :call Restore_Disable_search_hl()
+        au InsertEnter * :call Restore_Disable_search_hl()
     augroup end
 endfu
 
@@ -288,10 +307,13 @@ xnoremap <silent> <leader>co :call Do_Comment()<cr>
 
 
 """ Return to last edit position when opening files
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
+aug Restor_gr
+    au!
+    autocmd BufReadPost *
+         \ if line("'\"") > 0 && line("'\"") <= line("$") |
+         \   exe "normal! g`\"" |
+         \ endif
+aug END
 
 
 """ Text alignment
@@ -321,8 +343,8 @@ endfunction
 
 command! -range -nargs=? Align <line1>,<line2>call Align_selection('<args>')
 
-nnoremap <leader>al :Align
-xnoremap <leader>al :Align
+nnoremap <leader>al :Align 
+xnoremap <leader>al :Align 
 
 
 
@@ -478,9 +500,12 @@ fu! Select_Color_scheme()
     exe 'q'
 endfu
 
-au BufWipeout  color_scheme_picker call Close_Color_scheme_picker()
-au CursorMoved color_scheme_picker call Maybe_update_color()
-au BufEnter    color_scheme_picker nnoremap <buffer> <silent> <cr> :call Select_Color_scheme()<cr>
+aug Color_scheme_picker_gr
+    au!
+    au BufWipeout  color_scheme_picker call Close_Color_scheme_picker()
+    au CursorMoved color_scheme_picker call Maybe_update_color()
+    au BufEnter    color_scheme_picker nnoremap <buffer> <silent> <cr> :call Select_Color_scheme()<cr>
+aug END
 command! ColorSchemePicker call Color_scheme_picker()
 
 nnoremap <leader>csp :ColorSchemePicker<cr>
