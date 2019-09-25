@@ -57,6 +57,12 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
+" If the filetype is Makefile then we need to use tabs
+" So do not expand tabs into space.
+aug Make_why_gr
+    au!
+    autocmd FileType make set noexpandtab
+aug END
 set noshiftround
 set autoindent
 set smartindent
@@ -182,7 +188,7 @@ endfu
 
 command! -nargs=1 Grep cgetexpr Ggrepper(<q-args>) | copen
 
-nnoremap <leader>g :Grep
+nnoremap <leader>g :Grep 
 
 " Close the quickfix window after selection.
 aug QF_close_gr
@@ -263,14 +269,18 @@ nnoremap <silent> g# :call Keys_with_hl("g#")<cr>
 fu! Comment_vim()
     if getline('.') =~ '^\" '
         execute 'normal! 0dldl'
+    elseif getline('.') =~ '^\"$'
+        execute 'normal! 0dl'
     else
         execute 'normal! 0i" '
     endif
 endfu
 
 fu! Comment_hash()
-    if getline('.') =~ '^# '
+    if getline('.') =~ '^#\s\+'
         execute 'normal! 0dldl'
+    elseif getline('.') =~ '^#$'
+        execute 'normal! 0dl'
     else
         execute 'normal! 0i# '
     endif
@@ -291,7 +301,7 @@ fu! Do_Comment()
 
     if l:ft == 'vim'
         call Comment_vim()
-    elseif l:ft == 'bjou' || l:ft == 'bash' || l:ft == 'sh' || l:ft == 'python'
+    elseif l:ft == 'bjou' || l:ft == 'bash' || l:ft == 'sh' || l:ft == 'python' || l:ft == 'perl' || l:ft == 'make'
         call Comment_hash()
     elseif l:ft == 'c' || l:ft == 'cpp'
         call Comment_C()
