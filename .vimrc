@@ -44,9 +44,17 @@ fu! Strip_trailing_whitespace()
     call cursor(l, c)
 endfun
 
+fu! ReTab()
+    if &ft =~ 'make'
+        return
+    endif
+    retab
+endfu
+
 aug Strip_trailing_whitespace_gr
     au!
     autocmd BufWritePre * call Strip_trailing_whitespace() " remove trailing whitespace on write
+    autocmd BufWritePre * call ReTab() " fix tabs
 aug END
 
 set wrap linebreak nolist
@@ -55,7 +63,6 @@ let &showbreak="  ↳"
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
-set softtabstop=4
 set expandtab
 " If the filetype is Makefile then we need to use tabs
 " So do not expand tabs into space.
