@@ -63,7 +63,9 @@ let &showbreak="  ↳"
 set formatoptions=tcqrn1
 set tabstop=4
 set shiftwidth=4
+set softtabstop=0
 set expandtab
+set smarttab
 " If the filetype is Makefile then we need to use tabs
 " So do not expand tabs into space.
 aug Make_why_gr
