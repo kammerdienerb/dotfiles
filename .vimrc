@@ -70,7 +70,7 @@ set smarttab
 " So do not expand tabs into space.
 aug Make_why_gr
     au!
-    autocmd FileType make set noexpandtab
+    autocmd FileType make setlocal noexpandtab
 aug END
 set noshiftround
 set autoindent
