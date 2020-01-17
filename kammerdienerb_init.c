@@ -27,13 +27,14 @@ int yed_plugin_boot(yed_plugin *self) {
     get_env_info();
 
     if (yed_term_says_it_supports_truecolor()) {
-        yed_set_var("truecolor",     "yes");
+        yed_set_var("truecolor", "yes");
     }
-    yed_set_var("tab-width",         "4");
-    yed_set_var("latex-comp-prg",    "pdflatex -halt-on-error --interaction=nonstopmode");
-    yed_set_var("latex-view-prg",    "open -a Skim");
+    yed_set_var("tab-width",             "4");
+    yed_set_var("latex-comp-prg",        "xelatex -halt-on-error --interaction=nonstopmode '%'");
+    yed_set_var("latex-view-prg",        "echo \"mupdf '%'\" | $SHELL &");
+    yed_set_var("latex-update-view-prg", "pkill -HUP mupdf");
     if (has("rg")) {
-        yed_set_var("grep-prg",      "rg --vimgrep \"%\"");
+        yed_set_var("grep-prg",          "rg --vimgrep \"%\"");
     }
     if (has("fzf")) {
         yed_set_var("find-file-prg", "fzf --filter=\"%\"");
