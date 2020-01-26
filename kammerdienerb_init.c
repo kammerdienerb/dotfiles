@@ -20,7 +20,7 @@ int yed_plugin_boot(yed_plugin *self) {
         "styles/lab", "styles/book", "styles/blue",
         "styles/first", "styles/elise", "styles/nord", "styles/monokai", "styles/gruvbox",
         "styles/skyfall", "styles/papercolor",
-        "styles/casey",
+        "styles/casey", "styles/cadet",
     };
 
 
@@ -77,7 +77,7 @@ int yed_plugin_boot(yed_plugin *self) {
     YEXE("vimish-bind", "normal",    "spc", "f",              "CMD",    "find-file");
 
     /* Colors */
-    YEXE("style", "casey_transparent");
+    YEXE("style", "nord_transparent");
 
     /* Load a directory-specific plugin if available. */
     YEXE("plugin-load", "proj");
