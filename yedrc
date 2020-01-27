@@ -1,0 +1,78 @@
+### @plugins ###
+
+# 'yedrc' is already loaded by init.c
+# That's how we're loading this file.
+plugin-load 'vimish'
+plugin-load 'brace_hl'
+plugin-load 'tag_hl'
+plugin-load 'cursor_word_hl'
+plugin-load 'lang/c'
+plugin-load 'lang/sh'
+plugin-load 'lang/bjou'
+plugin-load 'lang/latex'
+plugin-load 'lang/python'
+plugin-load 'lang/yedrc'
+plugin-load 'indent_c'
+plugin-load 'comment'
+plugin-load 'autotrim'
+plugin-load 'completer'
+plugin-load 'grep'
+plugin-load 'find_file'
+plugin-load 'man'
+plugin-load 'style_picker'
+plugin-load 'focus_frame'
+plugin-load 'styles/lab'
+plugin-load 'styles/book'
+plugin-load 'styles/blue'
+plugin-load 'styles/first'
+plugin-load 'styles/elise'
+plugin-load 'styles/nord'
+plugin-load 'styles/monokai'
+plugin-load 'styles/gruvbox'
+plugin-load 'styles/skyfall'
+plugin-load 'styles/papercolor'
+plugin-load 'styles/casey'
+plugin-load 'styles/cadet'
+plugin-load 'styles/moss'
+
+### @variables ###
+set tab-width                    4
+set latex-comp-prg               "xelatex -halt-on-error --interaction=nonstopmode '%'"
+set latex-view-prg               "echo \"mupdf '%'\" | $SHELL &"
+set cursor-line                  "yes"
+set vimish-insert-no-cursor-line "yes"
+
+### @style ###
+style nord_transparent
+
+### @keybindings ###
+vimish-bind insert j j       CMD vimish-exit-insert
+vimish-bind normal spc c o   CMD comment-toggle
+vimish-bind normal spc l c   CMD latex-compile-current-file
+vimish-bind normal spc l v   CMD latex-view-current-file
+vimish-bind normal spc r d   CMD redraw
+vimish-bind normal spc v s p CMD frame-vsplit
+vimish-bind normal spc h s p CMD frame-hsplit
+vimish-bind normal spc b o   CMD fill-command-prompt buffer
+vimish-bind normal spc b d   CMD buffer-delete
+vimish-bind normal ctrl-n    CMD buffer-next
+vimish-bind normal ctrl-p    CMD buffer-prev
+vimish-bind normal M M       CMD man-word
+vimish-bind normal L L       CMD fill-command-prompt cursor-line
+vimish-bind normal ctrl-l    CMD frame-next
+vimish-bind normal ctrl-h    CMD frame-prev
+vimish-bind normal >         CMD indent
+vimish-bind normal <         CMD unindent
+vimish-bind normal spc g     CMD grep
+vimish-bind normal spc f     CMD find-file
+
+### @project ###
+# Add '.yed' to the plugin path.
+plugins-add-dir "./.yed"
+# Load directory-specific rc files.
+yedrc-load ".yedrc"
+yedrc-load "yedrc"
+yedrc-load ".yed/.yedrc"
+yedrc-load ".yed/yedrc"
+# Load a directory-specific plugin if available.
+plugin-load "proj"
