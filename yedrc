@@ -1,3 +1,8 @@
+###############################################################################
+#     yedrc
+#     Brandon Kammerdiener
+###############################################################################
+
 ### @plugins ###
 
 # 'yedrc' is already loaded by init.c
@@ -46,25 +51,25 @@ set vimish-insert-no-cursor-line "yes"
 style nord_transparent
 
 ### @keybindings ###
-vimish-bind insert j j       CMD vimish-exit-insert
-vimish-bind normal spc c o   CMD comment-toggle
-vimish-bind normal spc l c   CMD latex-compile-current-file
-vimish-bind normal spc l v   CMD latex-view-current-file
-vimish-bind normal spc r d   CMD redraw
-vimish-bind normal spc v s p CMD frame-vsplit
-vimish-bind normal spc h s p CMD frame-hsplit
-vimish-bind normal spc b o   CMD fill-command-prompt buffer
-vimish-bind normal spc b d   CMD buffer-delete
-vimish-bind normal ctrl-n    CMD buffer-next
-vimish-bind normal ctrl-p    CMD buffer-prev
-vimish-bind normal M M       CMD man-word
-vimish-bind normal L L       CMD fill-command-prompt cursor-line
-vimish-bind normal ctrl-l    CMD frame-next
-vimish-bind normal ctrl-h    CMD frame-prev
-vimish-bind normal >         CMD indent
-vimish-bind normal <         CMD unindent
-vimish-bind normal spc g     CMD grep
-vimish-bind normal spc f     CMD find-file
+vimish-bind  insert  j j        CMD  vimish-exit-insert
+vimish-bind  normal  spc c o    CMD  comment-toggle
+vimish-bind  normal  spc l c    CMD  latex-compile-current-file
+vimish-bind  normal  spc l v    CMD  latex-view-current-file
+vimish-bind  normal  spc r d    CMD  redraw
+vimish-bind  normal  spc v s p  CMD  frame-vsplit
+vimish-bind  normal  spc h s p  CMD  frame-hsplit
+vimish-bind  normal  spc b o    CMD  fill-command-prompt buffer
+vimish-bind  normal  spc b d    CMD  buffer-delete
+vimish-bind  normal  ctrl-n     CMD  buffer-next
+vimish-bind  normal  ctrl-p     CMD  buffer-prev
+vimish-bind  normal  M M        CMD  man-word
+vimish-bind  normal  L L        CMD  fill-command-prompt cursor-line
+vimish-bind  normal  ctrl-l     CMD  frame-next
+vimish-bind  normal  ctrl-h     CMD  frame-prev
+vimish-bind  normal  >          CMD  indent
+vimish-bind  normal  <          CMD  unindent
+vimish-bind  normal  spc g      CMD  grep
+vimish-bind  normal  spc f      CMD  find-file
 
 ### @project ###
 # Add '.yed' to the plugin path.
