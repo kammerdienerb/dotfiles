@@ -50,8 +50,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-# style nord_transparent
-style casey_transparent
+style-term-bg casey
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
