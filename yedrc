@@ -17,6 +17,7 @@ plugin-load 'lang/bjou'
 plugin-load 'lang/latex'
 plugin-load 'lang/python'
 plugin-load 'lang/yedrc'
+plugin-load 'lang/jgraph'
 plugin-load 'indent_c'
 plugin-load 'comment'
 plugin-load 'align'
@@ -51,7 +52,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style-term-bg casey
+style first-dark
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
