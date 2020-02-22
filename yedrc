@@ -11,6 +11,7 @@ plugin-load 'vimish'
 plugin-load 'brace_hl'
 plugin-load 'tag_hl'
 plugin-load 'cursor_word_hl'
+plugin-load 'log_hl'
 plugin-load 'lang/c'
 plugin-load 'lang/sh'
 plugin-load 'lang/bjou'
@@ -42,6 +43,8 @@ plugin-load 'styles/papercolor'
 plugin-load 'styles/casey'
 plugin-load 'styles/cadet'
 plugin-load 'styles/moss'
+plugin-load 'styles/hat'
+plugin-load 'styles/dracula'
 
 ### @variables ###
 set tab-width                    4
@@ -52,7 +55,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style first-dark
+style dracula
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
