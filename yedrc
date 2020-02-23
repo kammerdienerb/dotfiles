@@ -45,6 +45,7 @@ plugin-load 'styles/cadet'
 plugin-load 'styles/moss'
 plugin-load 'styles/hat'
 plugin-load 'styles/dracula'
+plugin-load 'styles/solarized'
 
 ### @variables ###
 set tab-width                    4
@@ -55,7 +56,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style hat
+style solarized-dark
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
