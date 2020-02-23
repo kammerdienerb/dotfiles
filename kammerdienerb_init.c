@@ -4,6 +4,13 @@
 int has(char *prg);
 
 int yed_plugin_boot(yed_plugin *self) {
+    LOG_FN_ENTER();
+
+    yed_log("init.c");
+    yed_log("\n# ********************************************************");
+    yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
+    yed_log("\n# ********************************************************");
+
     YEXE("plugin-load", "yedrc");
 
     /*
@@ -11,18 +18,22 @@ int yed_plugin_boot(yed_plugin *self) {
      * but allow yedrc to override.
      */
     if (yed_term_says_it_supports_truecolor()) {
-        yed_set_var("truecolor", "yes");
+        yed_log("init.c: terminal says it supports truecolor");
+        YEXE("set", "truecolor", "yes");
     }
     if (has("rg")) {
-        yed_set_var("grep-prg",      "rg --vimgrep \"%\"");
+        yed_log("init.c: found an rg executable");
+        YEXE("set", "grep-prg", "rg --vimgrep \"%\"");
     }
     if (has("fzf")) {
-        yed_set_var("find-file-prg", "fzf --filter=\"%\"");
+        yed_log("init.c: found a fzf executable");
+        YEXE("set", "find-file-prg", "fzf --filter=\"%\"");
     }
 
     /* Load my yedrc file. */
     YEXE("yedrc-load", "~/.yed/yedrc");
 
+    LOG_EXIT();
     return 0;
 }
 
