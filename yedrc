@@ -47,6 +47,7 @@ plugin-load 'styles/moss'
 plugin-load 'styles/hat'
 plugin-load 'styles/dracula'
 plugin-load 'styles/solarized'
+plugin-load 'styles/sammy'
 
 ### @variables ###
 set tab-width                    4
@@ -57,7 +58,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style-term-bg hat
+style sammy
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
