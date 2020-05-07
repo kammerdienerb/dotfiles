@@ -31,23 +31,7 @@ plugin-load 'man'
 plugin-load 'style_picker'
 plugin-load 'style_use_term_bg'
 plugin-load 'focus_frame'
-plugin-load 'styles/lab'
-plugin-load 'styles/book'
-plugin-load 'styles/blue'
-plugin-load 'styles/first'
-plugin-load 'styles/elise'
-plugin-load 'styles/nord'
-plugin-load 'styles/monokai'
-plugin-load 'styles/gruvbox'
-plugin-load 'styles/skyfall'
-plugin-load 'styles/papercolor'
-plugin-load 'styles/casey'
-plugin-load 'styles/cadet'
-plugin-load 'styles/moss'
-plugin-load 'styles/hat'
-plugin-load 'styles/dracula'
-plugin-load 'styles/solarized'
-plugin-load 'styles/sammy'
+plugin-load 'style_pack'
 
 ### @variables ###
 set tab-width                    4
@@ -58,7 +42,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style sammy
+style default
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
