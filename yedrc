@@ -34,6 +34,8 @@ plugin-load 'style_picker'
 plugin-load 'style_use_term_bg'
 # plugin-load 'focus_frame'
 plugin-load 'style_pack'
+plugin-load 'run_on_ft'
+plugin-load 'mk_src_pair'
 
 ### @variables ###
 set tab-width                    4
