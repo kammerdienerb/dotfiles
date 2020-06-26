@@ -28,7 +28,7 @@ int yed_plugin_boot(yed_plugin *self) {
 
     if (file_exists_in_PATH("rg")) {
         yed_log("init.c: found an rg executable");
-        YEXE("set", "grep-prg", "rg --vimgrep \"%\"");
+        YEXE("set", "grep-prg", "rg --ignore-file='.grepignore' --vimgrep \"%\"");
     }
     if (file_exists_in_PATH("fzf")) {
         yed_log("init.c: found a fzf executable");
