@@ -37,6 +37,7 @@ plugin-load 'style_use_term_bg'
 plugin-load 'style_pack'
 plugin-load 'run_on_ft'
 plugin-load 'mk_src_pair'
+plugin-load 'builder'
 
 ### @variables ###
 set tab-width                    4
@@ -70,6 +71,9 @@ vimish-bind  normal  <          CMD  unindent
 vimish-bind  normal  spc g      CMD  grep
 vimish-bind  normal  spc f      CMD  find-file
 vimish-bind  normal  spc a l    CMD  fill-command-prompt align
+vimish-bind  normal  ctrl-y     CMD  builder-start
+vimish-bind  normal  E E        CMD  builder-jump-to-error
+vimish-bind  normal  V V        CMD  builder-view-output
 
 ### @project ###
 # Add '.yed' to the plugin path.
