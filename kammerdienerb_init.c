@@ -4,6 +4,7 @@
 int has(char *prg);
 
 int yed_plugin_boot(yed_plugin *self) {
+    char *term;
     char *env_style;
 
     LOG_FN_ENTER();
@@ -39,7 +40,11 @@ int yed_plugin_boot(yed_plugin *self) {
     YEXE("yedrc-load", "~/.yed/yedrc");
 
     /* Load style via environment var if set. */
-    if ((env_style = getenv("YED_STYLE"))) {
+    if ((term = getenv("TERM"))
+    &&  strcmp(term, "linux") == 0) {
+        yed_log("init.c: TERM = linux -- activating vt style\n");
+        YEXE("style", "vt");
+    } else if ((env_style = getenv("YED_STYLE"))) {
         yed_log("init.c: envirnoment variable YED_STYLE = %s -- activating\n", env_style);
         YEXE("style", env_style);
     }
