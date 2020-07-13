@@ -48,7 +48,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style tempus-future
+style doug
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
