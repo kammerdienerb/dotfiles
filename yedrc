@@ -65,7 +65,8 @@ vimish-bind  normal  ctrl-p     CMD  buffer-prev
 vimish-bind  normal  M M        CMD  man-word
 vimish-bind  normal  L L        CMD  fill-command-prompt cursor-line
 vimish-bind  normal  ctrl-l     CMD  frame-next
-vimish-bind  normal  ctrl-h     CMD  frame-prev
+# Don't really use this that much and would prefer to not see the warnings.
+# vimish-bind  normal  ctrl-h     CMD  frame-prev
 vimish-bind  normal  >          CMD  indent
 vimish-bind  normal  <          CMD  unindent
 vimish-bind  normal  spc g      CMD  grep
@@ -76,12 +77,5 @@ vimish-bind  normal  E E        CMD  builder-jump-to-error
 vimish-bind  normal  V V        CMD  builder-view-output
 
 ### @project ###
-# Add '.yed' to the plugin path.
-plugins-add-dir "./.yed"
-# Load directory-specific rc files.
+# Load directory-specific rc file.
 yedrc-load ".yedrc"
-yedrc-load "yedrc"
-yedrc-load ".yed/.yedrc"
-yedrc-load ".yed/yedrc"
-# Load a directory-specific plugin if available.
-plugin-load "proj"
