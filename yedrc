@@ -49,7 +49,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style doug
+style-term-bg first-dark
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
