@@ -38,7 +38,7 @@ int yed_plugin_boot(yed_plugin *self) {
 
     if (getenv("DISPLAY") && file_exists_in_PATH("notify-send")) {
         yed_log("init.c: using desktop notifications for builder");
-        YEXE("set", "builder-notify-command", "notify-send -i utilities-terminal 'yed: %'");
+        YEXE("set", "builder-notify-command", "notify-send -i utilities-terminal yed %");
     }
 
     /* Load my yedrc file. */
