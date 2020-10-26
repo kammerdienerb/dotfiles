@@ -50,7 +50,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style embark
+style-term-bg first-dark
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
