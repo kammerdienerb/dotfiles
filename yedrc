@@ -7,17 +7,31 @@
 
 # 'yedrc' is already loaded by init.c
 # That's how we're loading this file.
-plugin-load 'lazy_plug'
-    lazy-plug-ft ".c"     'lang/c'
-    lazy-plug-ft ".cpp"   'lang/c'
-    lazy-plug-ft ".sh"    'lang/sh'
-    lazy-plug-ft ".bjou"  'lang/bjou'
-    lazy-plug-ft ".tex"   'lang/latex'
-    lazy-plug-ft ".py"    'lang/python'
-    lazy-plug-ft ".yedrc" 'lang/yedrc'
-    lazy-plug-ft ".jgr"   'lang/jgraph'
-    lazy-plug-ft ".glsl"  'lang/glsl'
-    lazy-plug-ft ".si"    'lang/simon'
+
+# NOTE: this isn't working right now
+# plugin-load 'lazy_plug'
+#    lazy-plug-ft ".c"     'lang/c'
+#    lazy-plug-ft ".cpp"   'lang/c'
+#    lazy-plug-ft ".sh"    'lang/sh'
+#    lazy-plug-ft ".bjou"  'lang/bjou'
+#    lazy-plug-ft ".tex"   'lang/latex'
+#    lazy-plug-ft ".py"    'lang/python'
+#    lazy-plug-ft ".yedrc" 'lang/yedrc'
+#    lazy-plug-ft ".jgr"   'lang/jgraph'
+#    lazy-plug-ft ".glsl"  'lang/glsl'
+#    lazy-plug-ft ".si"    'lang/simon'
+
+plugin-load 'lang/c'
+plugin-load 'lang/sh'
+plugin-load 'lang/bjou'
+plugin-load 'lang/latex'
+plugin-load 'lang/python'
+plugin-load 'lang/yedrc'
+plugin-load 'lang/jgraph'
+plugin-load 'lang/glsl'
+plugin-load 'lang/simon'
+
+
 plugin-load 'vimish'
 plugin-load 'slide'
 # plugin-load 'brace_hl'
