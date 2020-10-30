@@ -8,8 +8,9 @@
 # 'yedrc' is already loaded by init.c
 # That's how we're loading this file.
 
-# NOTE: this isn't working right now
+# NOTE: these aren't working right now
 # plugin-load 'lazy_plug'
+# plugin-load 'run_on_ft'
 #    lazy-plug-ft ".c"     'lang/c'
 #    lazy-plug-ft ".cpp"   'lang/c'
 #    lazy-plug-ft ".sh"    'lang/sh'
@@ -51,7 +52,6 @@ plugin-load 'style_picker'
 plugin-load 'style_use_term_bg'
 # plugin-load 'focus_frame'
 plugin-load 'style_pack'
-plugin-load 'run_on_ft'
 plugin-load 'mk_src_pair'
 plugin-load 'builder'
 
