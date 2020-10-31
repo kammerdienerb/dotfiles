@@ -15,6 +15,11 @@ cp .tmux.conf $HM
 
 mkdir -p ~/.yed
 
+YED_INSTALLATION_PREFIX="/usr"
+# YED_INSTALLATION_PREFIX="${HM}/.local"
+
+C_FLAGS="-shared -fPIC -g -O3 -I${YED_INSTALLATION_PREFIX}/include -L${YED_INSTALLATION_PREFIX}/lib -lyed"
+
 YED_DIR=${DIR}/.yed
 HOME_YED_DIR=${HM}/.yed
 for f in $(find ${DIR}/.yed -name "*.c"); do
@@ -23,7 +28,7 @@ for f in $(find ${DIR}/.yed -name "*.c"); do
     PLUG_FULL_PATH=${PLUG_DIR}/$(basename $f ".c").so
 
     mkdir -p ${PLUG_DIR}
-    gcc -shared -fPIC -g -O3 ${f} -lyed -o ${PLUG_FULL_PATH} &
+    gcc ${f} ${C_FLAGS} -o ${PLUG_FULL_PATH} &
 done
 
 wait
