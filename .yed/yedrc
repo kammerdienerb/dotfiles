@@ -31,10 +31,10 @@ plugin-load 'lang/yedrc'
 plugin-load 'lang/jgraph'
 plugin-load 'lang/glsl'
 plugin-load 'lang/simon'
+plugin-load 'lang/slide'
 
 
 plugin-load 'vimish'
-plugin-load 'slide'
 # plugin-load 'brace_hl'
 plugin-load 'paren_hl'
 plugin-load 'tag_hl'

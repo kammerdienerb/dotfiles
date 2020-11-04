@@ -12,8 +12,8 @@ int yed_plugin_boot(yed_plugin *self) {
 LOG_FN_ENTER();
     yed_plugin_set_unload_fn(self, unload);
 
-    if (yed_plugin_make_ft(self, "Simon") == FT_ERR_TAKEN) {
-        yed_cerr("lang/simon: unable to create file type name");
+    if (yed_plugin_make_ft(self, "Slide") == FT_ERR_TAKEN) {
+        yed_cerr("lang/slide: unable to create file type name");
         LOG_EXIT();
         return 1;
     }
@@ -30,15 +30,16 @@ LOG_FN_ENTER();
         maybe_change_ft(tree_it_val(bit));
     }
 
-    YEXE("plugin-load", "lang/syntax/simon");
+    YEXE("plugin-load", "lang/syntax/slide");
+    YEXE("plugin-load", "lang/tools/slide");
 
 LOG_EXIT();
     return 0;
 }
 
 void unload(yed_plugin *self) {
-    YEXE("plugin-unload", "lang/syntax/simon");
-    yed_delete_ft("Simon");
+    YEXE("plugin-unload", "lang/tools/slide");
+    YEXE("plugin-unload", "lang/syntax/slide");
 }
 
 void maybe_change_ft(yed_buffer *buff) {
@@ -54,8 +55,8 @@ void maybe_change_ft(yed_buffer *buff) {
     if (buff->ft != FT_UNKNOWN) {
         return;
     }
-    if (strcmp(ext, "si") == 0) {
-        yed_buffer_set_ft(buff, yed_get_ft("Simon"));
+    if (strcmp(ext, "slide") == 0) {
+        yed_buffer_set_ft(buff, yed_get_ft("Slide"));
     }
 }
 
