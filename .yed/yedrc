@@ -55,6 +55,7 @@ plugin-load 'style_pack'
 plugin-load 'mk_src_pair'
 plugin-load 'builder'
 plugin-load 'ctags'
+plugin-load 'line_numbers'
 
 ### @variables ###
 set tab-width                    4
