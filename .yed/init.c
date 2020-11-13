@@ -2,6 +2,7 @@
 #include <yed/menu_frame.h>
 
 int has(char *prg);
+void kammerdienerb_jump_to_tag_in_split(int n_args, char **args);
 
 int yed_plugin_boot(yed_plugin *self) {
     char *term;
@@ -13,6 +14,9 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# ********************************************************");
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
+
+    yed_log("init.c: added 'kammerdienerb-jump-to-tag-in-split' command");
+    yed_plugin_set_command(self, "kammerdienerb-jump-to-tag-in-split", kammerdienerb_jump_to_tag_in_split);
 
     YEXE("plugin-load", "yedrc");
 
@@ -56,4 +60,39 @@ int yed_plugin_boot(yed_plugin *self) {
 
     LOG_EXIT();
     return 0;
+}
+
+void kammerdienerb_jump_to_tag_in_split(int n_args, char **args) {
+    yed_frame *f;
+    yed_frame *split;
+
+    if (n_args != 0) {
+        yed_cerr("expected 0 arguments, but got %d", n_args);
+        return;
+    }
+
+    if ((f = ys->active_frame) == NULL) {
+        yed_cerr("no active frame");
+        return;
+    }
+
+    if (f->buffer == NULL) {
+        yed_cerr("active frame has no buffer");
+        return;
+    }
+
+    split = f->v_link;
+    if (split == NULL) {
+        split = yed_vsplit_frame(f);
+    }
+
+    if (split == NULL) {
+        yed_cerr("could not find/make a split frame");
+        return;
+    }
+
+    yed_activate_frame(split);
+    yed_frame_set_buff(split, f->buffer);
+    yed_set_cursor_within_frame(split, f->cursor_col, f->cursor_line);
+    YEXE("ctags-jump-to-definition");
 }

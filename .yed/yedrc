@@ -94,7 +94,7 @@ vimish-bind  normal  ctrl-y     CMD  builder-start
 vimish-bind  normal  E E        CMD  builder-jump-to-error
 vimish-bind  normal  V V        CMD  builder-view-output
 vimish-bind  normal  spc t      CMD  ctags-find
-vimish-bind  normal  T T        CMD  ctags-jump-to-definition
+vimish-bind  normal  T T        CMD  kammerdienerb-jump-to-tag-in-split # wrapper for ctags-jump-to-definition
 
 ### @project ###
 # Load directory-specific rc file.
