@@ -63,8 +63,9 @@ int yed_plugin_boot(yed_plugin *self) {
 }
 
 void kammerdienerb_jump_to_tag_in_split(int n_args, char **args) {
-    yed_frame *f;
-    yed_frame *split;
+    yed_frame      *f;
+    yed_frame_tree *other_tree;
+    yed_frame      *split;
 
     if (n_args != 0) {
         yed_cerr("expected 0 arguments, but got %d", n_args);
@@ -81,7 +82,15 @@ void kammerdienerb_jump_to_tag_in_split(int n_args, char **args) {
         return;
     }
 
-    split = f->v_link;
+    split = NULL;
+
+    if (f->tree != NULL && f->tree->parent != NULL) {
+        other_tree = yed_frame_tree_find_next_leaf(f->tree);
+        if (other_tree != NULL) {
+            split = other_tree->frame;
+        }
+    }
+
     if (split == NULL) {
         split = yed_vsplit_frame(f);
     }
