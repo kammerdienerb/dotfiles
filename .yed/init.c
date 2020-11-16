@@ -15,7 +15,7 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
 
-    yed_log("init.c: added 'kammerdienerb-jump-to-tag-in-split' command");
+    yed_log("\ninit.c: added 'kammerdienerb-jump-to-tag-in-split' command");
     yed_plugin_set_command(self, "kammerdienerb-jump-to-tag-in-split", kammerdienerb_jump_to_tag_in_split);
 
     YEXE("plugin-load", "yedrc");
