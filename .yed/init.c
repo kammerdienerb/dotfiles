@@ -85,7 +85,7 @@ void kammerdienerb_jump_to_tag_in_split(int n_args, char **args) {
     split = NULL;
 
     if (f->tree != NULL && f->tree->parent != NULL) {
-        other_tree = yed_frame_tree_find_next_leaf(f->tree);
+        other_tree = yed_frame_tree_get_split_leaf_prefer_left_or_topmost(f->tree);
         if (other_tree != NULL) {
             split = other_tree->frame;
         }
