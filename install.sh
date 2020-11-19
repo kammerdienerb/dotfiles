@@ -22,6 +22,9 @@ C_FLAGS="-shared -fPIC -g -O0 -I${YED_INSTALLATION_PREFIX}/include -L${YED_INSTA
 
 YED_DIR=${DIR}/.yed
 HOME_YED_DIR=${HM}/.yed
+
+pids=()
+
 for f in $(find ${DIR}/.yed -name "*.c"); do
     echo "Compiling ${f/${YED_DIR}/.yed} and installing."
     PLUG_DIR=$(dirname ${f/${YED_DIR}/${HOME_YED_DIR}})
@@ -29,9 +32,12 @@ for f in $(find ${DIR}/.yed -name "*.c"); do
 
     mkdir -p ${PLUG_DIR}
     gcc ${f} ${C_FLAGS} -o ${PLUG_FULL_PATH} &
+    pids+=($!)
 done
 
-wait || exit 1
+for p in ${pids[@]}; do
+    wait $p || exit 1
+done
 
 echo "Moving yedrc."
 cp ${YED_DIR}/yedrc ${HOME_YED_DIR}

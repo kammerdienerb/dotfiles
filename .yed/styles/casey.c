@@ -10,8 +10,7 @@
 #define color_search        MAYBE_CONVERT(RGB_32(73, 212, 92))
 #define color_search_cursor MAYBE_CONVERT(RGB_32(212, 73, 92))
 #define color_attent        MAYBE_CONVERT(RGB_32(244, 91, 83))
-/* #define color_assoc         MAYBE_CONVERT(RGB_32(40, 40, 53)) */
-#define color_assoc         MAYBE_CONVERT(RGB_32_hex(d65d0e))
+#define color_assoc         MAYBE_CONVERT(color_bg_2 + RGB_32(40, 20, 80))
 #define color_comment       MAYBE_CONVERT(RGB_32_hex(7c6f64))
 #define color_keyword       MAYBE_CONVERT(RGB_32(185, 150, 84))
 #define color_pp            MAYBE_CONVERT(RGB_32(70, 120, 130))
