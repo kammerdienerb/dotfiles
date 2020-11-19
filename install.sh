@@ -31,7 +31,7 @@ for f in $(find ${DIR}/.yed -name "*.c"); do
     gcc ${f} ${C_FLAGS} -o ${PLUG_FULL_PATH} &
 done
 
-wait
+wait || exit 1
 
 echo "Moving yedrc."
 cp ${YED_DIR}/yedrc ${HOME_YED_DIR}

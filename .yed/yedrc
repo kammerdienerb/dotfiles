@@ -52,6 +52,7 @@ plugin-load 'man'
 plugin-load 'style_use_term_bg'
 # plugin-load 'focus_frame'
 plugin-load 'style_pack'
+plugin-load 'styles/casey' # this will load my modified version
 plugin-load 'mk_src_pair'
 plugin-load 'builder'
 plugin-load 'ctags'
@@ -65,7 +66,7 @@ set cursor-line                  "yes"
 set vimish-insert-no-cursor-line "yes"
 
 ### @style ###
-style casey
+style-term-bg casey
 
 ### @keybindings ###
 vimish-bind  insert  j j        CMD  vimish-exit-insert
