@@ -67,8 +67,8 @@ set cursor-line                   "yes"
 set vimish-insert-no-cursor-line  "yes"
 set cursor-word-hl-idle-threshold 1500
 # ctags disabled by default -- enable per project
-# (should also set 'ctags-flags')
-set use-ctags                     "no"
+# (should also set 'ctags-flags' and 'ctags-enable-extra-highlighting' if desired)
+set use-ctags "no"
 
 ### @style ###
 style-term-bg casey
