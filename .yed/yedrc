@@ -38,7 +38,7 @@ plugin-load 'vimish'
 # plugin-load 'brace_hl'
 plugin-load 'paren_hl'
 plugin-load 'tag_hl'
-# plugin-load 'cursor_word_hl'
+plugin-load 'cursor_word_hl'
 plugin-load 'log_hl'
 plugin-load 'indent_c'
 plugin-load 'comment'
@@ -56,14 +56,19 @@ plugin-load 'styles/casey' # this will load my modified version
 plugin-load 'mk_src_pair'
 plugin-load 'builder'
 plugin-load 'ctags'
+plugin-load 'hook'
 
 ### @variables ###
-set tab-width                    4
-set latex-comp-prg               "xelatex -halt-on-error --interaction=nonstopmode '%'"
-set latex-view-prg               "echo \"zathura '%'\" | $SHELL &"
-set latex-update-view-prg        "" # "pkill -HUP mupdf 2>&1 > /dev/null"
-set cursor-line                  "yes"
-set vimish-insert-no-cursor-line "yes"
+set tab-width                     4
+set latex-comp-prg                "xelatex -halt-on-error --interaction=nonstopmode '%'"
+set latex-view-prg                "echo \"zathura '%'\" | $SHELL &"
+set latex-update-view-prg         "" # "pkill -HUP mupdf 2>&1 > /dev/null"
+set cursor-line                   "yes"
+set vimish-insert-no-cursor-line  "yes"
+set cursor-word-hl-idle-threshold 1500
+# ctags disabled by default -- enable per project
+# (should also set 'ctags-flags')
+set use-ctags                     "no"
 
 ### @style ###
 style-term-bg casey
@@ -95,6 +100,9 @@ vimish-bind  normal  E E        CMD  builder-jump-to-error
 vimish-bind  normal  V V        CMD  builder-view-output
 vimish-bind  normal  spc t      CMD  ctags-find
 vimish-bind  normal  T T        CMD  kammerdienerb-jump-to-tag-in-split # wrapper for ctags-jump-to-definition
+
+### @hooks ###
+hook post-write if use-ctags 'multi "ctags-gen" "ctags-hl-reparse"'
 
 ### @project ###
 # Load directory-specific rc file.

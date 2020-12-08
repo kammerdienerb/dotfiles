@@ -91,6 +91,8 @@ void unload(yed_plugin *self) {
 
 void syntax_slide_line_handler(yed_event *event) {
     yed_frame *frame;
+    yed_line  *line;
+    yed_glyph *git;
 
     frame = event->frame;
 
@@ -98,6 +100,14 @@ void syntax_slide_line_handler(yed_event *event) {
     ||  !frame->buffer
     ||  frame->buffer->kind != BUFF_KIND_FILE
     ||  frame->buffer->ft != yed_get_ft("Slide")) {
+        return;
+    }
+
+    line = yed_buff_get_line(frame->buffer, event->row);
+
+    /* Only highlight lines that start with ':'. */
+    if (line->visual_width == 0
+    ||  yed_line_col_to_glyph(line, 1)->c != ':') {
         return;
     }
 

@@ -18,15 +18,15 @@ int yed_plugin_boot(yed_plugin *self) {
         "or",
         "and",           "bor",      "not",
         "band",          "bneg",     "bshl",    "bshr",   "bxor",    "proc", "type",
-        "extern",        "module",   "sizeof",  "struct",
+        "extern",        "macro",    "module",  "sizeof", "struct",
     };
 
     char              *control_flow[] = {
-        "do", "if", "for", "else", "break", "while", "return", "continue",
+        "do", "if", "for", "else", "break", "defer", "while", "return", "continue",
     };
 
     char              *typenames[] = {
-        "i8", "u8", "f32", "f64", "i16", "i32", "i64", "int", "u16", "u32", "u64",
+        "i8", "u8", "f32", "f64", "i16", "i32", "i64", "int", "str", "u16", "u32", "u64",
         "bool", "char", "f128", "long", "none", "void", "float", "short", "double",
     };
 
@@ -64,7 +64,9 @@ int yed_plugin_boot(yed_plugin *self) {
     highlight_numbers(&hinfo);
     highlight_within(&hinfo, "\"", "\"", '\\', -1, HL_STR);
     highlight_within(&hinfo, "'", "'", '\\', 1, HL_CHAR);
-    highlight_within(&hinfo, "[[", "]]", 0, -1, HL_PP);
+    highlight_within(&hinfo, "[[", "]]", 0, -1, HL_STR);
+    highlight_within(&hinfo, "$(", ")", 0, -1, HL_PP);
+    highlight_prefixed_words_inclusive(&hinfo, '#', HL_PP);
     highlight_to_eol_from(&hinfo, ";", HL_COMMENT);
 
     ys->redraw = 1;
