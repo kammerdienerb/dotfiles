@@ -2,11 +2,15 @@
 #include <yed/menu_frame.h>
 
 int has(char *prg);
-void kammerdienerb_jump_to_tag_in_split(int n_args, char **args);
+void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
+void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
+void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
 
 int yed_plugin_boot(yed_plugin *self) {
     char *term;
     char *env_style;
+
+    YED_PLUG_VERSION_CHECK();
 
     LOG_FN_ENTER();
 
@@ -15,8 +19,10 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
 
-    yed_log("\ninit.c: added 'kammerdienerb-jump-to-tag-in-split' command");
-    yed_plugin_set_command(self, "kammerdienerb-jump-to-tag-in-split", kammerdienerb_jump_to_tag_in_split);
+    yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
+    yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);
+    yed_plugin_set_command(self, "special-buffer-prepare-unfocus",    kammerdienerb_special_buffer_prepare_unfocus);
+    yed_log("\ninit.c: added overrides for 'special-buffer-prepare-*' commands");
 
     YEXE("plugin-load", "yedrc");
 
@@ -62,46 +68,196 @@ int yed_plugin_boot(yed_plugin *self) {
     return 0;
 }
 
-void kammerdienerb_jump_to_tag_in_split(int n_args, char **args) {
-    yed_frame      *f;
-    yed_frame_tree *other_tree;
-    yed_frame      *split;
 
-    if (n_args != 0) {
-        yed_cerr("expected 0 arguments, but got %d", n_args);
+/*
+** Here's how I want this to behave (assuming a left/right split frame):
+**
+** If the left frame is currently active:
+**    When the special buffer is focused, it appears in the right frame.
+**    When jumping from the special buffer, it should go to the left frame.
+**
+** If the right frame is currently active:
+**    If the special buffer is focused, it appears in the right frame.
+**    When jumping from the special buffer _when it was focused from the right frame_,
+**        it should go to the right frame.
+**    Otherwise, jumps should go to the left frame.
+*/
+
+static int stay_in_special_frame;
+
+void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
+    yed_command     default_cmd;
+    int             n_frames;
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+    yed_frame_tree *root;
+    yed_frame_tree *dest;
+
+    stay_in_special_frame = 0;
+
+    if (n_args != 1) {
+        yed_cerr("expected 1 argument, but got %d", n_args);
         return;
     }
 
-    if ((f = ys->active_frame) == NULL) {
-        yed_cerr("no active frame");
-        return;
-    }
-
-    if (f->buffer == NULL) {
-        yed_cerr("active frame has no buffer");
-        return;
-    }
-
-    split = NULL;
-
-    if (f->tree != NULL && f->tree->parent != NULL) {
-        other_tree = yed_frame_tree_get_split_leaf_prefer_left_or_topmost(f->tree);
-        if (other_tree != NULL) {
-            split = other_tree->frame;
+    if (ys->term_cols < (3 * ys->term_rows)) {
+        default_cmd = yed_get_default_command("special-buffer-prepare-focus");
+        if (default_cmd) {
+            default_cmd(n_args, args);
+            return;
         }
     }
 
-    if (split == NULL) {
-        split = yed_vsplit_frame(f);
+    /* If there's no frames, make the two splits and focus the right one. */
+    if (ys->active_frame == NULL) {
+        YEXE("frame-new");
+        YEXE("frame-vsplit");
+        goto out;
     }
 
-    if (split == NULL) {
-        yed_cerr("could not find/make a split frame");
+    frame = ys->active_frame;
+    tree  = frame->tree;
+    root  = yed_frame_tree_get_root(tree);
+
+    /* Is this frame part of a tree that takes up the whole screen? */
+    if (root->height == 1.0 && root->width == 1.0) {
+        if (root == tree) {
+            /* The frame takes up the whole screen. */
+            YEXE("frame-vsplit");
+        } else {
+            /*
+             * The frame we want to activate is always to the right
+             * of the root, and all the way left until we find the leaf.
+             */
+            dest = root->child_trees[1];
+            while (!dest->is_leaf) {
+                dest = dest->child_trees[0];
+            }
+
+            yed_activate_frame(dest->frame);
+
+            /*
+             * If special-buffer focus was requested from the special frame,
+             * then we want to stay here for any jumps.
+             */
+            stay_in_special_frame = dest->frame == frame;
+        }
+    } else {
+        /* Make a big one then. */
+        YEXE("frame-new");
+        YEXE("frame-vsplit");
+    }
+
+    /* In case I missed something. */
+    if (ys->active_frame == NULL) {
+        YEXE("frame-new");
+    }
+
+out:;
+    yed_set_cursor_far_within_frame(ys->active_frame, 1, 1);
+}
+
+void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
+    yed_command     default_cmd;
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+    yed_frame_tree *root;
+    yed_frame_tree *dest;
+
+    if (n_args != 1) {
+        yed_cerr("expected 1 argument, but got %d", n_args);
         return;
     }
 
-    yed_activate_frame(split);
-    yed_frame_set_buff(split, f->buffer);
-    yed_set_cursor_within_frame(split, f->cursor_col, f->cursor_line);
-    YEXE("ctags-jump-to-definition");
+    if (ys->term_cols < (3 * ys->term_rows)) {
+        default_cmd = yed_get_default_command("special-buffer-prepare-jump-focus");
+        if (default_cmd) {
+            default_cmd(n_args, args);
+            return;
+        }
+    }
+
+    /*
+     * If there aren't any frames, make the two splits and focus
+     * the correct one.
+     * This should never happen unless there's a bug somewhere.
+     */
+    if (ys->active_frame == NULL) {
+        YEXE("frame-new");
+        YEXE("frame-vsplit");
+        if (!stay_in_special_frame) {
+            YEXE("frame-prev");
+        }
+        goto out;
+    }
+
+    if (stay_in_special_frame) { goto out; }
+
+    frame = ys->active_frame;
+    tree  = frame->tree;
+    root  = yed_frame_tree_get_root(tree);
+
+    /*
+     * The frame we want to activate is always to the left
+     * of the root.
+     */
+    dest = root;
+    while (!dest->is_leaf) {
+        dest = dest->child_trees[0];
+    }
+
+    yed_activate_frame(dest->frame);
+
+out:;
+    stay_in_special_frame = 0;
+}
+
+void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args) {
+    yed_command     default_cmd;
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+    yed_frame_tree *root;
+    yed_frame_tree *dest;
+
+    if (n_args != 1) {
+        yed_cerr("expected 1 argument, but got %d", n_args);
+        return;
+    }
+
+    if (ys->term_cols < (3 * ys->term_rows)) {
+        default_cmd = yed_get_default_command("special-buffer-prepare-unfocus");
+        if (default_cmd) {
+            default_cmd(n_args, args);
+            return;
+        }
+    }
+
+    /*
+     * If there aren't any frames, make the two splits and focus
+     * the right one.
+     * This should never happen unless there's a bug somewhere.
+     */
+    if (ys->active_frame == NULL) {
+        YEXE("frame-new");
+        YEXE("frame-vsplit");
+        YEXE("frame-prev");
+        goto out;
+    }
+
+    frame = ys->active_frame;
+    tree  = frame->tree;
+    root  = yed_frame_tree_get_root(tree);
+
+    /*
+     * The frame we want to activate is always to the left
+     * of the root.
+     */
+    dest = root;
+    while (dest && !dest->is_leaf) {
+        dest = dest->child_trees[0];
+    }
+
+    yed_activate_frame(dest->frame);
+out:;
+    stay_in_special_frame = 0;
 }

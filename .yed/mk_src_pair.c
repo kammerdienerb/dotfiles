@@ -66,6 +66,8 @@ void mk_src_pair(int n_args, char **args) {
 }
 
 int yed_plugin_boot(yed_plugin *self) {
+    YED_PLUG_VERSION_CHECK();
+
     yed_plugin_set_command(self, "mk-src-pair", mk_src_pair);
 
     return 0;
