@@ -57,6 +57,7 @@ plugin-load 'mk_src_pair'
 plugin-load 'builder'
 plugin-load 'ctags'
 plugin-load 'hook'
+plugin-load 'jump_stack'
 
 ### @variables ###
 set tab-width                     4
@@ -99,7 +100,8 @@ vimish-bind  normal  ctrl-y     CMD  builder-start
 vimish-bind  normal  E E        CMD  builder-jump-to-error
 vimish-bind  normal  V V        CMD  multi "builder-view-output" "special-buffer-prepare-unfocus *builder-output"
 vimish-bind  normal  spc t      CMD  ctags-find
-vimish-bind  normal  T T        CMD  ctags-jump-to-definition
+vimish-bind  normal  T T        CMD  multi jump-stack-push ctags-jump-to-definition
+vimish-bind  normal  bsp        CMD  jump-stack-pop
 
 ### @hooks ###
 hook post-write if use-ctags 'multi "ctags-gen" "ctags-hl-reparse"'

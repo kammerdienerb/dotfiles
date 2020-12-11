@@ -5,6 +5,8 @@ int has(char *prg);
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
+void kammerdienerb_quit(int n_args, char **args);
+void kammerdienerb_write_quit(int n_args, char **args);
 
 int yed_plugin_boot(yed_plugin *self) {
     char *term;
@@ -39,11 +41,11 @@ int yed_plugin_boot(yed_plugin *self) {
 
     if (file_exists_in_PATH("rg")) {
         yed_log("init.c: found an rg executable");
-        YEXE("set", "grep-prg",      "rg --ignore-file='.grepignore' --vimgrep \"%\"");
-        YEXE("set", "find-file-prg", "rg --ignore-file='.grepignore' --files -g \"*%*\"");
+        YEXE("set", "grep-prg",      "rg --ignore-file='.grepignore' --vimgrep '%'");
+        YEXE("set", "find-file-prg", "rg --ignore-file='.grepignore' --files -g '*%*'");
     } else if (file_exists_in_PATH("fzf")) {
         yed_log("init.c: found a fzf executable");
-        YEXE("set", "find-file-prg", "fzf --filter=\"%\"");
+        YEXE("set", "find-file-prg", "fzf --filter='%'");
     }
 
     if (getenv("DISPLAY") && file_exists_in_PATH("notify-send")) {
@@ -63,6 +65,12 @@ int yed_plugin_boot(yed_plugin *self) {
         yed_log("init.c: envirnoment variable YED_STYLE = %s -- activating\n", env_style);
         YEXE("style", env_style);
     }
+
+    yed_plugin_set_command(self, "q",  kammerdienerb_quit);
+    yed_plugin_set_command(self, "Q",  kammerdienerb_quit);
+    yed_plugin_set_command(self, "wq", kammerdienerb_write_quit);
+    yed_plugin_set_command(self, "Wq", kammerdienerb_write_quit);
+    yed_log("\ninit.c: added overrides for 'q'/'Q' and 'wq'/'Wq' commands");
 
     LOG_EXIT();
     return 0;
@@ -260,4 +268,42 @@ void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args) {
     yed_activate_frame(dest->frame);
 out:;
     stay_in_special_frame = 0;
+}
+
+void kammerdienerb_quit(int n_args, char **args) {
+    yed_frame      *frame;
+    int             n_frames;
+    yed_frame_tree *tree;
+
+    /* 1 or 0 frames, just quit. */
+    n_frames = array_len(ys->frames);
+    if ((frame = ys->active_frame) == NULL
+    ||  n_frames == 1) {
+        YEXE("quit");
+        return;
+    }
+
+    /* If we aren't in a 2-frame split situation, just delete the frame. */
+    tree = frame->tree;
+    if (n_frames != 2
+    ||  tree->parent == NULL) {
+        YEXE("frame-delete");
+        return;
+    }
+
+    /*
+     * Okay, it's a split.
+     * If this frame is the left child, quit.
+     * Otherwise, delete the frame.
+     */
+    if (tree == tree->parent->child_trees[0]) {
+        YEXE("quit");
+    } else {
+        YEXE("frame-delete");
+    }
+}
+
+void kammerdienerb_write_quit(int n_args, char **args) {
+    YEXE("w");
+    YEXE("q");
 }
