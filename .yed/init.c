@@ -9,8 +9,9 @@ void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
 
 int yed_plugin_boot(yed_plugin *self) {
-    char *term;
-    char *env_style;
+    yed_buffer *scratch;
+    char       *term;
+    char       *env_style;
 
     YED_PLUG_VERSION_CHECK();
 
@@ -20,6 +21,10 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# ********************************************************");
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
+
+    scratch = yed_create_buffer("*scratch");
+    scratch->flags |= BUFF_SPECIAL;
+    yed_log("\ninit.c: created *scratch buffer");
 
     yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
     yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);

@@ -102,6 +102,7 @@ vimish-bind  normal  V V        CMD  multi "builder-view-output" "special-buffer
 vimish-bind  normal  spc t      CMD  ctags-find
 vimish-bind  normal  T T        CMD  multi jump-stack-push ctags-jump-to-definition
 vimish-bind  normal  bsp        CMD  jump-stack-pop
+vimish-bind  normal  spc s      CMD  multi "special-buffer-prepare-focus *scratch" "buffer *scratch"
 
 ### @hooks ###
 hook post-write if use-ctags 'multi "ctags-gen" "ctags-hl-reparse"'
