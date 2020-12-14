@@ -22,9 +22,11 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
 
-    scratch = yed_create_buffer("*scratch");
-    scratch->flags |= BUFF_SPECIAL;
-    yed_log("\ninit.c: created *scratch buffer");
+    if ((scratch = yed_get_buffer("*scratch")) == NULL) {
+        scratch = yed_create_buffer("*scratch");
+        scratch->flags |= BUFF_SPECIAL;
+        yed_log("\ninit.c: created *scratch buffer");
+    }
 
     yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
     yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);
