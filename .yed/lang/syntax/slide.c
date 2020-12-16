@@ -92,7 +92,6 @@ void unload(yed_plugin *self) {
 void syntax_slide_line_handler(yed_event *event) {
     yed_frame *frame;
     yed_line  *line;
-    yed_glyph *git;
 
     frame = event->frame;
 

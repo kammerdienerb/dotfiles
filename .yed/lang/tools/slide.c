@@ -27,7 +27,6 @@ void do_slide_run_if_not_running(yed_buffer *buff) {
 
 void do_slide_update(yed_buffer *buff) {
     int  err, running;
-    char cmd_buff[256];
 
     running = !system("pgrep slide 2>&1 > /dev/null");
 
@@ -46,7 +45,6 @@ void do_slide_update(yed_buffer *buff) {
 void slide_run(int n_args, char **args) {
     yed_frame  *frame;
     yed_buffer *buff;
-    char       *ext;
 
     frame = ys->active_frame;
 
@@ -76,7 +74,6 @@ void slide_run(int n_args, char **args) {
 void slide_update(int n_args, char **args) {
     yed_frame  *frame;
     yed_buffer *buff;
-    char       *ext;
 
     frame = ys->active_frame;
 
@@ -120,7 +117,6 @@ int yed_plugin_boot(yed_plugin *self) {
 
 void slide_post_write_handler(yed_event *event) {
     yed_buffer *buff;
-    char       *ext;
 
     LOG_FN_ENTER();
 

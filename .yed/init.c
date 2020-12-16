@@ -1,17 +1,38 @@
 #include <yed/plugin.h>
 #include <yed/menu_frame.h>
 
-int has(char *prg);
+int  has(char *prg);
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
 void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
+void kammerdienerb_go_menu(int n_args, char **args);
+void kammerdienerb_go_menu_key_handler(yed_event *event);
+
+int go_menu_stay;
+
+#define ARGS_SCRATCH_BUFF "*scratch", (BUFF_SPECIAL)
+#define ARGS_GO_MENU_BUFF "*go-menu", (BUFF_SPECIAL | BUFF_RD_ONLY)
+
+yed_buffer *get_or_make_buffer(char *name, int flags) {
+    yed_buffer *buff;
+LOG_FN_ENTER();
+
+    if ((buff = yed_get_buffer(name)) == NULL) {
+        buff = yed_create_buffer(name);
+        yed_log("\ninit.c: created %s buffer", name);
+    }
+    buff->flags |= flags;
+
+LOG_EXIT();
+    return buff;
+}
 
 int yed_plugin_boot(yed_plugin *self) {
-    yed_buffer *scratch;
-    char       *term;
-    char       *env_style;
+    yed_event_handler  go_menu_key;
+    char              *term;
+    char              *env_style;
 
     YED_PLUG_VERSION_CHECK();
 
@@ -22,16 +43,20 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
 
-    if ((scratch = yed_get_buffer("*scratch")) == NULL) {
-        scratch = yed_create_buffer("*scratch");
-        scratch->flags |= BUFF_SPECIAL;
-        yed_log("\ninit.c: created *scratch buffer");
-    }
-
     yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
     yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);
     yed_plugin_set_command(self, "special-buffer-prepare-unfocus",    kammerdienerb_special_buffer_prepare_unfocus);
     yed_log("\ninit.c: added overrides for 'special-buffer-prepare-*' commands");
+
+    get_or_make_buffer(ARGS_SCRATCH_BUFF);
+    get_or_make_buffer(ARGS_GO_MENU_BUFF);
+
+    go_menu_key.kind = EVENT_KEY_PRESSED;
+    go_menu_key.fn   = kammerdienerb_go_menu_key_handler;
+    yed_plugin_add_event_handler(self, go_menu_key);
+
+    yed_plugin_set_command(self, "go-menu", kammerdienerb_go_menu);
+
 
     YEXE("plugin-load", "yedrc");
 
@@ -102,7 +127,6 @@ static int stay_in_special_frame;
 
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     yed_command     default_cmd;
-    int             n_frames;
     yed_frame      *frame;
     yed_frame_tree *tree;
     yed_frame_tree *root;
@@ -169,11 +193,12 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     }
 
 out:;
-    yed_set_cursor_far_within_frame(ys->active_frame, 1, 1);
+/*     yed_set_cursor_far_within_frame(ys->active_frame, 1, 1); */
 }
 
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
     yed_command     default_cmd;
+    yed_frame      *target;
     yed_frame      *frame;
     yed_frame_tree *tree;
     yed_frame_tree *root;
@@ -192,6 +217,8 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
         }
     }
 
+    target = NULL;
+
     /*
      * If there aren't any frames, make the two splits and focus
      * the correct one.
@@ -205,6 +232,10 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
         }
         goto out;
     }
+
+    stay_in_special_frame = stay_in_special_frame ||
+                            ((strcmp(args[0], "*go-menu") == 0)
+                                && go_menu_stay);
 
     if (stay_in_special_frame) { goto out; }
 
@@ -221,9 +252,14 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
         dest = dest->child_trees[0];
     }
 
-    yed_activate_frame(dest->frame);
+    target = dest->frame;
 
 out:;
+    if (target == NULL) { target = ys->active_frame; }
+
+    yed_frame_set_buff(target, NULL);
+    yed_activate_frame(target);
+
     stay_in_special_frame = 0;
 }
 
@@ -313,4 +349,61 @@ void kammerdienerb_quit(int n_args, char **args) {
 void kammerdienerb_write_quit(int n_args, char **args) {
     YEXE("w");
     YEXE("q");
+}
+
+void kammerdienerb_go_menu(int n_args, char **args) {
+    yed_buffer                                   *buff;
+    tree_it(yed_buffer_name_t, yed_buffer_ptr_t)  bit;
+    int                                           row;
+    int                                           i;
+    char                                         *bname;
+
+    buff = get_or_make_buffer(ARGS_GO_MENU_BUFF);
+    yed_buff_clear_no_undo(buff);
+
+    row = 1;
+    tree_traverse(ys->buffers, bit) {
+        if (row > 1) {
+            yed_buffer_add_line_no_undo(buff);
+        }
+        bname = tree_it_key(bit);
+        for (i = 0; i < strlen(bname); i += 1) {
+            yed_append_to_line_no_undo(buff, row, G(bname[i]));
+        }
+        row += 1;
+    }
+
+    YEXE("special-buffer-prepare-focus", "*go-menu");
+    if (ys->active_frame) {
+        YEXE("buffer", "*go-menu");
+    }
+}
+
+void kammerdienerb_go_menu_key_handler(yed_event *event) {
+    yed_buffer *buff;
+    yed_line   *line;
+    char       *bname;
+
+    buff = get_or_make_buffer(ARGS_GO_MENU_BUFF);
+
+    if ((event->key != ENTER && event->key != CTRL_C)
+    ||  ys->interactive_command
+    ||  !ys->active_frame
+    ||  ys->active_frame->buffer != buff) {
+        return;
+    }
+
+    event->cancel = 1;
+
+    if (event->key == ENTER) {
+        line = yed_buff_get_line(buff, ys->active_frame->cursor_line);
+        array_zero_term(line->chars);
+        bname = array_data(line->chars);
+        go_menu_stay = bname[0] == '*';
+        YEXE("special-buffer-prepare-jump-focus", "*go-menu");
+        YEXE("buffer", bname);
+    } else {
+        YEXE("special-buffer-prepare-unfocus", "*go-menu");
+
+    }
 }

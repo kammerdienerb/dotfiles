@@ -5,7 +5,7 @@
 #define color_white         MAYBE_CONVERT(RGB_32(255, 255, 255))
 #define color_bg            MAYBE_CONVERT(RGB_32(40, 40, 40))
 #define color_bg_1          MAYBE_CONVERT(RGB_32(30, 30, 30))
-#define color_bg_2          MAYBE_CONVERT(color_bg_1 + RGB_32(40, 45, 48))
+#define color_bg_2          MAYBE_CONVERT(color_bg_1 + RGB_32(20, 25, 35))
 #define color_fg            MAYBE_CONVERT(RGB_32_hex(d5c4a1))
 #define color_search        MAYBE_CONVERT(RGB_32(73, 212, 92))
 #define color_search_cursor MAYBE_CONVERT(RGB_32(212, 73, 92))

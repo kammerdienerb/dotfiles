@@ -18,7 +18,9 @@ mkdir -p ~/.yed
 YED_INSTALLATION_PREFIX="/usr"
 # YED_INSTALLATION_PREFIX="${HM}/.local"
 
-C_FLAGS="-shared -fPIC -g -O0 -I${YED_INSTALLATION_PREFIX}/include -L${YED_INSTALLATION_PREFIX}/lib -lyed"
+# DBG_OR_OPT="-g -O0"
+DBG_OR_OPT="-O3"
+C_FLAGS="-shared -fPIC -Wall -Werror ${DBG_OR_OPT} -I${YED_INSTALLATION_PREFIX}/include -L${YED_INSTALLATION_PREFIX}/lib -lyed"
 
 YED_DIR=${DIR}/.yed
 HOME_YED_DIR=${HM}/.yed

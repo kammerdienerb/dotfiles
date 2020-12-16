@@ -99,12 +99,11 @@ vimish-bind  normal  spc f      CMD  find-file
 vimish-bind  normal  spc a l    CMD  fill-command-prompt align
 vimish-bind  normal  ctrl-y     CMD  multi "builder-start" "builder-view-output" "special-buffer-prepare-unfocus *builder-output"
 vimish-bind  normal  E E        CMD  builder-jump-to-error
-vimish-bind  normal  V V        CMD  builder-view-output
 vimish-bind  normal  spc t      CMD  ctags-find
 vimish-bind  normal  T T        CMD  multi jump-stack-push ctags-jump-to-definition
 vimish-bind  normal  bsp        CMD  jump-stack-pop
-vimish-bind  normal  spc s      CMD  multi "special-buffer-prepare-focus *scratch" "buffer *scratch"
 vimish-bind  normal  S S        CMD  fill-command-prompt shell-run
+vimish-bind  normal  tab        CMD  go-menu
 
 ### @hooks ###
 hook post-write if use-ctags 'multi "ctags-gen" "ctags-hl-reparse"'
