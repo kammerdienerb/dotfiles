@@ -59,6 +59,7 @@ plugin-load 'ctags'
 plugin-load 'hook'
 plugin-load 'jump_stack'
 plugin-load 'shell_run'
+plugin-load 'macro'
 
 ### @variables ###
 set tab-width                     4

@@ -74,7 +74,7 @@ int yed_plugin_boot(yed_plugin *self) {
     if (file_exists_in_PATH("rg")) {
         yed_log("init.c: found an rg executable");
         YEXE("set", "grep-prg",      "rg -g '!tags' --ignore-file='.grepignore' --vimgrep '%'");
-        YEXE("set", "find-file-prg", "rg --ignore-file='.grepignore' --files -g '%*'");
+        YEXE("set", "find-file-prg", "rg --ignore-file='.grepignore' --files | rg '(^%)|(/%)'");
     } else if (file_exists_in_PATH("fzf")) {
         yed_log("init.c: found a fzf executable");
         YEXE("set", "find-file-prg", "fzf --filter='%'");
