@@ -1,7 +1,6 @@
 #include <yed/plugin.h>
 #include <yed/menu_frame.h>
 
-int  has(char *prg);
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
@@ -9,6 +8,7 @@ void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
 void kammerdienerb_go_menu(int n_args, char **args);
 void kammerdienerb_go_menu_key_handler(yed_event *event);
+void kammerdienerb_find_cursor_word(int n_args, char **args);
 
 int go_menu_stay;
 
@@ -56,7 +56,7 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_plugin_add_event_handler(self, go_menu_key);
 
     yed_plugin_set_command(self, "go-menu", kammerdienerb_go_menu);
-
+    yed_plugin_set_command(self, "kammerdienerb-find-cursor-word", kammerdienerb_find_cursor_word);
 
     YEXE("plugin-load", "yedrc");
 
@@ -123,7 +123,8 @@ int yed_plugin_boot(yed_plugin *self) {
 **    Otherwise, jumps should go to the left frame.
 */
 
-static int stay_in_special_frame;
+static int   stay_in_special_frame;
+static char *reshow_buff_name;
 
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     yed_command     default_cmd;
@@ -180,6 +181,16 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
              * then we want to stay here for any jumps.
              */
             stay_in_special_frame = dest->frame == frame;
+
+            if (!stay_in_special_frame
+            &&  dest->frame->buffer
+            &&  dest->frame->buffer->name[0] != '*') {
+                if (reshow_buff_name != NULL) {
+                    free(reshow_buff_name);
+                    reshow_buff_name = NULL;
+                }
+                reshow_buff_name = strdup(dest->frame->buffer->name);
+            }
         }
     } else {
         /* Make a big one then. */
@@ -254,7 +265,16 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
 
     target = dest->frame;
 
+    if (reshow_buff_name != NULL) {
+        yed_frame_set_buff(frame, yed_get_buffer(reshow_buff_name));
+    }
+
 out:;
+    if (reshow_buff_name != NULL) {
+        free(reshow_buff_name);
+        reshow_buff_name = NULL;
+    }
+
     if (target == NULL) { target = ys->active_frame; }
 
     yed_frame_set_buff(target, NULL);
@@ -406,4 +426,25 @@ void kammerdienerb_go_menu_key_handler(yed_event *event) {
         YEXE("special-buffer-prepare-unfocus", "*go-menu");
 
     }
+}
+
+void kammerdienerb_find_cursor_word(int n_args, char **args) {
+    char *word;
+
+    if (n_args != 0) {
+        yed_cerr("expected 0 arguments, but got %d", n_args);
+        return;
+    }
+
+    word = yed_word_under_cursor();
+
+    if (word == NULL) {
+        yed_cerr("cursor is not on a word");
+        return;
+    }
+
+    YEXE("find-in-buffer", word);
+    YEXE("find-prev-in-buffer");
+
+    free(word);
 }
