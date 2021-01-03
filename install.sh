@@ -43,3 +43,4 @@ done
 
 echo "Moving yedrc."
 cp ${YED_DIR}/yedrc ${HOME_YED_DIR}
+echo "Done."
