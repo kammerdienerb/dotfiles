@@ -75,7 +75,7 @@ set cursor-word-hl-idle-threshold 1500
 set use-ctags "no"
 
 ### @style ###
-style-term-bg casey
+style elly
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
