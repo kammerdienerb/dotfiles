@@ -12,6 +12,9 @@ echo ".vim/"
 cp -r .vim $HM
 echo ".tmux.conf"
 cp .tmux.conf $HM
+echo ".ssh/config"
+mkdir -p $HM/.ssh
+cp .ssh/config $HM/.ssh
 
 mkdir -p ~/.yed
 
