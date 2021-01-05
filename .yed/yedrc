@@ -61,6 +61,8 @@ plugin-load 'hook'
 plugin-load 'jump_stack'
 plugin-load 'shell_run'
 plugin-load 'macro'
+plugin-load 'corsys_messages'
+plugin-load 'corsys_connect'
 
 ### @variables ###
 set tab-width                     4
