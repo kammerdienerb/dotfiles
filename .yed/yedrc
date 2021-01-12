@@ -80,7 +80,7 @@ set chatty-kathy-server             "com1635.eecs.utk.edu"
 set chatty-kathy-client-autoconnect "yes"
 
 ### @style ###
-style elly
+style-term-bg casey
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
