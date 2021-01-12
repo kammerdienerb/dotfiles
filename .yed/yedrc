@@ -74,6 +74,10 @@ set cursor-word-hl-idle-threshold 1500
 # ctags disabled by default -- enable per project
 # (should also set 'ctags-flags' and 'ctags-enable-extra-highlighting' if desired)
 set use-ctags "no"
+set chatty-kathy-id                 "kammerdienerb"
+set chatty-kathy-port               2324
+set chatty-kathy-server             "com1635.eecs.utk.edu"
+set chatty-kathy-client-autoconnect "yes"
 
 ### @style ###
 style elly
