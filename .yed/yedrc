@@ -31,6 +31,7 @@ plugin-load 'lang/python'
 plugin-load 'lang/yedrc'
 plugin-load 'lang/jgraph'
 plugin-load 'lang/glsl'
+plugin-load 'lang/conf'
 plugin-load 'lang/simon'
 plugin-load 'lang/slide'
 
