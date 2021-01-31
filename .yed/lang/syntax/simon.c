@@ -16,9 +16,9 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_event_handler frame, line, buff_mod_pre, buff_mod_post;
     char              *kwds[] = {
         "or",
-        "and",           "bor",      "not",
-        "band",          "bneg",     "bshl",    "bshr",   "bxor",    "proc", "type",
-        "extern",        "macro",    "module",  "sizeof", "struct",
+        "and",    "not",
+        "proc",   "type",
+        "extern", "macro", "module", "sizeof", "struct",
     };
 
     char              *control_flow[] = {
@@ -26,7 +26,7 @@ int yed_plugin_boot(yed_plugin *self) {
     };
 
     char              *typenames[] = {
-        "i8", "u8", "f32", "f64", "i16", "i32", "i64", "int", "str", "u16", "u32", "u64",
+        "s8", "u8", "f32", "f64", "s16", "s32", "s64", "int", "str", "u16", "u32", "u64",
         "bool", "char", "f128", "long", "none", "void", "float", "short", "double",
     };
 
