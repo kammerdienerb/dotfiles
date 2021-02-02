@@ -17,12 +17,12 @@ int yed_plugin_boot(yed_plugin *self) {
     char              *kwds[] = {
         "or",
         "and",    "not",
-        "proc",   "type",
-        "extern", "macro", "module", "sizeof", "struct",
+        "proc",
+        "extern", "macro", "module", "sizeof", "struct", "typeof"
     };
 
     char              *control_flow[] = {
-        "do", "if", "for", "else", "break", "defer", "while", "return", "continue",
+        "do", "if", "else", "loop", "break", "defer", "while", "return", "continue",
     };
 
     char              *typenames[] = {
@@ -68,6 +68,7 @@ int yed_plugin_boot(yed_plugin *self) {
     highlight_within(&hinfo, "$(", ")", 0, -1, HL_PP);
     highlight_prefixed_words_inclusive(&hinfo, '#', HL_PP);
     highlight_to_eol_from(&hinfo, ";", HL_COMMENT);
+    highlight_to_eol_from(&hinfo, "#COMMENT", HL_COMMENT);
 
     ys->redraw = 1;
 
