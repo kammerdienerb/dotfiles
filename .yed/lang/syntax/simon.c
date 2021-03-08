@@ -16,18 +16,18 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_event_handler frame, line, buff_mod_pre, buff_mod_post;
     char              *kwds[] = {
         "or",
-        "and",    "not",
+        "and",   "not",
         "proc",
-        "extern", "macro", "module", "sizeof", "struct", "typeof"
+        "macro", "module", "sizeof", "struct", "typeof"
     };
 
     char              *control_flow[] = {
-        "do", "if", "else", "loop", "break", "defer", "while", "return", "continue",
+        "do", "if", "else", "loop", "break", "defer", "return", "continue",
     };
 
     char              *typenames[] = {
         "s8", "u8", "f32", "f64", "s16", "s32", "s64", "int", "str", "u16", "u32", "u64",
-        "bool", "char", "f128", "long", "none", "void", "float", "short", "double",
+        "bool", "char", "f128", "long", "void", "float", "short", "double", "type"
     };
 
     yed_plugin_set_unload_fn(self, unload);
@@ -57,18 +57,17 @@ int yed_plugin_boot(yed_plugin *self) {
     ARRAY_LOOP(typenames)
         highlight_add_kwd(&hinfo, *it, HL_TYPE);
     highlight_add_kwd(&hinfo, "NULL", HL_CON);
-    highlight_add_kwd(&hinfo, "nothing", HL_CON);
     highlight_add_kwd(&hinfo, "true", HL_CON);
     highlight_add_kwd(&hinfo, "false", HL_CON);
+    highlight_prefixed_words_inclusive(&hinfo, '%', HL_CON);
     highlight_suffixed_words(&hinfo, '(', HL_CALL);
     highlight_numbers(&hinfo);
     highlight_within(&hinfo, "\"", "\"", '\\', -1, HL_STR);
     highlight_within(&hinfo, "'", "'", '\\', 1, HL_CHAR);
     highlight_within(&hinfo, "[[", "]]", 0, -1, HL_STR);
     highlight_within(&hinfo, "$(", ")", 0, -1, HL_PP);
-    highlight_prefixed_words_inclusive(&hinfo, '#', HL_PP);
-    highlight_to_eol_from(&hinfo, ";", HL_COMMENT);
-    highlight_to_eol_from(&hinfo, "#COMMENT", HL_COMMENT);
+    highlight_prefixed_words_inclusive(&hinfo, '\\', HL_PP);
+    highlight_to_eol_from(&hinfo, "#", HL_COMMENT);
 
     ys->redraw = 1;
 
