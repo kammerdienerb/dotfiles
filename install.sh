@@ -15,6 +15,8 @@ cp .tmux.conf $HM
 echo ".ssh/config"
 mkdir -p $HM/.ssh
 cp .ssh/config $HM/.ssh
+echo ".config/kitty"
+cp -r .config/kitty $HM/.config
 
 mkdir -p ~/.yed
 
