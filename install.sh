@@ -4,11 +4,11 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd $DIR
 
-# eval HM=$(echo ~$(logname))
 eval HM=$(echo ~${USER})
 
 echo ".zshrc"
 cp .zshrc $HM/.zshrc
+cp -r .zsh $HM
 echo ".vimrc"
 cp .vimrc $HM/.vimrc
 echo ".vim/"
@@ -23,12 +23,21 @@ cp -r .config/kitty $HM/.config
 
 mkdir -p ~/.yed
 
-YED_INSTALLATION_PREFIX="/usr"
 # YED_INSTALLATION_PREFIX="${HM}/.local"
+C_FLAGS="-O3 -shared -fPIC -Wall -Werror"
+CC=gcc
 
-# DBG_OR_OPT="-g -O0"
-DBG_OR_OPT="-O3"
-C_FLAGS="-shared -fPIC -Wall -Werror ${DBG_OR_OPT} -I${YED_INSTALLATION_PREFIX}/include -L${YED_INSTALLATION_PREFIX}/lib -lyed"
+if [ -d /opt/yed ]; then # M1
+    YED_INSTALLATION_PREFIX="/opt/yed"
+    C_FLAGS="-arch arm64 ${C_FLAGS}"
+    CC=clang
+elif [ -f /usr/local/bin/yed ]; then # Older Mac
+    YED_INSTALLATION_PREFIX="/usr/local"
+else
+    YED_INSTALLATION_PREFIX="/usr" # Linux probably
+fi
+C_FLAGS+=" -I${YED_INSTALLATION_PREFIX}/include -L${YED_INSTALLATION_PREFIX}/lib -lyed"
+
 
 YED_DIR=${DIR}/.yed
 HOME_YED_DIR=${HM}/.yed
@@ -41,7 +50,7 @@ for f in $(find ${DIR}/.yed -name "*.c"); do
     PLUG_FULL_PATH=${PLUG_DIR}/$(basename $f ".c").so
 
     mkdir -p ${PLUG_DIR}
-    gcc ${f} ${C_FLAGS} -o ${PLUG_FULL_PATH} &
+    ${CC} ${f} ${C_FLAGS} -o ${PLUG_FULL_PATH} &
     pids+=($!)
 done
 
