@@ -1,4 +1,7 @@
 # Lines configured by zsh-newuser-install
+if [ -f ~/.bash_profile ]; then
+    source ~/.bash_profile
+fi
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
