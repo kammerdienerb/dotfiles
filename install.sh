@@ -4,8 +4,11 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd $DIR
 
-eval HM=$(echo ~$(logname))
+# eval HM=$(echo ~$(logname))
+eval HM=$(echo ~${USER})
 
+echo ".zshrc"
+cp .zshrc $HM/.zshrc
 echo ".vimrc"
 cp .vimrc $HM/.vimrc
 echo ".vim/"

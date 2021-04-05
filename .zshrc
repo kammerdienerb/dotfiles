@@ -13,10 +13,10 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-alias ls='ls --color=auto'
+alias ls='ls -G'
 PROMPT='%~ %# '
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-syntax-highlighting.zsh
 export EDITOR=yed
 export VISUAL=yed
 alias sudo='sudo -E'
