@@ -140,7 +140,7 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (3 * ys->term_rows)) {
+    if (ys->term_cols < (3 * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-focus");
         if (default_cmd) {
             default_cmd(n_args, args);

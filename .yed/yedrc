@@ -80,6 +80,7 @@ set chatty-kathy-port               2324
 set chatty-kathy-server             "com1635.eecs.utk.edu"
 set chatty-kathy-client-autoconnect "yes"
 set macro-instant-playback          "yes"
+set go-menu-force-split             "no"
 
 ### @style ###
 style-term-bg first-dark
