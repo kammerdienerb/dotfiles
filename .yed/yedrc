@@ -55,6 +55,7 @@ plugin-load 'style_use_term_bg'
 # plugin-load 'focus_frame'
 plugin-load 'style_pack'
 plugin-load 'styles/casey' # this will load my modified version
+plugin-load 'styles/borland'
 plugin-load 'mk_src_pair'
 plugin-load 'builder'
 plugin-load 'ctags'
@@ -83,7 +84,8 @@ set macro-instant-playback          "yes"
 set go-menu-force-split             "no"
 
 ### @style ###
-style-term-bg first-dark
+# style-term-bg borland
+style borland
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
