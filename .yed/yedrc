@@ -84,8 +84,7 @@ set macro-instant-playback          "yes"
 set go-menu-force-split             "no"
 
 ### @style ###
-# style-term-bg borland
-style borland
+style casey
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
