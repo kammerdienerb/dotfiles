@@ -126,6 +126,8 @@ int yed_plugin_boot(yed_plugin *self) {
 static int   stay_in_special_frame;
 static char *reshow_buff_name;
 
+#define GO_MENU_SPLIT_RATIO (2.5)
+
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     yed_command     default_cmd;
     yed_frame      *frame;
@@ -140,7 +142,7 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (3 * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
+    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-focus");
         if (default_cmd) {
             default_cmd(n_args, args);
@@ -220,7 +222,7 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (3 * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
+    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-jump-focus");
         if (default_cmd) {
             default_cmd(n_args, args);
@@ -295,7 +297,7 @@ void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (3 * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
+    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-unfocus");
         if (default_cmd) {
             default_cmd(n_args, args);
