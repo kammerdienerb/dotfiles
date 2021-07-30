@@ -64,6 +64,7 @@ plugin-load 'jump_stack'
 plugin-load 'shell_run'
 plugin-load 'macro'
 plugin-load 'chatty_kathy'
+plugin-load 'calc'
 
 ### @variables ###
 set tab-width                     4
