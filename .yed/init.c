@@ -1,5 +1,4 @@
 #include <yed/plugin.h>
-#include <yed/menu_frame.h>
 
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
@@ -381,6 +380,9 @@ void kammerdienerb_go_menu(int n_args, char **args) {
     char                                         *bname;
 
     buff = get_or_make_buffer(ARGS_GO_MENU_BUFF);
+
+    buff->flags &= ~BUFF_RD_ONLY;
+
     yed_buff_clear_no_undo(buff);
 
     row = 1;
@@ -394,6 +396,8 @@ void kammerdienerb_go_menu(int n_args, char **args) {
         }
         row += 1;
     }
+
+    buff->flags |= BUFF_RD_ONLY;
 
     YEXE("special-buffer-prepare-focus", "*go-menu");
     if (ys->active_frame) {
