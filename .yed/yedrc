@@ -32,6 +32,7 @@ plugin-load 'lang/yedrc'
 plugin-load 'lang/jgraph'
 plugin-load 'lang/glsl'
 plugin-load 'lang/conf'
+plugin-load 'lang/make'
 plugin-load 'lang/simon'
 plugin-load 'lang/slide'
 
@@ -85,7 +86,7 @@ set macro-instant-playback          "yes"
 set go-menu-force-split             "no"
 
 ### @style ###
-style casey
+style drift
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
