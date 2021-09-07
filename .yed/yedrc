@@ -67,6 +67,7 @@ plugin-load 'calc'
 
 ### @variables ###
 set tab-width                     4
+set fill-string                   "▒"
 set latex-comp-prg                "xelatex -halt-on-error --interaction=nonstopmode '%'"
 set latex-view-prg                "echo \"zathura '%'\" | $SHELL &"
 set latex-update-view-prg         "" # "pkill -HUP mupdf 2>&1 > /dev/null"
