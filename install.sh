@@ -23,8 +23,8 @@ cp -r .config/kitty $HM/.config
 
 mkdir -p ~/.yed
 
-C_FLAGS="-O3 -shared -fPIC -Wall -Werror"
 CC=gcc
+C_FLAGS="-O3"
 
 if [ "$(uname)" = "Darwin" ]; then # M1
     if uname -a 2>&1 | grep "ARM" >/dev/null; then
@@ -33,7 +33,7 @@ if [ "$(uname)" = "Darwin" ]; then # M1
     fi
 fi
 
-C_FLAGS+=" -I$(yed --print-include-dir) -L$(yed --print-lib-dir) -lyed"
+C_FLAGS+=" $(yed --print-cflags) $(yed --print-ldflags)"
 
 
 YED_DIR=${DIR}/.yed
