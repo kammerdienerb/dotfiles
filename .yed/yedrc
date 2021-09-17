@@ -55,6 +55,7 @@ plugin-load 'style_use_term_bg'
 plugin-load 'style_pack'
 plugin-load 'styles/casey' # this will load my modified version
 plugin-load 'styles/borland'
+plugin-load 'fstyle'
 plugin-load 'mk_src_pair'
 plugin-load 'builder'
 plugin-load 'ctags'
@@ -85,7 +86,8 @@ set macro-instant-playback          "yes"
 set go-menu-force-split             "no"
 
 ### @style ###
-style drift
+fstyle ~/.yed/styles/cubic.fstyle
+style-use-term-bg
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
