@@ -15,7 +15,7 @@ command-line         fg C9BFB6    bg 170326
 code-comment         fg 555760                 bold
 code-keyword         fg ED8E29
 code-control-flow    fg ED8E29
-code-typename        fg D90368
+code-typename        fg B90378
 code-preprocessor    fg CFCFCF                 bold
 code-fn-call         fg 8CBCd9
 code-number          fg B5446E
