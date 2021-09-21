@@ -4,8 +4,8 @@ active-gutter        fg C9BFB6    bg 170326
 inactive             fg C9BFB6    bg 170326
 inactive-border      fg 7180AC    bg 170326
 inactive-gutter      fg C9BFB6    bg 170326
-cursor-line                       bg 393F46
-selection                         bg 393F46
+cursor-line          fg C9BFB6    bg 393F46
+selection            fg C9BFB6    bg 393F46
 search               fg 49d45c    bg 170326    inverse
 search-cursor        fg d4495c    bg 170326    inverse
 attention            fg AF0000                 bold
@@ -16,9 +16,9 @@ code-comment         fg 555760                 bold
 code-keyword         fg ED8E29
 code-control-flow    fg ED8E29
 code-typename        fg B90378
-code-preprocessor    fg CFCFCF                 bold
+code-preprocessor    fg EFEFEF                 bold
 code-fn-call         fg 8CBCd9
 code-number          fg B5446E
-code-constant        fg CFCFCF                 bold
+code-constant        fg EFEFEF                 bold
 code-string          fg 8AaE9F
 code-character       fg 8AaE9F
