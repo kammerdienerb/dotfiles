@@ -84,9 +84,10 @@ set chatty-kathy-server             "com1635.eecs.utk.edu"
 set chatty-kathy-client-autoconnect "yes"
 set macro-instant-playback          "yes"
 set go-menu-force-split             "no"
+set completer-sources               "word tags"
 
 ### @style ###
-fstyle ~/.yed/styles/cubic.fstyle
+fstyle ~/.config/yed/styles/cubic.fstyle
 style-use-term-bg
 
 ### @keybindings ###

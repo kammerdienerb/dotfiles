@@ -30,6 +30,7 @@ LOG_EXIT();
 
 int yed_plugin_boot(yed_plugin *self) {
     yed_event_handler  go_menu_key;
+    char              *path;
     char              *term;
     char              *env_style;
 
@@ -85,7 +86,9 @@ int yed_plugin_boot(yed_plugin *self) {
     }
 
     /* Load my yedrc file. */
-    YEXE("yedrc-load", "~/.yed/yedrc");
+    path = get_config_item_path("yedrc");
+    YEXE("yedrc-load", path);
+    free(path);
 
     /* Load style via environment var if set. */
     if ((term = getenv("TERM"))

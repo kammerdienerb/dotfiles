@@ -22,8 +22,8 @@ echo ".config/kitty"
 cp -r .config/kitty $HM/.config
 
 
-YED_DIR=${DIR}/.yed
-HOME_YED_DIR=${HM}/.yed
+YED_DIR=${DIR}/yed
+CONFIG_YED_DIR=$(yed --print-config-dir)
 
 CC=gcc
 C_FLAGS="-O3"
@@ -35,16 +35,13 @@ if [ "$(uname)" = "Darwin" ]; then # M1
     fi
 fi
 
-C_FLAGS+=" $(yed --print-cflags) $(yed --print-ldflags)"
+C_FLAGS+=" $(yed --print-cflags --print-ldflags)"
 
-
-YED_DIR=${DIR}/.yed
-HOME_YED_DIR=${HM}/.yed
 
 pids=()
 
-for f in $(find ${DIR}/.yed -name "*.c"); do
-    echo "${f/${YED_DIR}/.yed}"
+for f in $(find ${YED_DIR} -name "*.c"); do
+    echo ${f/${YED_DIR}\//}
     PLUG_DIR=$(dirname ${f})
     PLUG_FULL_PATH=${PLUG_DIR}/$(basename $f ".c").so
 
@@ -56,13 +53,13 @@ for p in ${pids[@]}; do
     wait $p || exit 1
 done
 
-if [ -d ${HOME_YED_DIR} ] && ! [ -L ${HOME_YED_DIR} ]; then
-    echo "${HOME_YED_DIR} exists, but is not a symlink.. aborting."
+if [ -d ${CONFIG_YED_DIR} ] && ! [ -L ${CONFIG_YED_DIR} ]; then
+    echo "${CONFIG_YED_DIR} exists, but is not a symlink.. aborting."
     exit 1
 fi
 
-if ! [ -L ${HOME_YED_DIR} ]; then
-    ln -s ${YED_DIR} ${HOME_YED_DIR}
+if ! [ -L ${CONFIG_YED_DIR} ]; then
+    ln -s ${YED_DIR} ${CONFIG_YED_DIR}
 fi
 
 echo "Done."

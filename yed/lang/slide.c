@@ -12,8 +12,8 @@ int yed_plugin_boot(yed_plugin *self) {
 LOG_FN_ENTER();
     yed_plugin_set_unload_fn(self, unload);
 
-    if (yed_plugin_make_ft(self, "bJou") == FT_ERR_TAKEN) {
-        yed_cerr("lang/bjou: unable to create file type name");
+    if (yed_plugin_make_ft(self, "Slide") == FT_ERR_TAKEN) {
+        yed_cerr("lang/slide: unable to create file type name");
         LOG_EXIT();
         return 1;
     }
@@ -37,11 +37,8 @@ LOG_EXIT();
 void unload(yed_plugin *self) {}
 
 void maybe_change_ft(yed_buffer *buff) {
-    char *ext;
+    const char *ext;
 
-    if (buff->ft != FT_UNKNOWN) {
-        return;
-    }
     if (buff->path == NULL) {
         return;
     }
@@ -49,8 +46,11 @@ void maybe_change_ft(yed_buffer *buff) {
         return;
     }
 
-    if (strcmp(ext, "bjou") == 0) {
-        yed_buffer_set_ft(buff, yed_get_ft("bJou"));
+    if (buff->ft != FT_UNKNOWN) {
+        return;
+    }
+    if (strcmp(ext, "slide") == 0) {
+        yed_buffer_set_ft(buff, yed_get_ft("Slide"));
     }
 }
 
