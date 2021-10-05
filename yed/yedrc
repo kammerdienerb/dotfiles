@@ -129,15 +129,6 @@ vimish-bind  normal  "S S"        command-prompt "shell-run "
 vimish-bind  normal  "tab"        go-menu
 vimish-bind  normal  "ctrl-/"     kammerdienerb-find-cursor-word
 
-### @hooks ###
-# hook post-write                 \
-#     if use-ctags                \
-#         'multi                  \
-#             "ctags-gen"         \
-#             "ctags-hl-reparse"'
-
-plugin-load 'ypm'
-
 ### @project ###
 # Load directory-specific rc file.
 yedrc-load ".yedrc"
