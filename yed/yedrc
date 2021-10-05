@@ -85,11 +85,18 @@ set chatty-kathy-client-autoconnect "yes"
 set macro-instant-playback          "yes"
 set go-menu-force-split             "no"
 set completer-sources               "word tags"
+set completer-auto                  "yes"
 set builder-popup-rg                "yes"
+set auto-paren-skip                 "yes"
+set auto-dquote-skip                "yes"
+set auto-quote-skip                 "yes"
 
 ### @style ###
-fstyle ~/.config/yed/styles/cubic.fstyle
-style-use-term-bg
+# fstyle ~/.config/yed/styles/cubic.fstyle
+# style-use-term-bg
+# style forest
+fstyle ~/.config/yed/styles/old.fstyle
+cursor-style steady-bar
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
@@ -123,11 +130,13 @@ vimish-bind  normal  "tab"        go-menu
 vimish-bind  normal  "ctrl-/"     kammerdienerb-find-cursor-word
 
 ### @hooks ###
-hook post-write                 \
-    if use-ctags                \
-        'multi                  \
-            "ctags-gen"         \
-            "ctags-hl-reparse"'
+# hook post-write                 \
+#     if use-ctags                \
+#         'multi                  \
+#             "ctags-gen"         \
+#             "ctags-hl-reparse"'
+
+plugin-load 'ypm'
 
 ### @project ###
 # Load directory-specific rc file.

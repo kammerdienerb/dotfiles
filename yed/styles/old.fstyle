@@ -1,0 +1,24 @@
+active               fg !7 bg !0
+active-border        fg !7 bg !0
+active-gutter        fg !7 bg !0
+inactive             fg !7 bg !0
+inactive-border      fg !7 bg !0
+inactive-gutter      fg !7 bg !0
+cursor-line          fg !7 bg !0   underline
+selection            fg !7 bg !0   inverse
+search               fg !5 bg !0   inverse
+search-cursor        fg !2 bg !0   inverse
+attention            fg !1         16-light-fg bold
+associate            fg !4 bg !7   16-light-fg inverse
+status-line          fg !7 bg !0   inverse
+command-line         fg !7 bg !0
+code-comment         fg !0         16-light-fg
+code-keyword         fg !4
+code-control-flow    fg !4
+code-typename        fg !5
+code-preprocessor    fg !3
+code-fn-call         fg !2
+code-number          fg !6
+code-constant        fg !6
+code-string          fg !6
+code-character       fg !6
