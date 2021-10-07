@@ -94,8 +94,8 @@ set auto-quote-skip                 "yes"
 ### @style ###
 # fstyle ~/.config/yed/styles/cubic.fstyle
 # style-use-term-bg
-# style forest
-fstyle ~/.config/yed/styles/old.fstyle
+style forest
+# fstyle ~/.config/yed/styles/old.fstyle
 cursor-style steady-bar
 
 ### @keybindings ###
