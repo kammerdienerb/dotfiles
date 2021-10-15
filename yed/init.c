@@ -441,7 +441,6 @@ void kammerdienerb_go_menu_key_handler(yed_event *event) {
         YEXE("buffer", bname);
     } else {
         YEXE("special-buffer-prepare-unfocus", "*go-menu");
-
     }
 }
 

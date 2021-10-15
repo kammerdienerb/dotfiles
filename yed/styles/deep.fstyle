@@ -1,0 +1,24 @@
+active               fg ccc2af    bg 000c35
+active-border        fg ccc2af    bg 000c35
+active-gutter        fg ccc2af    bg 000c35
+inactive             fg ccc2af    bg 000c35
+inactive-border      fg ccc2af    bg 000c35
+inactive-gutter      fg ccc2af    bg 000c35
+cursor-line          fg ccc2af    bg 0b0f57
+selection            fg ccc2af    bg 0b0f57
+search               fg 49d45c    bg 170326    inverse
+search-cursor        fg d4495c    bg 170326    inverse
+attention            fg dd0000                 bold
+associate                         bg 3e6990
+status-line          fg 0b0f57    bg ccc2af    bold
+command-line         fg ccc2af    bg 000c35
+code-comment         fg E7AA73
+code-keyword         fg dddddd
+code-control-flow    fg dddddd
+code-typename        fg 5c9fb6
+code-preprocessor    fg dddddd                 bold
+code-fn-call         fg 7cb492
+code-number          fg 940c72
+code-constant        fg dddddd                 bold
+code-string          fg 0c7294
+code-character       fg 0c7294
