@@ -92,7 +92,7 @@ set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
 
 ### @style ###
-fstyle ~/.config/yed/styles/deep.fstyle
+fstyle ~/.config/yed/styles/byte.fstyle
 style-use-term-bg
 cursor-style steady-bar
 
