@@ -92,9 +92,12 @@ set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
 
 ### @style ###
+fstyle ~/.config/yed/styles/cubic.fstyle
+fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
+
+style byte
 style-use-term-bg
-cursor-style steady-bar
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
