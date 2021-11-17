@@ -197,7 +197,7 @@ endfu
 
 command! -nargs=1 Grep cgetexpr Ggrepper(<q-args>) | copen
 
-nnoremap <leader>g :Grep 
+nnoremap <leader>g :Grep
 
 " Close the quickfix window after selection.
 aug QF_close_gr
@@ -362,8 +362,8 @@ endfunction
 
 command! -range -nargs=? Align <line1>,<line2>call Align_selection('<args>')
 
-nnoremap <leader>al :Align 
-xnoremap <leader>al :Align 
+nnoremap <leader>al :Align
+xnoremap <leader>al :Align
 
 
 
@@ -528,3 +528,5 @@ aug END
 command! ColorSchemePicker call Color_scheme_picker()
 
 nnoremap <leader>csp :ColorSchemePicker<cr>
+
+color evening
