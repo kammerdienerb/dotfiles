@@ -1,24 +1,25 @@
 active               fg @251 bg @232
-active-border        fg @251 bg @232
-active-gutter        fg @251 bg @232
+active-border        fg @131 bg @232
+active-gutter        fg @251 bg @234
 inactive             fg @251 bg @232
-inactive-border      fg @251 bg @232
-inactive-gutter      fg @251 bg @232
-cursor-line          fg @251 bg @237
-selection            fg @251 bg @237
-search               fg @227 bg @232     inverse
-search-cursor        fg @208 bg @232     inverse
-attention            fg @160
-associate            fg @238 bg @159
-status-line          fg @251 bg @131
-command-line         fg @251 bg @232
-code-comment         fg @242
-code-keyword         fg @140
-code-control-flow    fg @140
-code-typename        fg @71
-code-preprocessor    fg @116
+inactive-border      fg @131 bg @232
+inactive-gutter      fg @251 bg @234
+cursor-line          fg @251 bg @17 # @237
+selection            fg @251 bg @17 # @237
+search               fg @227 bg @232    inverse
+search-cursor        fg @208 bg @232    inverse
+attention            fg @160            bold
+associate            fg @240 bg @159
+status-line          fg @251 bg @131    bold
+command-line         fg @251 bg @234
+code-comment         fg @242            bold
+code-keyword         fg @137            bold
+code-control-flow    fg @137            bold
+code-typename        fg @108
+code-preprocessor    fg @116            bold
 code-fn-call         fg @111
 code-number          fg @167
-code-constant        fg @167
+code-constant        fg @167            bold
 code-string          fg @167
 code-character       fg @167
+code-escape          fg @162

@@ -65,6 +65,7 @@ plugin-load 'shell_run'
 plugin-load 'macro'
 plugin-load 'chatty_kathy'
 plugin-load 'calc'
+plugin-load 'scroll_buffer'
 
 ### @variables ###
 set tab-width                     4
@@ -92,9 +93,12 @@ set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
 
 ### @style ###
+fstyle ~/.config/yed/styles/cubic.fstyle
+fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
+
+style byte
 style-use-term-bg
-cursor-style steady-bar
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
@@ -126,6 +130,8 @@ vimish-bind  normal  "bsp"        jump-stack-pop
 vimish-bind  normal  "S S"        command-prompt "shell-run "
 vimish-bind  normal  "tab"        go-menu
 vimish-bind  normal  "ctrl-/"     kammerdienerb-find-cursor-word
+vimish-bind  normal  "pagedown"   scroll-buffer 20
+vimish-bind  normal  "pageup"     scroll-buffer -20
 
 ### @project ###
 # Load directory-specific rc file.

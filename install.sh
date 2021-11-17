@@ -20,6 +20,8 @@ mkdir -p $HM/.ssh
 cp .ssh/config $HM/.ssh
 echo ".config/kitty"
 cp -r .config/kitty $HM/.config
+echo ".config/alacritty"
+cp -r .config/alacritty $HM/.config
 
 
 YED_DIR=${DIR}/yed
