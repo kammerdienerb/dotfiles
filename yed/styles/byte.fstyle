@@ -9,13 +9,13 @@ selection            fg @251 bg @237
 search               fg @227 bg @232     inverse
 search-cursor        fg @208 bg @232     inverse
 attention            fg @160
-associate            fg @232 bg @159
+associate            fg @238 bg @159
 status-line          fg @251 bg @131
 command-line         fg @251 bg @232
 code-comment         fg @242
-code-keyword         fg @133
-code-control-flow    fg @133
-code-typename        fg @107
+code-keyword         fg @140
+code-control-flow    fg @140
+code-typename        fg @71
 code-preprocessor    fg @116
 code-fn-call         fg @111
 code-number          fg @167
