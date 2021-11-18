@@ -97,7 +97,7 @@ fstyle ~/.config/yed/styles/cubic.fstyle
 fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
 
-style byte
+style casey
 style-use-term-bg
 
 ### @keybindings ###

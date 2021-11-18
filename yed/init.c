@@ -53,7 +53,7 @@ int yed_plugin_boot(yed_plugin *self) {
     get_or_make_buffer(ARGS_SCRATCH_BUFF);
     get_or_make_buffer(ARGS_GO_MENU_BUFF);
 
-    update.kind = EVENT_STATUS_LINE_PRE_UPDATE;
+    update.kind = EVENT_FRAME_PRE_UPDATE;
     update.fn   = kammerdienerb_set_status_line;
     yed_plugin_add_event_handler(self, update);
 
