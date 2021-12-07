@@ -1,23 +1,75 @@
 #include <yed/plugin.h>
-#include <yed/highlight.h>
+#include <yed/syntax.h>
+
+static yed_syntax syn;
 
 #define ARRAY_LOOP(a) for (__typeof((a)[0]) *it = (a); it < (a) + (sizeof(a) / sizeof((a)[0])); ++it)
 
-highlight_info hinfo1;
-highlight_info hinfo2;
+#define _CHECK(x, r)                                                      \
+do {                                                                      \
+    if (x) {                                                              \
+        LOG_FN_ENTER();                                                   \
+        yed_log("[!] " __FILE__ ":%d regex error for '%s': %s", __LINE__, \
+                r,                                                        \
+                yed_syntax_get_regex_err(&syn));                          \
+        LOG_EXIT();                                                       \
+    }                                                                     \
+} while (0)
 
-void unload(yed_plugin *self);
-void syntax_slide_line_handler(yed_event *event);
+#define SYN()          yed_syntax_start(&syn)
+#define ENDSYN()       yed_syntax_end(&syn)
+#define APUSH(s)       yed_syntax_attr_push(&syn, s)
+#define APOP(s)        yed_syntax_attr_pop(&syn)
+#define RANGE(r)       _CHECK(yed_syntax_range_start(&syn, r), r)
+#define ONELINE()      yed_syntax_range_one_line(&syn)
+#define SKIP(r)        _CHECK(yed_syntax_range_skip(&syn, r), r)
+#define ENDRANGE(r)    _CHECK(yed_syntax_range_end(&syn, r), r)
+#define REGEX(r)       _CHECK(yed_syntax_regex(&syn, r), r)
+#define REGEXSUB(r, g) _CHECK(yed_syntax_regex_sub(&syn, r, g), r)
+#define KWD(k)         yed_syntax_kwd(&syn, k)
+
+#ifdef __APPLE__
+#define WBE "[[:<:]]"
+#define WBS "[[:>:]]"
+#else
+#define WBE "\\b"
+#define WBS "\\b"
+#endif
+
+void estyle(yed_event *event)   { yed_syntax_style_event(&syn, event);         }
+void ebuffdel(yed_event *event) { yed_syntax_buffer_delete_event(&syn, event); }
+void ebuffmod(yed_event *event) { yed_syntax_buffer_mod_event(&syn, event);    }
+void eline(yed_event *event)  {
+    yed_frame *frame;
+
+    frame = event->frame;
+
+    if (!frame
+    ||  !frame->buffer
+    ||  frame->buffer->kind != BUFF_KIND_FILE
+    ||  frame->buffer->ft != yed_get_ft("Slide")) {
+        return;
+    }
+
+    yed_syntax_line_event(&syn, event);
+}
+
+
+void unload(yed_plugin *self) {
+    yed_syntax_free(&syn);
+    ys->redraw = 1;
+}
 
 int yed_plugin_boot(yed_plugin *self) {
+    yed_event_handler style;
+    yed_event_handler buffdel;
+    yed_event_handler buffmod;
     yed_event_handler line;
+
     char *commands[] = {
         "point",
         "speed",
         "resolution",
-        "begin",
-        "end",
-        "use",
         "include",
         "font",
         "size",
@@ -46,70 +98,67 @@ int yed_plugin_boot(yed_plugin *self) {
         "infinity",
     };
 
+    YED_PLUG_VERSION_CHECK();
+
     yed_plugin_set_unload_fn(self, unload);
 
-    highlight_info_make(&hinfo1);
+    style.kind = EVENT_STYLE_CHANGE;
+    style.fn   = estyle;
+    yed_plugin_add_event_handler(self, style);
 
-    /* Ew.. This is sooo goofy. */
-    highlight_within(&hinfo1, "begin ", "foobarbaz", 0, -1, HL_CALL);
-    highlight_within(&hinfo1, "use ", "foobarbaz", 0, -1, HL_CALL);
+    buffdel.kind = EVENT_BUFFER_PRE_DELETE;
+    buffdel.fn   = ebuffdel;
+    yed_plugin_add_event_handler(self, buffdel);
 
-
-    highlight_info_make(&hinfo2);
-
-    highlight_numbers(&hinfo2);
-    highlight_to_eol_from(&hinfo2, "#", HL_COMMENT);
-    highlight_within(&hinfo2, "\"", "\"", '\\', -1, HL_STR);
-    highlight_within(&hinfo2, "'", "'", '\\', -1, HL_STR);
-
-    ARRAY_LOOP(commands)
-        highlight_add_kwd(&hinfo2, *it, HL_KEY);
-    /* Ew.. This is sooo goofy. (part 2) */
-    highlight_within(&hinfo2, "font-bold-itali", "c", 0, 0, HL_KEY);
-    highlight_within(&hinfo2, "font-bol", "d",        0, 0, HL_KEY);
-    highlight_within(&hinfo2, "font-itali", "c",      0, 0, HL_KEY);
-    highlight_within(&hinfo2, "no-bol", "d",          0, 0, HL_KEY);
-    highlight_within(&hinfo2, "no-itali", "c",        0, 0, HL_KEY);
-    highlight_within(&hinfo2, "no-underlin", "e",     0, 0, HL_KEY);
-    ARRAY_LOOP(constants)
-        highlight_add_kwd(&hinfo2, *it, HL_CON);
+    buffmod.kind = EVENT_BUFFER_POST_MOD;
+    buffmod.fn   = ebuffmod;
+    yed_plugin_add_event_handler(self, buffmod);
 
     line.kind = EVENT_LINE_PRE_DRAW;
-    line.fn   = syntax_slide_line_handler;
+    line.fn   = eline;
     yed_plugin_add_event_handler(self, line);
+
+
+    SYN();
+        APUSH("");
+            RANGE("^[^:]"); ONELINE(); ENDRANGE("$");
+        APOP();
+
+        APUSH("&code-comment");
+            RANGE("#"); ONELINE(); ENDRANGE("$");
+        APOP();
+
+        APUSH("&code-fn-call");
+            RANGE(WBE"(begin|end|use)"WBS); ONELINE();
+                APUSH("&code-preprocessor");
+                    REGEX(".");
+                APOP();
+            ENDRANGE("$");
+        APOP();
+
+        APUSH("&code-string");
+            RANGE("\""); ONELINE(); SKIP("\\\\\""); ENDRANGE("\"");
+            RANGE("'");  ONELINE(); SKIP("\\\\'");  ENDRANGE("'");
+        APOP();
+
+        APUSH("&code-number");
+            REGEXSUB("(^|[^[:alnum:]_])(-?([[:digit:]]+\\.[[:digit:]]*)|(([[:digit:]]*\\.[[:digit:]]+)))"WBS, 2);
+            REGEXSUB("(^|[^[:alnum:]_])(-?[[:digit:]]+)"WBS, 2);
+        APOP();
+
+        APUSH("&code-keyword");
+            ARRAY_LOOP(commands) KWD(*it);
+
+            REGEXSUB(WBE"(font(-bold)?(-italic)?)"WBS, 1);
+            REGEXSUB(WBE"(no-(bold|italic|underline))"WBS, 1);
+        APOP();
+
+        APUSH("&code-constant");
+            ARRAY_LOOP(constants) KWD(*it);
+        APOP();
+    ENDSYN();
 
     ys->redraw = 1;
 
     return 0;
-}
-
-void unload(yed_plugin *self) {
-    highlight_info_free(&hinfo2);
-    highlight_info_free(&hinfo1);
-    ys->redraw = 1;
-}
-
-void syntax_slide_line_handler(yed_event *event) {
-    yed_frame *frame;
-    yed_line  *line;
-
-    frame = event->frame;
-
-    if (!frame
-    ||  !frame->buffer
-    ||  frame->buffer->kind != BUFF_KIND_FILE
-    ||  frame->buffer->ft != yed_get_ft("Slide")) {
-        return;
-    }
-
-    line = yed_buff_get_line(frame->buffer, event->row);
-
-    /* Only highlight lines that start with ':'. */
-    if (line->visual_width == 0
-    ||  yed_line_col_to_glyph(line, 1)->c != ':') {
-        return;
-    }
-
-    highlight_line(&hinfo1, event);
-    highlight_line(&hinfo2, event);
 }

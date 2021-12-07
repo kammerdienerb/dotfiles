@@ -1,19 +1,69 @@
 #include <yed/plugin.h>
-#include <yed/highlight.h>
+#include <yed/syntax.h>
+
+static yed_syntax syn;
 
 #define ARRAY_LOOP(a) for (__typeof((a)[0]) *it = (a); it < (a) + (sizeof(a) / sizeof((a)[0])); ++it)
 
-highlight_info hinfo;
+#define _CHECK(x, r)                                                      \
+do {                                                                      \
+    if (x) {                                                              \
+        LOG_FN_ENTER();                                                   \
+        yed_log("[!] " __FILE__ ":%d regex error for '%s': %s", __LINE__, \
+                r,                                                        \
+                yed_syntax_get_regex_err(&syn));                          \
+        LOG_EXIT();                                                       \
+    }                                                                     \
+} while (0)
 
-void unload(yed_plugin *self);
-void syntax_simon_line_handler(yed_event *event);
-void syntax_simon_frame_handler(yed_event *event);
-void syntax_simon_buff_mod_pre_handler(yed_event *event);
-void syntax_simon_buff_mod_post_handler(yed_event *event);
+#define SYN()          yed_syntax_start(&syn)
+#define ENDSYN()       yed_syntax_end(&syn)
+#define APUSH(s)       yed_syntax_attr_push(&syn, s)
+#define APOP(s)        yed_syntax_attr_pop(&syn)
+#define RANGE(r)       _CHECK(yed_syntax_range_start(&syn, r), r)
+#define ONELINE()      yed_syntax_range_one_line(&syn)
+#define SKIP(r)        _CHECK(yed_syntax_range_skip(&syn, r), r)
+#define ENDRANGE(r)    _CHECK(yed_syntax_range_end(&syn, r), r)
+#define REGEX(r)       _CHECK(yed_syntax_regex(&syn, r), r)
+#define REGEXSUB(r, g) _CHECK(yed_syntax_regex_sub(&syn, r, g), r)
+#define KWD(k)         yed_syntax_kwd(&syn, k)
 
+#ifdef __APPLE__
+#define WB "[[:>:]]"
+#else
+#define WB "\\b"
+#endif
+
+void estyle(yed_event *event)   { yed_syntax_style_event(&syn, event);         }
+void ebuffdel(yed_event *event) { yed_syntax_buffer_delete_event(&syn, event); }
+void ebuffmod(yed_event *event) { yed_syntax_buffer_mod_event(&syn, event);    }
+void eline(yed_event *event)  {
+    yed_frame *frame;
+
+    frame = event->frame;
+
+    if (!frame
+    ||  !frame->buffer
+    ||  frame->buffer->kind != BUFF_KIND_FILE
+    ||  frame->buffer->ft != yed_get_ft("Simon")) {
+        return;
+    }
+
+    yed_syntax_line_event(&syn, event);
+}
+
+
+void unload(yed_plugin *self) {
+    yed_syntax_free(&syn);
+    ys->redraw = 1;
+}
 
 int yed_plugin_boot(yed_plugin *self) {
-    yed_event_handler frame, line, buff_mod_pre, buff_mod_post;
+    yed_event_handler style;
+    yed_event_handler buffdel;
+    yed_event_handler buffmod;
+    yed_event_handler line;
+
     char              *kwds[] = {
         "or",
         "and",   "not",
@@ -27,104 +77,88 @@ int yed_plugin_boot(yed_plugin *self) {
 
     char              *typenames[] = {
         "s8", "u8", "f32", "f64", "s16", "s32", "s64", "int", "str", "u16", "u32", "u64",
-        "bool", "char", "f128", "long", "void", "float", "short", "double", "type"
+        "char", "f128", "long", "void", "float", "short", "double", "type"
     };
+    char              *constants[] = {
+        "NULL",
+    };
+
+    YED_PLUG_VERSION_CHECK();
 
     yed_plugin_set_unload_fn(self, unload);
 
+    style.kind = EVENT_STYLE_CHANGE;
+    style.fn   = estyle;
+    yed_plugin_add_event_handler(self, style);
 
-    frame.kind          = EVENT_FRAME_PRE_BUFF_DRAW;
-    frame.fn            = syntax_simon_frame_handler;
-    line.kind           = EVENT_LINE_PRE_DRAW;
-    line.fn             = syntax_simon_line_handler;
-    buff_mod_pre.kind   = EVENT_BUFFER_PRE_MOD;
-    buff_mod_pre.fn     = syntax_simon_buff_mod_pre_handler;
-    buff_mod_post.kind  = EVENT_BUFFER_POST_MOD;
-    buff_mod_post.fn    = syntax_simon_buff_mod_post_handler;
+    buffdel.kind = EVENT_BUFFER_PRE_DELETE;
+    buffdel.fn   = ebuffdel;
+    yed_plugin_add_event_handler(self, buffdel);
 
-    yed_plugin_add_event_handler(self, frame);
+    buffmod.kind = EVENT_BUFFER_POST_MOD;
+    buffmod.fn   = ebuffmod;
+    yed_plugin_add_event_handler(self, buffmod);
+
+    line.kind = EVENT_LINE_PRE_DRAW;
+    line.fn   = eline;
     yed_plugin_add_event_handler(self, line);
-    yed_plugin_add_event_handler(self, buff_mod_pre);
-    yed_plugin_add_event_handler(self, buff_mod_post);
 
 
-    highlight_info_make(&hinfo);
+    SYN();
+        APUSH("&code-comment");
+            RANGE("#"); ONELINE(); ENDRANGE("$");
+        APOP();
 
-    ARRAY_LOOP(kwds)
-        highlight_add_kwd(&hinfo, *it, HL_KEY);
-    ARRAY_LOOP(control_flow)
-        highlight_add_kwd(&hinfo, *it, HL_CF);
-    ARRAY_LOOP(typenames)
-        highlight_add_kwd(&hinfo, *it, HL_TYPE);
-    highlight_add_kwd(&hinfo, "NULL", HL_CON);
-    highlight_add_kwd(&hinfo, "true", HL_CON);
-    highlight_add_kwd(&hinfo, "false", HL_CON);
-    highlight_prefixed_words_inclusive(&hinfo, '%', HL_CON);
-    highlight_suffixed_words(&hinfo, '(', HL_CALL);
-    highlight_numbers(&hinfo);
-    highlight_within(&hinfo, "\"", "\"", '\\', -1, HL_STR);
-    highlight_within(&hinfo, "'", "'", '\\', 1, HL_CHAR);
-    highlight_within(&hinfo, "[[", "]]", 0, -1, HL_STR);
-    highlight_within(&hinfo, "$(", ")", 0, -1, HL_PP);
-    highlight_prefixed_words_inclusive(&hinfo, '\\', HL_PP);
-    highlight_to_eol_from(&hinfo, "#", HL_COMMENT);
+        APUSH("&code-string");
+            REGEX("'(\\\\.|[^'\\\\])'");
+
+            RANGE("\""); SKIP("\\\\\""); ONELINE();
+                APUSH("&code-escape");
+                    REGEX("\\\\.");
+                APOP();
+            ENDRANGE("\"");
+
+            RANGE("\\[\\["); ONELINE(); ENDRANGE("]]");
+        APOP();
+
+        APUSH("&code-fn-call");
+            REGEXSUB("([[:alpha:]_][[:alnum:]_]*)[[:space:]]*\\(", 1);
+        APOP();
+
+        APUSH("&code-number");
+            REGEXSUB("(^|[^[:alnum:]_])(-?([[:digit:]]+\\.[[:digit:]]*)|(([[:digit:]]*\\.[[:digit:]]+)))"WB, 2);
+            REGEXSUB("(^|[^[:alnum:]_])(-?[[:digit:]]+)"WB, 2);
+            REGEXSUB("(^|[^[:alnum:]_])(0[xX][0-9a-fA-F]+)"WB, 2);
+        APOP();
+
+        APUSH("&code-keyword");
+            ARRAY_LOOP(kwds) KWD(*it);
+        APOP();
+
+        APUSH("&code-control-flow");
+            ARRAY_LOOP(control_flow) KWD(*it);
+        APOP();
+
+        APUSH("&code-typename");
+            ARRAY_LOOP(typenames) KWD(*it);
+        APOP();
+
+        APUSH("&code-constant");
+            ARRAY_LOOP(constants) KWD(*it);
+            REGEX("%[a-zA-Z_][0-9a-zA-Z_]*");
+        APOP();
+
+        APUSH("&code-preprocessor");
+            RANGE("\\$\\("); ONELINE(); ENDRANGE("\\)");
+            REGEX("\\\\[a-zA-Z_][0-9a-zA-Z_]*");
+        APOP();
+
+        APUSH("&code-field");
+            REGEXSUB("\\.[[:space:]]*([[:alpha:]_][[:alnum:]_]*)", 1);
+        APOP();
+    ENDSYN();
 
     ys->redraw = 1;
 
     return 0;
-}
-
-void unload(yed_plugin *self) {
-    highlight_info_free(&hinfo);
-    ys->redraw = 1;
-}
-
-void syntax_simon_frame_handler(yed_event *event) {
-    yed_frame *frame;
-
-    frame = event->frame;
-
-    if (!frame
-    ||  !frame->buffer
-    ||  frame->buffer->kind != BUFF_KIND_FILE
-    ||  frame->buffer->ft != yed_get_ft("Simon")) {
-        return;
-    }
-
-    highlight_frame_pre_draw_update(&hinfo, event);
-}
-
-void syntax_simon_line_handler(yed_event *event) {
-    yed_frame *frame;
-
-    frame = event->frame;
-
-    if (!frame
-    ||  !frame->buffer
-    ||  frame->buffer->kind != BUFF_KIND_FILE
-    ||  frame->buffer->ft != yed_get_ft("Simon")) {
-        return;
-    }
-
-    highlight_line(&hinfo, event);
-}
-
-void syntax_simon_buff_mod_pre_handler(yed_event *event) {
-    if (event->buffer == NULL
-    ||  event->buffer->kind != BUFF_KIND_FILE
-    ||  event->buffer->ft != yed_get_ft("Simon")) {
-        return;
-    }
-
-    highlight_buffer_pre_mod_update(&hinfo, event);
-}
-
-void syntax_simon_buff_mod_post_handler(yed_event *event) {
-    if (event->buffer == NULL
-    ||  event->buffer->kind != BUFF_KIND_FILE
-    ||  event->buffer->ft != yed_get_ft("Simon")) {
-        return;
-    }
-
-    highlight_buffer_post_mod_update(&hinfo, event);
 }

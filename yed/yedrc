@@ -68,17 +68,14 @@ plugin-load 'calc'
 plugin-load 'scroll_buffer'
 
 ### @variables ###
-set tab-width                     4
-set fill-string                   "▒"
-set latex-comp-prg                "xelatex -halt-on-error --interaction=nonstopmode '%'"
-set latex-view-prg                "echo \"zathura '%'\" | $SHELL &"
-set latex-update-view-prg         "" # "pkill -HUP mupdf 2>&1 > /dev/null"
-set cursor-line                   "yes"
-set vimish-insert-no-cursor-line  "yes"
-set cursor-word-hl-idle-threshold 1500
-# ctags disabled by default -- enable per project
-# (should also set 'ctags-flags' and 'ctags-enable-extra-highlighting' if desired)
-set use-ctags "no"
+set tab-width                       4
+set fill-string                     "▒"
+set latex-comp-prg                  "xelatex -halt-on-error --interaction=nonstopmode '%'"
+set latex-view-prg                  "echo \"zathura '%'\" | $SHELL &"
+set latex-update-view-prg           "" # "pkill -HUP mupdf 2>&1 > /dev/null"
+set cursor-line                     "yes"
+set vimish-insert-no-cursor-line    "yes"
+set cursor-word-hl-idle-threshold   1500
 set chatty-kathy-id                 "kammerdienerb"
 set chatty-kathy-port               2324
 set chatty-kathy-server             "com1635.eecs.utk.edu"
@@ -88,6 +85,7 @@ set go-menu-force-split             "no"
 set completer-sources               "word tags"
 set completer-auto                  "yes"
 set builder-popup-rg                "yes"
+set builder-build-command           "./build.sh"
 set auto-paren-skip                 "yes"
 set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
@@ -99,6 +97,19 @@ fstyle ~/.config/yed/styles/byte.fstyle
 
 style casey
 style-use-term-bg
+
+### @statusline ###
+set vimish-normal-attrs        "bg !4"
+set vimish-insert-attrs        "bg !2"
+set vimish-delete-attrs        "bg !1"
+set vimish-yank-attrs          "bg !5"
+set status-line-buffer-attrs   "fg !0 bg !6"
+set status-line-location-attrs "fg !0 bg !5"
+set status-line-ft-attrs       "fg !0 bg !3"
+
+set status-line-left   "%{vimish-mode-attrs} %=6(vimish-mode) %{status-line-buffer-attrs} %b "
+set status-line-center ""
+set status-line-right  "%(builder-status)  %{status-line-location-attrs} (%3p%%)  %5l :: %-3c  %{status-line-ft-attrs} %=5F "
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert

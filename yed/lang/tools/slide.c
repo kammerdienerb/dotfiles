@@ -1,5 +1,4 @@
 #include <yed/plugin.h>
-#include <yed/highlight.h>
 
 void do_slide_run(yed_buffer *buff) {
     int  err;

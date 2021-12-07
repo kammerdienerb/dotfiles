@@ -7,7 +7,6 @@ void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
 void kammerdienerb_go_menu(int n_args, char **args);
 void kammerdienerb_go_menu_key_handler(yed_event *event);
-void kammerdienerb_set_status_line(yed_event *event);
 void kammerdienerb_find_cursor_word(int n_args, char **args);
 
 int go_menu_stay;
@@ -30,7 +29,6 @@ LOG_EXIT();
 }
 
 int yed_plugin_boot(yed_plugin *self) {
-    yed_event_handler  update;
     yed_event_handler  go_menu_key;
     char              *path;
     char              *term;
@@ -52,10 +50,6 @@ int yed_plugin_boot(yed_plugin *self) {
 
     get_or_make_buffer(ARGS_SCRATCH_BUFF);
     get_or_make_buffer(ARGS_GO_MENU_BUFF);
-
-    update.kind = EVENT_FRAME_PRE_UPDATE;
-    update.fn   = kammerdienerb_set_status_line;
-    yed_plugin_add_event_handler(self, update);
 
     go_menu_key.kind = EVENT_KEY_PRESSED;
     go_menu_key.fn   = kammerdienerb_go_menu_key_handler;
@@ -111,8 +105,6 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_plugin_set_command(self, "wq", kammerdienerb_write_quit);
     yed_plugin_set_command(self, "Wq", kammerdienerb_write_quit);
     yed_log("\ninit.c: added overrides for 'q'/'Q' and 'wq'/'Wq' commands");
-
-    kammerdienerb_set_status_line(NULL);
 
     LOG_EXIT();
     return 0;
@@ -441,67 +433,6 @@ void kammerdienerb_go_menu_key_handler(yed_event *event) {
         YEXE("buffer", bname);
     } else {
         YEXE("special-buffer-prepare-unfocus", "*go-menu");
-    }
-}
-
-void kammerdienerb_set_status_line(yed_event *event) {
-    int    line;
-    int    col;
-    int    perc;
-    int    ft_max;
-    char **ftit;
-    int    ft;
-    char  *ft_str;
-    char  *vimish_mode;
-    int    vimish_color;
-    char   buff[1024];
-
-    if (ys->active_frame && ys->active_frame->buffer) {
-        line = ys->active_frame->cursor_line;
-        col  = ys->active_frame->cursor_col;
-        perc = (100.0 * line) / yed_buff_n_lines(ys->active_frame->buffer);
-
-        ft_max = 0;
-        array_traverse(ys->ft_array, ftit) {
-            if (strlen(*ftit) > ft_max) {
-                ft_max = strlen(*ftit);
-            }
-        }
-        ft = FT_UNKNOWN;
-        if (ys->active_frame && ys->active_frame->buffer) { ft = ys->active_frame->buffer->ft; }
-        ft_str = ft == FT_UNKNOWN ? "?" : yed_get_ft_name(ft);
-
-        vimish_mode  = yed_get_var("vimish-mode");
-        vimish_color = 232;
-        if (vimish_mode) {
-            switch (vimish_mode[0]) {
-                case 'N': vimish_color = 240; break;
-                case 'I': vimish_color = 202; break;
-                case 'D': vimish_color = 196; break;
-                case 'Y': vimish_color = 93; break;
-            }
-        }
-
-        snprintf(buff, sizeof(buff),
-                "%%[fg @255 bg @%d] %-6s "
-                "%%[fg @255 bg @29] %%b ",
-                vimish_color, vimish_mode ? vimish_mode : "------");
-        yed_set_var("status-line-left", buff);
-
-        snprintf(buff, sizeof(buff), "");
-        yed_set_var("status-line-center", buff);
-
-        snprintf(buff, sizeof(buff),
-                "%%(builder-status)  "
-                "%%[fg @255 bg @53] (%3d%%%%)  %5d :: %-3d "
-                "%%[fg @255 bg @18] %-*s ",
-                perc, line, col,
-                ft_max, ft_str);
-        yed_set_var("status-line-right", buff);
-    } else {
-        yed_set_var("status-line-left", "");
-        yed_set_var("status-line-center", "YED");
-        yed_set_var("status-line-right", "");
     }
 }
 

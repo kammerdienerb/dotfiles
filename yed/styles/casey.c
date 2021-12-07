@@ -16,6 +16,8 @@
 #define color_pp            MAYBE_CONVERT(RGB_32(70, 120, 130))
 #define color_fn            MAYBE_CONVERT(RGB_32(150, 90, 80))
 #define color_num           MAYBE_CONVERT(RGB_32(110, 150, 100))
+#define color_esc           MAYBE_CONVERT(RGB_32(50, 110, 150))
+#define color_field         MAYBE_CONVERT(color_fg - RGB_32(80, 50, 20));
 
 PACKABLE_STYLE(casey) {
     yed_style s;
@@ -94,6 +96,12 @@ PACKABLE_STYLE(casey) {
     s.code_constant      = s.code_preprocessor;
     s.code_string        = s.code_number;
     s.code_character     = s.code_number;
+
+    s.code_escape        = s.code_string;
+    s.code_escape.fg     = color_esc;
+
+    s.code_field.flags   = attr_kind;
+    s.code_field.fg      = color_field;
 
     yed_plugin_set_style(self, "casey", &s);
 
