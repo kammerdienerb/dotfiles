@@ -5,14 +5,9 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
 void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
-void kammerdienerb_go_menu(int n_args, char **args);
-void kammerdienerb_go_menu_key_handler(yed_event *event);
 void kammerdienerb_find_cursor_word(int n_args, char **args);
 
-int go_menu_stay;
-
 #define ARGS_SCRATCH_BUFF "*scratch", (BUFF_SPECIAL)
-#define ARGS_GO_MENU_BUFF "*go-menu", (BUFF_SPECIAL | BUFF_RD_ONLY)
 
 yed_buffer *get_or_make_buffer(char *name, int flags) {
     yed_buffer *buff;
@@ -29,10 +24,9 @@ LOG_EXIT();
 }
 
 int yed_plugin_boot(yed_plugin *self) {
-    yed_event_handler  go_menu_key;
-    char              *path;
-    char              *term;
-    char              *env_style;
+    char *path;
+    char *term;
+    char *env_style;
 
     YED_PLUG_VERSION_CHECK();
 
@@ -49,13 +43,7 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\ninit.c: added overrides for 'special-buffer-prepare-*' commands");
 
     get_or_make_buffer(ARGS_SCRATCH_BUFF);
-    get_or_make_buffer(ARGS_GO_MENU_BUFF);
 
-    go_menu_key.kind = EVENT_KEY_PRESSED;
-    go_menu_key.fn   = kammerdienerb_go_menu_key_handler;
-    yed_plugin_add_event_handler(self, go_menu_key);
-
-    yed_plugin_set_command(self, "go-menu", kammerdienerb_go_menu);
     yed_plugin_set_command(self, "kammerdienerb-find-cursor-word", kammerdienerb_find_cursor_word);
 
     YEXE("plugin-load", "yedrc");
@@ -144,7 +132,7 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
+    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-focus");
         if (default_cmd) {
             default_cmd(n_args, args);
@@ -224,7 +212,7 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
+    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-jump-focus");
         if (default_cmd) {
             default_cmd(n_args, args);
@@ -247,10 +235,6 @@ void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
         }
         goto out;
     }
-
-    stay_in_special_frame = stay_in_special_frame ||
-                            ((strcmp(args[0], "*go-menu") == 0)
-                                && go_menu_stay);
 
     if (stay_in_special_frame) { goto out; }
 
@@ -299,7 +283,7 @@ void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args) {
         return;
     }
 
-    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("go-menu-force-split")) {
+    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
         default_cmd = yed_get_default_command("special-buffer-prepare-unfocus");
         if (default_cmd) {
             default_cmd(n_args, args);
@@ -373,67 +357,6 @@ void kammerdienerb_quit(int n_args, char **args) {
 void kammerdienerb_write_quit(int n_args, char **args) {
     YEXE("w");
     YEXE("q");
-}
-
-void kammerdienerb_go_menu(int n_args, char **args) {
-    yed_buffer                                   *buff;
-    tree_it(yed_buffer_name_t, yed_buffer_ptr_t)  bit;
-    int                                           row;
-    int                                           i;
-    char                                         *bname;
-
-    buff = get_or_make_buffer(ARGS_GO_MENU_BUFF);
-
-    buff->flags &= ~BUFF_RD_ONLY;
-
-    yed_buff_clear_no_undo(buff);
-
-    row = 1;
-    tree_traverse(ys->buffers, bit) {
-        if (row > 1) {
-            yed_buffer_add_line_no_undo(buff);
-        }
-        bname = tree_it_key(bit);
-        for (i = 0; i < strlen(bname); i += 1) {
-            yed_append_to_line_no_undo(buff, row, G(bname[i]));
-        }
-        row += 1;
-    }
-
-    buff->flags |= BUFF_RD_ONLY;
-
-    YEXE("special-buffer-prepare-focus", "*go-menu");
-    if (ys->active_frame) {
-        YEXE("buffer", "*go-menu");
-    }
-}
-
-void kammerdienerb_go_menu_key_handler(yed_event *event) {
-    yed_buffer *buff;
-    yed_line   *line;
-    char       *bname;
-
-    buff = get_or_make_buffer(ARGS_GO_MENU_BUFF);
-
-    if ((event->key != ENTER && event->key != CTRL_C)
-    ||  ys->interactive_command
-    ||  !ys->active_frame
-    ||  ys->active_frame->buffer != buff) {
-        return;
-    }
-
-    event->cancel = 1;
-
-    if (event->key == ENTER) {
-        line = yed_buff_get_line(buff, ys->active_frame->cursor_line);
-        array_zero_term(line->chars);
-        bname = array_data(line->chars);
-        go_menu_stay = bname[0] == '*';
-        YEXE("special-buffer-prepare-jump-focus", "*go-menu");
-        YEXE("buffer", bname);
-    } else {
-        YEXE("special-buffer-prepare-unfocus", "*go-menu");
-    }
 }
 
 void kammerdienerb_find_cursor_word(int n_args, char **args) {
