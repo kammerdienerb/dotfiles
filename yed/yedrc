@@ -96,18 +96,19 @@ set auto-quote-skip                 "yes"
 fstyle ~/.config/yed/styles/cubic.fstyle
 fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
+fstyle ~/.config/yed/styles/holly.fstyle
 
-style casey
+style holly
 style-use-term-bg
 
 ### @statusline ###
-set vimish-normal-attrs        "bg !4"
-set vimish-insert-attrs        "bg !2"
-set vimish-delete-attrs        "bg !1"
-set vimish-yank-attrs          "bg !5"
-set status-line-buffer-attrs   "fg !0 bg !6"
-set status-line-location-attrs "fg !0 bg !5"
-set status-line-ft-attrs       "fg !0 bg !3"
+set vimish-normal-attrs        "&status-line"
+set vimish-insert-attrs        "&good inverse"
+set vimish-delete-attrs        "&bad inverse"
+set vimish-yank-attrs          "&associate"
+set status-line-buffer-attrs   "&status-line.bg &code-string.fg   swap"
+set status-line-location-attrs "&status-line.bg &code-number.fg   swap"
+set status-line-ft-attrs       "&status-line.bg &code-typename.fg swap"
 
 set status-line-left   "%{vimish-mode-attrs} %=6(vimish-mode) %{status-line-buffer-attrs} %b "
 set status-line-center ""

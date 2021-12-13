@@ -1,0 +1,31 @@
+active               fg B1A595  bg 2B221F
+active-border        fg B1A595  bg 2B221F
+active-gutter        fg B1A595  bg 2B221F
+inactive             fg B1A595  bg 3B2F2B
+inactive-border      fg B1A595  bg 3B2F2B
+inactive-gutter      fg B1A595  bg 3B2F2B
+cursor-line          fg B1A595  bg 473833
+selection            fg B1A595  bg 473833
+search               fg 929C59  bg 2B221F    inverse
+search-cursor        fg 8F474B  bg 2B221F    inverse
+attention            fg dd0055               bold
+associate            fg B1A595  bg 3A3A2C    swap
+status-line          fg B1A595  bg 3A3A2C    bold
+command-line         fg B1A595  bg 2B221F
+good                 fg 929C59
+bad                  fg B5696C
+popup                fg B1A595  bg 3A3A2C
+popup-alt            fg B1A595  bg 3A3A2C    swap bold
+code-comment         fg 997B66
+code-keyword         fg 8F474B
+code-control-flow    fg 8F474B
+code-typename        fg 8F474B
+code-preprocessor    fg F1DCA7               bold
+code-fn-call         fg 797D62
+code-number          fg cccccc
+code-constant        fg cccccc               bold
+code-string          fg AD9471
+code-character       fg AD9471
+code-escape          fg dddddd
+code-variable        fg 9B9B7A
+code-field           fg 9B9B7A
