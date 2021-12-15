@@ -5,16 +5,16 @@
 
 ### @statusline ###
 # I want to set this up first before we load vimish so that the variables are set immediately.
-set vimish-normal-attrs        "&status-line"
-set vimish-insert-attrs        "&good inverse"
-set vimish-delete-attrs        "&bad inverse"
-set vimish-yank-attrs          "&associate"
-set status-line-buffer-attrs   "&status-line.bg &code-string.fg   swap"
-set status-line-location-attrs "&status-line.bg &code-number.fg   swap"
-set status-line-ft-attrs       "&status-line.bg &code-typename.fg swap"
+set vimish-normal-attrs        "bg @17        fg @253"
+set vimish-insert-attrs        "bg @22        fg @253"
+set vimish-delete-attrs        "bg @88        fg @253"
+set vimish-yank-attrs          "bg @92        fg @253"
+set status-line-buffer-attrs   "&selection.bg &code-string.fg   swap"
+set status-line-location-attrs "&selection.bg &code-number.fg   swap"
+set status-line-ft-attrs       "&selection.bg &code-typename.fg swap"
 
 set status-line-left   "%{vimish-mode-attrs} %=6(vimish-mode) %{status-line-buffer-attrs} %b "
-set status-line-center ""
+set status-line-center "%f"
 set status-line-right  "%(builder-status)  %{status-line-location-attrs} (%3p%%)  %5l :: %-3c  %{status-line-ft-attrs} %=5F "
 
 ### @plugins ###
