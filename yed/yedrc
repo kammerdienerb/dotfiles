@@ -112,8 +112,8 @@ fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
 fstyle ~/.config/yed/styles/holly.fstyle
 
-style holly
-style-use-term-bg
+style first-dark
+# style-use-term-bg
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
