@@ -1,11 +1,29 @@
 #include <yed/plugin.h>
 
+static yed_plugin        *Self;
+static yed_frame         *last_frame;
+static yed_event_handler  epump_anim;
+static yed_event_handler  eframe_act;
+static yed_event_handler  eframe_del;
+static int                animating;
+static int                want_tray_size;
+static int                save_hz;
+static char              *save_buff;
+static yed_frame         *save_frame;
+
+
+#define GO_MENU_SPLIT_RATIO (2.5)
+#define TRAY_BIG            (16)
+#define TRAY_SMALL          (5)
+#define ANIMATIONS_PER_SEC  (100)
+
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
 void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
 void kammerdienerb_find_cursor_word(int n_args, char **args);
+void kammerdienerb_frame_next_skip_tray(int n_args, char **args);
 
 #define ARGS_SCRATCH_BUFF "*scratch", (BUFF_SPECIAL)
 
@@ -23,12 +41,175 @@ LOG_EXIT();
     return buff;
 }
 
+static yed_frame *find_main_frame(void) {
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+
+    if (array_len(ys->frames) == 0) { return NULL; }
+
+    frame = *(yed_frame**)array_item(ys->frames, 0);
+    if (yed_frame_is_tree_root(frame)) { return frame; }
+
+    tree = yed_frame_tree_get_root(frame->tree);
+
+    tree = yed_frame_tree_get_split_leaf_prefer_left_or_topmost(tree->child_trees[1]);
+
+    return tree->frame;
+}
+
+static yed_frame *find_right_frame(void) {
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+
+    if (array_len(ys->frames) == 0) { return NULL; }
+
+    frame = *(yed_frame**)array_item(ys->frames, 0);
+    if (yed_frame_is_tree_root(frame)) { return NULL; }
+
+    tree = yed_frame_tree_get_root(frame->tree);
+
+    if (tree->split_kind == FTREE_VSPLIT) {
+        tree = yed_frame_tree_get_split_leaf_prefer_right_or_bottommost(tree->child_trees[0]);
+    } else {
+        if (tree->child_trees[0]->is_leaf) { return NULL; }
+        tree = yed_frame_tree_get_split_leaf_prefer_right_or_bottommost(tree->child_trees[1]);
+    }
+
+    return tree->frame;
+}
+
+static yed_frame * make_right_frame(void) {
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+
+    if (array_len(ys->frames) == 0) {
+        YEXE("frame-new"); YEXE("frame-vsplit");
+        goto resize;
+    }
+
+    frame = *(yed_frame**)array_item(ys->frames, 0);
+
+    if (yed_frame_is_tree_root(frame)) {
+        YEXE("frame-vsplit");
+        goto resize;
+    }
+
+    tree = yed_frame_tree_get_root(frame->tree);
+
+    if (tree->split_kind == FTREE_HSPLIT) {
+        frame = yed_vsplit_frame_tree(tree->child_trees[0]);
+        yed_activate_frame(frame);
+    }
+
+resize:;
+    yed_resize_frame(ys->active_frame, 0, (int)((0.4 - ys->active_frame->width_f) * ys->term_cols));
+
+    return ys->active_frame;
+}
+
+static yed_frame *find_tray_frame(void) {
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+
+    if (array_len(ys->frames) == 0) { return NULL; }
+
+    frame = *(yed_frame**)array_item(ys->frames, 0);
+    tree  = yed_frame_tree_get_root(frame->tree);
+
+    if (tree->is_leaf) { return NULL; }
+
+    if (tree->split_kind == FTREE_VSPLIT) {
+        if (!tree->child_trees[0]->is_leaf && tree->child_trees[0]->split_kind == FTREE_HSPLIT) {
+            tree = yed_frame_tree_get_split_leaf_prefer_right_or_bottommost(tree->child_trees[0]);
+            return tree->frame;
+        }
+    } else {
+        if (tree->child_trees[1]->is_leaf) {
+            return tree->child_trees[1]->frame;
+        }
+    }
+
+    return NULL;
+}
+
+static yed_frame * make_tray_frame(void) {
+    yed_frame      *frame;
+    yed_frame_tree *tree;
+
+    if (array_len(ys->frames) == 0) { YEXE("frame-new"); }
+
+    frame = *(yed_frame**)array_item(ys->frames, 0);
+    tree  = yed_frame_tree_get_root(frame->tree);
+    frame = yed_hsplit_frame_tree(tree);
+
+    while (frame->height > 1) {
+        yed_resize_frame(frame, -1, 0);
+    }
+
+    return frame;
+}
+
+static void tray_animate(yed_event *event) {
+    yed_frame *tray;
+
+    tray = find_tray_frame();
+
+    if (tray == NULL || tray->height == want_tray_size) {
+done:;
+        yed_set_update_hz(save_hz);
+        yed_delete_event_handler(epump_anim);
+        animating = 0;
+    } else {
+        yed_resize_frame(tray, (want_tray_size - tray->height) < 0 ? -1 : 1, 0);
+    }
+}
+
+static void start_tray_anim(int rows) {
+    yed_frame *tray;
+
+    tray = find_tray_frame();
+
+    want_tray_size = rows;
+
+    if (tray != NULL && !animating) {
+        epump_anim.kind = EVENT_PRE_PUMP;
+        epump_anim.fn   = tray_animate;
+        yed_plugin_add_event_handler(Self, epump_anim);
+        save_hz = yed_get_update_hz();
+        yed_set_update_hz(ANIMATIONS_PER_SEC);
+        animating = 1;
+    }
+}
+
+static void act_tray(yed_event *event) {
+    yed_frame *tray;
+
+    tray = find_tray_frame();
+
+    if (tray == NULL) { return; }
+
+    if (event->frame == tray) {
+        start_tray_anim(TRAY_BIG);
+    } else if (last_frame == tray) {
+        start_tray_anim(TRAY_SMALL);
+    }
+
+    last_frame = event->frame;
+}
+
+static void frame_del(yed_event *event) {
+    if (event->frame == last_frame) { last_frame = NULL; }
+    if (event->frame == save_frame) { save_frame = NULL; }
+}
+
 int yed_plugin_boot(yed_plugin *self) {
     char *path;
     char *term;
     char *env_style;
 
     YED_PLUG_VERSION_CHECK();
+
+    Self = self;
 
     LOG_FN_ENTER();
 
@@ -40,11 +221,18 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
     yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);
     yed_plugin_set_command(self, "special-buffer-prepare-unfocus",    kammerdienerb_special_buffer_prepare_unfocus);
+    eframe_act.kind = EVENT_FRAME_ACTIVATED;
+    eframe_act.fn   = act_tray;
+    yed_plugin_add_event_handler(Self, eframe_act);
+    eframe_del.kind = EVENT_FRAME_PRE_DELETE;
+    eframe_del.fn   = frame_del;
+    yed_plugin_add_event_handler(Self, eframe_del);
     yed_log("\ninit.c: added overrides for 'special-buffer-prepare-*' commands");
 
     get_or_make_buffer(ARGS_SCRATCH_BUFF);
 
-    yed_plugin_set_command(self, "kammerdienerb-find-cursor-word", kammerdienerb_find_cursor_word);
+    yed_plugin_set_command(self, "kammerdienerb-find-cursor-word",     kammerdienerb_find_cursor_word);
+    yed_plugin_set_command(self, "kammerdienerb-frame-next-skip-tray", kammerdienerb_frame_next_skip_tray);
 
     YEXE("plugin-load", "yedrc");
 
@@ -99,259 +287,125 @@ int yed_plugin_boot(yed_plugin *self) {
 }
 
 
-/*
-** Here's how I want this to behave (assuming a left/right split frame):
-**
-** If the left frame is currently active:
-**    When the special buffer is focused, it appears in the right frame.
-**    When jumping from the special buffer, it should go to the left frame.
-**
-** If the right frame is currently active:
-**    If the special buffer is focused, it appears in the right frame.
-**    When jumping from the special buffer _when it was focused from the right frame_,
-**        it should go to the right frame.
-**    Otherwise, jumps should go to the left frame.
-*/
-
-static int   stay_in_special_frame;
-static char *reshow_buff_name;
-
-#define GO_MENU_SPLIT_RATIO (2.5)
 
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     yed_command     default_cmd;
-    yed_frame      *frame;
     yed_frame_tree *tree;
-    yed_frame_tree *root;
-    yed_frame_tree *dest;
+    yed_frame      *f;
 
-    stay_in_special_frame = 0;
 
     if (n_args != 1) {
         yed_cerr("expected 1 argument, but got %d", n_args);
         return;
     }
 
-    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
-        default_cmd = yed_get_default_command("special-buffer-prepare-focus");
-        if (default_cmd) {
-            default_cmd(n_args, args);
-            return;
-        }
-    }
-
-    /* If there's no frames, make the two splits and focus the right one. */
     if (ys->active_frame == NULL) {
-        YEXE("frame-new");
-        YEXE("frame-vsplit");
-        goto out;
+        YEXE("frame-new"); if (ys->active_frame == NULL) { return; }
     }
 
-    frame = ys->active_frame;
-    tree  = frame->tree;
-    root  = yed_frame_tree_get_root(tree);
+    if (strcmp(args[0], "*builder-output") == 0
+    ||  strcmp(args[0], "*shell-output")   == 0
+    ||  strcmp(args[0], "*calc")           == 0) {
 
-    /* Is this frame part of a tree that takes up the whole screen? */
-    if (root->height == 1.0 && root->width == 1.0) {
-        if (root == tree) {
-            /* The frame takes up the whole screen. */
-            YEXE("frame-vsplit");
-        } else {
-            /*
-             * The frame we want to activate is always to the right
-             * of the root, and all the way left until we find the leaf.
-             */
-            dest = root->child_trees[1];
-            while (!dest->is_leaf) {
-                dest = dest->child_trees[0];
-            }
+        /* These go to the tray. */
 
-            yed_activate_frame(dest->frame);
+        f = find_tray_frame();
+        if (f == NULL) { f = make_tray_frame(); }
 
-            /*
-             * If special-buffer focus was requested from the special frame,
-             * then we want to stay here for any jumps.
-             */
-            stay_in_special_frame = dest->frame == frame;
+        save_frame = ys->active_frame;
 
-            if (!stay_in_special_frame
-            &&  dest->frame->buffer
-            &&  dest->frame->buffer->name[0] != '*') {
-                if (reshow_buff_name != NULL) {
-                    free(reshow_buff_name);
-                    reshow_buff_name = NULL;
-                }
-                reshow_buff_name = strdup(dest->frame->buffer->name);
-            }
-        }
+        yed_activate_frame(f);
+
+    } else if (strcmp(args[0], "*find-file-list")  == 0
+    ||         strcmp(args[0], "*grep-list")       == 0
+    ||         strcmp(args[0], "*ctags-find-list") == 0) {
+
+        /* These go wherever you already are. */
+
     } else {
-        /* Make a big one then. */
-        YEXE("frame-new");
-        YEXE("frame-vsplit");
-    }
+        /*
+         * Every other special buffer should go in the right split.
+         * _EXCEPT_ for the go-menu special case. See below.
+         */
 
-    /* In case I missed something. */
-    if (ys->active_frame == NULL) {
-        YEXE("frame-new");
-    }
+        if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
+            default_cmd = yed_get_default_command("special-buffer-prepare-focus");
+            if (default_cmd) {
+                default_cmd(n_args, args);
+                return;
+            }
+        }
 
-out:;
-/*     yed_set_cursor_far_within_frame(ys->active_frame, 1, 1); */
+        if (strcmp(args[0], "*go-menu") == 0) {
+            /*
+             * go-menu goes to the current frame unless the current frame already has the go-menu.
+             * In that case, we save and restore the buffer to the frame.
+             */
+
+
+            if (ys->active_frame->buffer != NULL
+            &&  strcmp(ys->active_frame->buffer->name, "*go-menu") == 0) {
+
+                /* Restore the old buffer, then go to the right split. */
+                yed_frame_set_buff(ys->active_frame, yed_get_buffer(save_buff));
+                if (save_buff != NULL) {
+                    free(save_buff); save_buff = NULL;
+                }
+            } else {
+                /*
+                 * Store the current buffer so that we can restore it later in the case where we put the go-menu
+                 * in the right frame.
+                 * Remain in the current frame.
+                 */
+
+                if (save_buff != NULL) { free(save_buff); save_buff = NULL; }
+                if (ys->active_frame->buffer != NULL) { save_buff = strdup(ys->active_frame->buffer->name); }
+
+                return;
+            }
+        }
+
+        f = find_right_frame();
+        if (f == NULL) { f = make_right_frame(); }
+
+        yed_activate_frame(f);
+    }
 }
 
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args) {
-    yed_command     default_cmd;
-    yed_frame      *target;
-    yed_frame      *frame;
-    yed_frame_tree *tree;
-    yed_frame_tree *root;
-    yed_frame_tree *dest;
-
-    if (n_args != 1) {
-        yed_cerr("expected 1 argument, but got %d", n_args);
-        return;
-    }
-
-    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
-        default_cmd = yed_get_default_command("special-buffer-prepare-jump-focus");
-        if (default_cmd) {
-            default_cmd(n_args, args);
-            return;
-        }
-    }
-
-    target = NULL;
-
-    /*
-     * If there aren't any frames, make the two splits and focus
-     * the correct one.
-     * This should never happen unless there's a bug somewhere.
-     */
-    if (ys->active_frame == NULL) {
-        YEXE("frame-new");
-        YEXE("frame-vsplit");
-        if (!stay_in_special_frame) {
-            YEXE("frame-prev");
-        }
-        goto out;
-    }
-
-    if (stay_in_special_frame) { goto out; }
-
-    frame = ys->active_frame;
-    tree  = frame->tree;
-    root  = yed_frame_tree_get_root(tree);
-
-    /*
-     * The frame we want to activate is always to the left
-     * of the root.
-     */
-    dest = root;
-    while (!dest->is_leaf) {
-        dest = dest->child_trees[0];
-    }
-
-    target = dest->frame;
-
-    if (reshow_buff_name != NULL) {
-        yed_frame_set_buff(frame, yed_get_buffer(reshow_buff_name));
-    }
-
-out:;
-    if (reshow_buff_name != NULL) {
-        free(reshow_buff_name);
-        reshow_buff_name = NULL;
-    }
-
-    if (target == NULL) { target = ys->active_frame; }
-
-    yed_frame_set_buff(target, NULL);
-    yed_activate_frame(target);
-
-    stay_in_special_frame = 0;
+    /* We'll just stay in the same frame. */
 }
 
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args) {
-    yed_command     default_cmd;
-    yed_frame      *frame;
-    yed_frame_tree *tree;
-    yed_frame_tree *root;
-    yed_frame_tree *dest;
-
     if (n_args != 1) {
         yed_cerr("expected 1 argument, but got %d", n_args);
         return;
     }
 
-    if (ys->term_cols < (GO_MENU_SPLIT_RATIO * ys->term_rows) && !yed_var_is_truthy("my-frames-force-split")) {
-        default_cmd = yed_get_default_command("special-buffer-prepare-unfocus");
-        if (default_cmd) {
-            default_cmd(n_args, args);
-            return;
+    if (strcmp(args[0], "*builder-output") == 0
+    ||  strcmp(args[0], "*shell-output")   == 0
+    ||  strcmp(args[0], "*calc")           == 0) {
+        if (save_frame != NULL) {
+            yed_activate_frame(save_frame);
         }
+    } else {
+        yed_frame_set_buff(ys->active_frame, yed_get_buffer(save_buff));
     }
 
-    /*
-     * If there aren't any frames, make the two splits and focus
-     * the right one.
-     * This should never happen unless there's a bug somewhere.
-     */
-    if (ys->active_frame == NULL) {
-        YEXE("frame-new");
-        YEXE("frame-vsplit");
-        YEXE("frame-prev");
-        goto out;
+    if (save_buff != NULL) {
+        free(save_buff);
+        save_buff = NULL;
     }
-
-    frame = ys->active_frame;
-    tree  = frame->tree;
-    root  = yed_frame_tree_get_root(tree);
-
-    /*
-     * The frame we want to activate is always to the left
-     * of the root.
-     */
-    dest = root;
-    while (dest && !dest->is_leaf) {
-        dest = dest->child_trees[0];
-    }
-
-    yed_activate_frame(dest->frame);
-out:;
-    stay_in_special_frame = 0;
+    save_frame = NULL;
 }
 
 void kammerdienerb_quit(int n_args, char **args) {
-    yed_frame      *frame;
-    int             n_frames;
-    yed_frame_tree *tree;
-
-    /* 1 or 0 frames, just quit. */
-    n_frames = array_len(ys->frames);
-    if ((frame = ys->active_frame) == NULL
-    ||  n_frames == 1) {
+    if (ys->active_frame == find_main_frame()) {
         YEXE("quit");
         return;
     }
 
-    /* If we aren't in a 2-frame split situation, just delete the frame. */
-    tree = frame->tree;
-    if (n_frames != 2
-    ||  tree->parent == NULL) {
-        YEXE("frame-delete");
-        return;
-    }
-
-    /*
-     * Okay, it's a split.
-     * If this frame is the left child, quit.
-     * Otherwise, delete the frame.
-     */
-    if (tree == tree->parent->child_trees[0]) {
-        YEXE("quit");
-    } else {
-        YEXE("frame-delete");
-    }
+    YEXE("frame-delete");
 }
 
 void kammerdienerb_write_quit(int n_args, char **args) {
@@ -378,4 +432,45 @@ void kammerdienerb_find_cursor_word(int n_args, char **args) {
     YEXE("find-prev-in-buffer");
 
     free(word);
+}
+
+void kammerdienerb_frame_next_skip_tray(int n_args, char **args) {
+    yed_frame *tray;
+    yed_frame *cur_frame, *frame, **frame_it;
+    int        idx;
+
+    if (n_args != 0) {
+        yed_cerr("expected 0 arguments, but got %d", n_args);
+        return;
+    }
+
+    if (!ys->active_frame) {
+        yed_cerr("no active frame");
+        return;
+    }
+
+    if (array_len(ys->frames) == 1) { return; }
+
+    cur_frame = ys->active_frame;
+    tray      = find_tray_frame();
+
+    idx = 0;
+    array_traverse(ys->frames, frame_it) {
+        if (*frame_it == cur_frame) { break; }
+        idx += 1;
+    }
+
+    do {
+        if (idx == array_len(ys->frames) - 1) {
+            idx = 0;
+        } else {
+            idx += 1;
+        }
+
+        frame = *(yed_frame**)array_item(ys->frames, idx);
+
+        if (frame != tray) { break; }
+    } while (frame != cur_frame);
+
+    yed_activate_frame(frame);
 }

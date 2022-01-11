@@ -1,1 +1,2 @@
 set builder-build-command './install.sh'
+set ctags-additional-paths '~/yed/src/* ~/projects/yed/src/*'

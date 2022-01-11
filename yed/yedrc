@@ -85,6 +85,7 @@ plugin-load 'go_menu'
 ### @variables ###
 set tab-width                       4
 set fill-string                     "▒"
+set border-style                    "thin"
 set latex-comp-prg                  "xelatex -halt-on-error --interaction=nonstopmode '%'"
 set latex-view-prg                  "echo \"zathura '%'\" | $SHELL &"
 set latex-update-view-prg           "" # "pkill -HUP mupdf 2>&1 > /dev/null"
@@ -129,7 +130,8 @@ vimish-bind  normal  "ctrl-n"     buffer-next
 vimish-bind  normal  "ctrl-p"     buffer-prev
 vimish-bind  normal  "M M"        man-word
 vimish-bind  normal  "L L"        command-prompt "cursor-line "
-vimish-bind  normal  "ctrl-l"     frame-next
+vimish-bind  normal  "ctrl-l"     kammerdienerb-frame-next-skip-tray
+vimish-bind  normal  "meta-l"     frame-next
 # Don't really use this that much and would prefer to not see the warnings.
 # vimish-bind  normal  "ctrl-h"     frame-prev
 vimish-bind  normal  ">"          indent
