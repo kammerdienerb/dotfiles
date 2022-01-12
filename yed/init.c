@@ -136,6 +136,7 @@ static yed_frame *find_tray_frame(void) {
 static yed_frame * make_tray_frame(void) {
     yed_frame      *frame;
     yed_frame_tree *tree;
+    int             save_height;
 
     if (array_len(ys->frames) == 0) { YEXE("frame-new"); }
 
@@ -144,7 +145,9 @@ static yed_frame * make_tray_frame(void) {
     frame = yed_hsplit_frame_tree(tree);
 
     while (frame->height > 1) {
+        save_height = frame->height;
         yed_resize_frame(frame, -1, 0);
+        if (frame->height == save_height) { break; }
     }
 
     return frame;
