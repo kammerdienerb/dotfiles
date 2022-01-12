@@ -42,7 +42,7 @@ C_FLAGS+=" $(yed --print-cflags --print-ldflags)"
 
 pids=()
 
-for f in $(find ${YED_DIR} -name "*.c"); do
+for f in $(find ${YED_DIR} -name "*.c" -not -path "${YED_DIR}/ypm/*"); do
     echo ${f/${YED_DIR}\//}
     PLUG_DIR=$(dirname ${f})
     PLUG_FULL_PATH=${PLUG_DIR}/$(basename $f ".c").so

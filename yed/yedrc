@@ -17,70 +17,6 @@ set status-line-left   "%{vimish-mode-attrs} %=6(vimish-mode) %{status-line-buff
 set status-line-center "%f"
 set status-line-right  "%(builder-status)  %{status-line-location-attrs} (%3p%%)  %5l :: %-3c  %{status-line-ft-attrs} %=5F "
 
-### @plugins ###
-
-# 'yedrc' is already loaded by init.c
-# That's how we're loading this file.
-
-plugin-load 'lang/c'
-plugin-load 'lang/syntax/c'
-plugin-load 'lang/cpp'
-plugin-load 'lang/syntax/cpp'
-plugin-load 'lang/sh'
-plugin-load 'lang/syntax/sh'
-plugin-load 'lang/bjou'
-plugin-load 'lang/syntax/bjou'
-plugin-load 'lang/latex'
-plugin-load 'lang/syntax/latex'
-plugin-load 'lang/python'
-plugin-load 'lang/syntax/python'
-plugin-load 'lang/yedrc'
-plugin-load 'lang/syntax/yedrc'
-plugin-load 'lang/jgraph'
-plugin-load 'lang/syntax/jgraph'
-plugin-load 'lang/glsl'
-plugin-load 'lang/syntax/glsl'
-plugin-load 'lang/conf'
-plugin-load 'lang/syntax/conf'
-plugin-load 'lang/make'
-# plugin-load 'lang/syntax/make'
-plugin-load 'lang/simon'
-plugin-load 'lang/syntax/simon'
-plugin-load 'lang/slide'
-plugin-load 'lang/syntax/slide'
-
-plugin-load 'vimish'
-# plugin-load 'brace_hl'
-plugin-load 'paren_hl'
-# plugin-load 'tag_hl'
-# plugin-load 'cursor_word_hl'
-plugin-load 'log_hl'
-plugin-load 'indent_c'
-plugin-load 'comment'
-plugin-load 'align'
-plugin-load 'autotrim'
-plugin-load 'completer'
-plugin-load 'grep'
-plugin-load 'find_file'
-plugin-load 'man'
-# plugin-load 'style_picker'
-plugin-load 'style_use_term_bg'
-# plugin-load 'focus_frame'
-plugin-load 'style_pack'
-plugin-load 'styles/casey' # this will load my modified version
-plugin-load 'styles/borland'
-plugin-load 'fstyle'
-plugin-load 'mk_src_pair'
-plugin-load 'builder'
-plugin-load 'ctags'
-plugin-load 'hook'
-plugin-load 'jump_stack'
-plugin-load 'shell_run'
-plugin-load 'macro'
-plugin-load 'chatty_kathy'
-plugin-load 'calc'
-plugin-load 'scroll_buffer'
-plugin-load 'go_menu'
 
 ### @variables ###
 set tab-width                       4
@@ -106,6 +42,26 @@ set builder-build-command           "./build.sh"
 set auto-paren-skip                 "yes"
 set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
+
+### @plugins ###
+
+# 'yedrc' is already loaded by init.c
+# That's how we're loading this file.
+
+plugin-load 'mk_src_pair'
+
+plugin-load 'lang/bjou'
+plugin-load 'lang/syntax/bjou'
+plugin-load 'lang/simon'
+plugin-load 'lang/syntax/simon'
+plugin-load 'lang/slide'
+plugin-load 'lang/syntax/slide'
+
+plugin-load 'styles/casey' # this will load my modified version
+plugin-load 'styles/borland'
+
+plugin-load ypm
+
 
 ### @style ###
 fstyle ~/.config/yed/styles/cubic.fstyle
