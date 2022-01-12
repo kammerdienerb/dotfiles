@@ -68,8 +68,9 @@ fstyle ~/.config/yed/styles/cubic.fstyle
 fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
 fstyle ~/.config/yed/styles/holly.fstyle
+fstyle ~/.config/yed/styles/aerostar.fstyle
 
-style first-dark
+style aerostar
 # style-use-term-bg
 
 ### @keybindings ###

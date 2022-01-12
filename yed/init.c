@@ -17,6 +17,7 @@ static yed_frame         *save_frame;
 #define TRAY_SMALL          (5)
 #define ANIMATIONS_PER_SEC  (100)
 
+
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_jump_focus(int n_args, char **args);
 void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
@@ -285,8 +286,6 @@ int yed_plugin_boot(yed_plugin *self) {
     LOG_EXIT();
     return 0;
 }
-
-
 
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     yed_command     default_cmd;
