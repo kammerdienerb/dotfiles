@@ -20,10 +20,10 @@ code-comment         fg 66635B
 code-keyword         fg 6d9dc5
 code-control-flow    fg 6d9dc5
 code-typename        fg 6d9dc5
-code-preprocessor    fg F1DCA7               bold
+code-preprocessor    fg F1cC77               bold
 code-fn-call         fg afbfdf
 code-number          fg C97B84
-code-constant        fg F1DCA7               bold
+code-constant        fg F1cC77               bold
 code-string          fg AE8CA3
 code-character       fg AE8CA3
 code-escape          fg E561CB
