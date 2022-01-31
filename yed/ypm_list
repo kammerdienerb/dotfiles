@@ -46,3 +46,5 @@ mouse_menu
 loc_history
 confirm-quit
 make-tab
+lang/linker
+lang/syntax/linker
