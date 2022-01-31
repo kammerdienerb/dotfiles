@@ -1,3 +1,4 @@
 *.so
 *.dSYM
 yed/ypm
+yed/my_loc_history.txt

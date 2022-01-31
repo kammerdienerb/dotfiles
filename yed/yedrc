@@ -70,7 +70,7 @@ fstyle ~/.config/yed/styles/byte.fstyle
 fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 
-style aerostar
+style forest
 # style-use-term-bg
 
 ### @keybindings ###

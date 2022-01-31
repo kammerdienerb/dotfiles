@@ -41,3 +41,6 @@ macro
 calc
 scroll_buffer
 go_menu
+mouse
+mouse_menu
+loc_history
