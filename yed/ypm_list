@@ -44,3 +44,5 @@ go_menu
 mouse
 mouse_menu
 loc_history
+confirm-quit
+make-tab
