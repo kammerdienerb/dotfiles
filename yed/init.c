@@ -7,6 +7,7 @@ static yed_event_handler  eframe_act;
 static yed_event_handler  eframe_del;
 static int                animating;
 static int                want_tray_size;
+static int                tray_big_dynamic;
 static int                save_hz;
 static char              *save_buff;
 static yed_frame         *save_frame;
@@ -133,6 +134,8 @@ static yed_frame *find_tray_frame(void) {
     return NULL;
 }
 
+static void start_tray_anim(int rows);
+
 static yed_frame * make_tray_frame(void) {
     yed_frame      *frame;
     yed_frame_tree *tree;
@@ -150,21 +153,37 @@ static yed_frame * make_tray_frame(void) {
         if (frame->height == save_height) { break; }
     }
 
+    start_tray_anim(TRAY_SMALL);
+
     return frame;
 }
 
 static void tray_animate(yed_event *event) {
-    yed_frame *tray;
+    yed_frame      *tray;
+    int             save_height;
+    yed_frame_tree *other;
 
     tray = find_tray_frame();
 
-    if (tray == NULL || tray->height == want_tray_size) {
+    if (tray == NULL
+    ||  yed_frame_tree_is_root(tray->tree)
+    ||  tray->height == want_tray_size) {
 done:;
         yed_set_update_hz(save_hz);
         yed_delete_event_handler(epump_anim);
         animating = 0;
     } else {
-        yed_resize_frame(tray, (want_tray_size - tray->height) < 0 ? -1 : 1, 0);
+        if (tray->tree->parent == NULL) {
+            save_height = tray->height;
+            yed_resize_frame(tray, (want_tray_size - tray->height) < 0 ? -1 : 1, 0);
+            if (other->height == save_height) {
+                goto done;
+            }
+        } else {
+            other = tray->tree->parent->child_trees[tray->tree->parent->child_trees[0] == tray->tree];
+            yed_resize_frame_tree(other, (want_tray_size - tray->height) < 0 ? 1 : -1, 0);
+        }
+
     }
 }
 
@@ -175,7 +194,7 @@ static void start_tray_anim(int rows) {
 
     want_tray_size = rows;
 
-    if (tray != NULL && !animating) {
+    if (tray != NULL && !yed_frame_tree_is_root(tray->tree) && !animating) {
         epump_anim.kind = EVENT_PRE_PUMP;
         epump_anim.fn   = tray_animate;
         yed_plugin_add_event_handler(Self, epump_anim);
@@ -193,8 +212,11 @@ static void act_tray(yed_event *event) {
     if (tray == NULL) { return; }
 
     if (event->frame == tray) {
-        start_tray_anim(TRAY_BIG);
+        if (tray->height < MAX(TRAY_BIG, tray_big_dynamic)) {
+            start_tray_anim(MAX(TRAY_BIG, tray_big_dynamic));
+        }
     } else if (last_frame == tray) {
+        if (tray->height > TRAY_BIG) { tray_big_dynamic = tray->height; }
         start_tray_anim(TRAY_SMALL);
     }
 

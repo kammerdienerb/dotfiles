@@ -48,3 +48,6 @@ confirm-quit
 make-tab
 lang/linker
 lang/syntax/linker
+convert
+
+mouse_frame_control
