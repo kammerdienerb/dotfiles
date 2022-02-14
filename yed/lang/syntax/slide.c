@@ -130,6 +130,9 @@ int yed_plugin_boot(yed_plugin *self) {
         APUSH("&code-fn-call");
             RANGE(WBE"(begin|end|use)"WBS); ONELINE();
                 APUSH("&code-preprocessor");
+                    APUSH("&code-comment");
+                        REGEX("#.*$");
+                    APOP();
                     REGEX(".");
                 APOP();
             ENDRANGE("$");
