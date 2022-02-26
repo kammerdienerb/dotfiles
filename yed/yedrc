@@ -70,8 +70,8 @@ fstyle ~/.config/yed/styles/byte.fstyle
 fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 
-style forest
-# style-use-term-bg
+style casey
+style-use-term-bg
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
