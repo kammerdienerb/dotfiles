@@ -42,6 +42,8 @@ set builder-build-command           "./build.sh"
 set auto-paren-skip                 "yes"
 set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
+set universal-copy-on-yank          "yes"
+set universal-clipboard-trim-nl     "yes"
 
 ### @plugins ###
 
