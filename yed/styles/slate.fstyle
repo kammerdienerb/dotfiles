@@ -27,5 +27,5 @@ code-constant        fg a8c686               bold
 code-string          fg 01baef
 code-character       fg 01baef
 code-escape          fg ade25d
-code-variable        fg abc4ab
-code-field           fg abc4ab
+code-variable        fg a7b38d
+code-field           fg a7b38d
