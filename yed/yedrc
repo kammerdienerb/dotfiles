@@ -71,9 +71,10 @@ fstyle ~/.config/yed/styles/old.fstyle
 fstyle ~/.config/yed/styles/byte.fstyle
 fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
+fstyle ~/.config/yed/styles/slate.fstyle
 
-style casey
-style-use-term-bg
+style slate
+# style-use-term-bg
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert

@@ -1,0 +1,31 @@
+active               fg ebdbb2  bg 3d5663
+active-border        fg ebdbb2  bg 3d5663
+active-gutter        fg ebdbb2  bg 3d5663
+inactive             fg cbbb92  bg 38515d
+inactive-border      fg cbbb92  bg 38515d
+inactive-gutter      fg cbbb92  bg 38515d
+cursor-line          fg ebdbb2  bg 2B374F
+selection            fg ebdbb2  bg 2B374F
+search               fg 0000af  bg d7ceb2    inverse
+search-cursor        fg 005f00  bg d7ceb2    inverse
+attention            fg ff6060               bold
+associate            fg 232C2F  bg 93A8AC
+status-line          fg 232C2F  bg 93A8AC    bold
+command-line         fg d7ceb2  bg 1A2123    bold
+good                 fg 60ff60
+bad                  fg ff6060
+popup                fg 232C2F  bg 93A8AC
+popup-alt            fg 232C2F  bg 93A8AC    bold swap
+code-comment         fg acadbc
+code-keyword         fg f3a712
+code-control-flow    fg f3a712
+code-typename        fg f3a712
+code-preprocessor    fg 2fa280               bold
+code-fn-call         fg 81b29a
+code-number          fg e4572e
+code-constant        fg a8c686               bold
+code-string          fg 01baef
+code-character       fg 01baef
+code-escape          fg ade25d
+code-variable        fg abc4ab
+code-field           fg abc4ab
