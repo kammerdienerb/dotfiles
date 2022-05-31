@@ -44,6 +44,9 @@ set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
 set universal-copy-on-yank          "yes"
 set universal-clipboard-trim-nl     "yes"
+set mouse-menu-on-nothing           "'Jump Back' jump-stack-pop 'Frame New' frame-new 'Frame Delete' frame-delete 'Frame Next' frame-next Quit quit"
+set mouse-menu-on-selection         "Yank yank-selection Delete delete-back"
+set mouse-menu-on-word              "Paste paste-yank-buffer 'Go to Definition' 'multi jump-stack-push ctags-jump-to-definition'"
 
 ### @plugins ###
 
