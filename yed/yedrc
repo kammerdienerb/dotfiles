@@ -92,7 +92,7 @@ fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 
-style slate
+style first-dark
 style-use-term-bg
 
 ### @keybindings ###
