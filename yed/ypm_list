@@ -1,6 +1,5 @@
 lang/c
 lang/syntax/c
-lang/cpp
 lang/syntax/cpp
 lang/sh
 lang/syntax/sh
@@ -51,3 +50,4 @@ lang/syntax/linker
 convert
 mouse_frame_control
 universal_clipboard
+lang/cpp

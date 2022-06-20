@@ -44,9 +44,25 @@ set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
 set universal-copy-on-yank          "yes"
 set universal-clipboard-trim-nl     "yes"
-set mouse-menu-on-nothing           "'Jump Back' jump-stack-pop 'Frame New' frame-new 'Frame Delete' frame-delete 'Frame Next' frame-next Quit quit"
-set mouse-menu-on-selection         "Yank yank-selection Delete delete-back"
-set mouse-menu-on-word              "Paste paste-yank-buffer 'Go to Definition' 'multi jump-stack-push ctags-jump-to-definition'"
+set mouse-menu-on-nothing "                                                                                           \
+    'Build'              'multi builder-view-output builder-start \"special-buffer-prepare-unfocus *builder-output\"' \
+    'Jump Back'          'jump-stack-pop'                                                                             \
+    'Reload'             'reload'                                                                                     \
+    'Frame New'          'frame-new'                                                                                  \
+    'Frame Delete'       'frame-delete'                                                                               \
+    'H-Split'            'frame-hsplit'                                                                               \
+    'V-Split'            'frame-vsplit'                                                                               \
+    'Frame Next'         'frame-next'                                                                                 \
+    'Quit'               'quit'                                                                                       \
+    'Save and Quit'      'wq'"
+set mouse-menu-on-selection "                                                                                         \
+    'Yank'               'yank-selection'                                                                             \
+    'Delete'             'delete-back'                                                                                \
+    'Align'              'command-prompt align'"
+set mouse-menu-on-word "                                                                                              \
+    'Paste'              'paste-yank-buffer'                                                                          \
+    'Jump to Definition' 'multi jump-stack-push ctags-jump-to-definition'                                             \
+    'Manpage'            'man-word'"
 
 ### @plugins ###
 
