@@ -1,5 +1,6 @@
 lang/c
 lang/syntax/c
+lang/cpp
 lang/syntax/cpp
 lang/sh
 lang/syntax/sh
@@ -37,7 +38,6 @@ hook
 jump_stack
 shell_run
 macro
-calc
 scroll_buffer
 go_menu
 mouse
@@ -50,4 +50,5 @@ lang/syntax/linker
 convert
 mouse_frame_control
 universal_clipboard
-lang/cpp
+command-history
+calc

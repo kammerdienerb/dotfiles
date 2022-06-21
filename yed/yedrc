@@ -69,6 +69,8 @@ set mouse-menu-on-word "                                                        
 # 'yedrc' is already loaded by init.c
 # That's how we're loading this file.
 
+plugin-load ypm
+
 plugin-load 'mk_src_pair'
 
 plugin-load 'lang/bjou'
@@ -79,9 +81,8 @@ plugin-load 'lang/slide'
 plugin-load 'lang/syntax/slide'
 
 plugin-load 'styles/casey' # this will load my modified version
+plugin-load 'styles/first' # this will load my modified version
 plugin-load 'styles/borland'
-
-plugin-load ypm
 
 
 ### @style ###
