@@ -14,7 +14,7 @@ set status-line-location-attrs "&selection.bg &code-number.fg   swap"
 set status-line-ft-attrs       "&selection.bg &code-typename.fg swap"
 
 set status-line-left   "%{vimish-mode-attrs} %=6(vimish-mode) %{status-line-buffer-attrs} %b "
-set status-line-center "%f"
+set status-line-center "%n %f"
 set status-line-right  "%(builder-status)  %{status-line-location-attrs} (%3p%%)  %5l :: %-3c  %{status-line-ft-attrs} %=5F "
 
 
@@ -73,6 +73,10 @@ plugin-load ypm
 
 plugin-load 'mk_src_pair'
 
+plugin-load 'terminal'
+set terminal-scrollback 10000
+term-new # make *term0
+
 plugin-load 'lang/bjou'
 plugin-load 'lang/syntax/bjou'
 plugin-load 'lang/simon'
@@ -93,8 +97,8 @@ fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 
-style first-dark
-style-use-term-bg
+style humanoid-dark
+# style-use-term-bg
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert
@@ -129,6 +133,11 @@ vimish-bind  normal  "tab"        go-menu
 vimish-bind  normal  "ctrl-/"     kammerdienerb-find-cursor-word
 vimish-bind  normal  "pagedown"   scroll-buffer 20
 vimish-bind  normal  "pageup"     scroll-buffer -20
+
+vimish-bind  normal  "ctrl-x"     go-menu
+term-bind            "ctrl-x"     go-menu
+vimish-bind  normal  "ctrl-t"     toggle-term-mode
+term-bind            "ctrl-l"     kammerdienerb-frame-next-skip-tray
 
 ### @project ###
 # Load directory-specific rc file.

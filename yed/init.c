@@ -105,6 +105,7 @@ static yed_frame * make_right_frame(void) {
 
 resize:;
     yed_resize_frame(ys->active_frame, 0, (int)((0.4 - ys->active_frame->width_f) * ys->term_cols));
+    yed_frame_set_name(ys->active_frame, "right");
 
     return ys->active_frame;
 }
@@ -123,10 +124,12 @@ static yed_frame *find_tray_frame(void) {
     if (tree->split_kind == FTREE_VSPLIT) {
         if (!tree->child_trees[0]->is_leaf && tree->child_trees[0]->split_kind == FTREE_HSPLIT) {
             tree = yed_frame_tree_get_split_leaf_prefer_right_or_bottommost(tree->child_trees[0]);
+            yed_frame_set_name(tree->frame, "tray");
             return tree->frame;
         }
     } else {
         if (tree->child_trees[1]->is_leaf) {
+            yed_frame_set_name(tree->child_trees[1]->frame, "tray");
             return tree->child_trees[1]->frame;
         }
     }
