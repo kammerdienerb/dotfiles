@@ -44,6 +44,7 @@ set auto-dquote-skip                "yes"
 set auto-quote-skip                 "yes"
 set universal-copy-on-yank          "yes"
 set universal-clipboard-trim-nl     "yes"
+set terminal-scrollback             10000
 set mouse-menu-on-nothing "                                                                                           \
     'Build'              'multi builder-view-output builder-start \"special-buffer-prepare-unfocus *builder-output\"' \
     'Jump Back'          'jump-stack-pop'                                                                             \
@@ -64,6 +65,9 @@ set mouse-menu-on-word "                                                        
     'Jump to Definition' 'multi jump-stack-push ctags-jump-to-definition'                                             \
     'Manpage'            'man-word'"
 
+### @buffers ###
+term-new # make *term0
+
 ### @plugins ###
 
 # 'yedrc' is already loaded by init.c
@@ -73,9 +77,6 @@ plugin-load ypm
 
 plugin-load 'mk_src_pair'
 
-plugin-load 'terminal'
-set terminal-scrollback 10000
-term-new # make *term0
 
 plugin-load 'lang/bjou'
 plugin-load 'lang/syntax/bjou'
@@ -97,7 +98,7 @@ fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 
-style humanoid-dark
+style forest
 # style-use-term-bg
 
 ### @keybindings ###

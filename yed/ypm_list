@@ -46,13 +46,12 @@ calc
 lang/sh
 loc_history
 align
-go-menu
-find-file
 find_file
 grep
-ctags
 autotrim
 styles/zulu
 styles/crunchy_leaves
 style_use_term_bg
+ctags
 go_menu
+terminal
