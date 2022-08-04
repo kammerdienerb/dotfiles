@@ -65,9 +65,6 @@ set mouse-menu-on-word "                                                        
     'Jump to Definition' 'multi jump-stack-push ctags-jump-to-definition'                                             \
     'Manpage'            'man-word'"
 
-### @buffers ###
-term-new # make *term0
-
 ### @plugins ###
 
 # 'yedrc' is already loaded by init.c
@@ -89,6 +86,8 @@ plugin-load 'styles/casey' # this will load my modified version
 plugin-load 'styles/first' # this will load my modified version
 plugin-load 'styles/borland'
 
+### @buffers ###
+term-new # make *term0
 
 ### @style ###
 fstyle ~/.config/yed/styles/cubic.fstyle
