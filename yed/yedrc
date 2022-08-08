@@ -97,8 +97,8 @@ fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 
-style forest
-# style-use-term-bg
+style first-dark
+style-use-term-bg
 
 ### @keybindings ###
 vimish-bind  insert  "j j"        vimish-exit-insert

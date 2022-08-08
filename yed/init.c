@@ -179,7 +179,7 @@ done:;
         if (tray->tree->parent == NULL) {
             save_height = tray->height;
             yed_resize_frame(tray, (want_tray_size - tray->height) < 0 ? -1 : 1, 0);
-            if (other->height == save_height) {
+            if (tray->height == save_height) {
                 goto done;
             }
         } else {
@@ -316,9 +316,8 @@ int yed_plugin_boot(yed_plugin *self) {
 }
 
 void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
-    yed_command     default_cmd;
-    yed_frame_tree *tree;
-    yed_frame      *f;
+    yed_command  default_cmd;
+    yed_frame   *f;
 
 
     if (n_args != 1) {

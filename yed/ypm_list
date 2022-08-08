@@ -25,7 +25,6 @@ comment
 completer
 man
 style_pack
-fstyle
 builder
 hook
 jump_stack
@@ -39,7 +38,6 @@ make-tab
 lang/linker
 lang/syntax/linker
 convert
-mouse_frame_control
 universal_clipboard
 command-history
 calc
@@ -54,4 +52,6 @@ styles/crunchy_leaves
 style_use_term_bg
 ctags
 go_menu
+mouse_frame_control
+fstyle
 terminal

@@ -37,7 +37,7 @@ if [ "$(uname)" = "Darwin" ]; then # M1
     fi
 fi
 
-C_FLAGS+=" $(yed --print-cflags --print-ldflags)"
+C_FLAGS+=" $(yed --print-cflags --print-ldflags) -Wall -Werror"
 
 
 pids=()
