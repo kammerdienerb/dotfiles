@@ -96,6 +96,7 @@ fstyle ~/.config/yed/styles/byte.fstyle
 fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
+fstyle ~/.config/yed/styles/alchemist.fstyle
 
 style first-dark
 style-use-term-bg
