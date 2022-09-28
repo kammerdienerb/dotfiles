@@ -40,7 +40,6 @@ lang/syntax/linker
 convert
 universal_clipboard
 command-history
-calc
 lang/sh
 loc_history
 align
@@ -54,4 +53,5 @@ ctags
 go_menu
 mouse_frame_control
 fstyle
+calc
 terminal

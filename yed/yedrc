@@ -82,10 +82,6 @@ plugin-load 'lang/syntax/simon'
 plugin-load 'lang/slide'
 plugin-load 'lang/syntax/slide'
 
-plugin-load 'styles/casey' # this will load my modified version
-plugin-load 'styles/first' # this will load my modified version
-plugin-load 'styles/borland'
-
 ### @buffers ###
 term-new # make *term0
 

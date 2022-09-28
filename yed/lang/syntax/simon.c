@@ -145,6 +145,7 @@ int yed_plugin_boot(yed_plugin *self) {
         APUSH("&code-constant");
             ARRAY_LOOP(constants) KWD(*it);
             REGEX("%[a-zA-Z_][0-9a-zA-Z_]*");
+            REGEX("%\\.\\.\\.");
         APOP();
 
         APUSH("&code-preprocessor");
