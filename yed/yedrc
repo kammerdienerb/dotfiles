@@ -94,7 +94,7 @@ fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 fstyle ~/.config/yed/styles/alchemist.fstyle
 
-style casey
+style holly
 # style-use-term-bg
 
 ### @keybindings ###

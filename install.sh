@@ -9,6 +9,8 @@ eval HM=$(echo ~${USER})
 echo ".zshrc"
 cp .zshrc $HM/.zshrc
 cp -r .zsh $HM
+echo ".Xresources"
+cp .Xresources $HM/.Xresources
 echo ".vimrc"
 cp .vimrc $HM/.vimrc
 echo ".vim/"

@@ -72752,7 +72752,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>20.047066156914898</real>
+			<real>10.047066156914898</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -73166,7 +73166,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>VictorMono-Regular 12</string>
+			<string>VictorMono-Regular 16</string>
 			<key>Only The Default BG Color Uses Transparency</key>
 			<false/>
 			<key>Option Key Sends</key>
@@ -73242,7 +73242,7 @@
 			<key>Terminal Type</key>
 			<string>screen-256color</string>
 			<key>Transparency</key>
-			<real>0.20274268617021302</real>
+			<real>0.50274268617021323</real>
 			<key>Unicode Normalization</key>
 			<integer>0</integer>
 			<key>Unicode Version</key>

@@ -106,6 +106,11 @@ int yed_plugin_boot(yed_plugin *self) {
     SYN();
         APUSH("&code-comment");
             RANGE("#"); ONELINE(); ENDRANGE("$");
+            RANGE("\\\\COMMENT"); ONELINE(); ENDRANGE("$");
+        APOP();
+
+        APUSH("&bad");
+            RANGE("\\\\ERROR"); ONELINE(); ENDRANGE("$");
         APOP();
 
         APUSH("&code-string");
