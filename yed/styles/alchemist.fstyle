@@ -1,9 +1,9 @@
-active               fg c9bfb6    bg 113537
-active-border        fg 7180ac    bg 113537
-active-gutter        fg c9bfb6    bg 113537
-inactive             fg c9bfb6    bg 113537
-inactive-border      fg 7180ac    bg 113537
-inactive-gutter      fg c9bfb6    bg 113537
+active               fg c9bfb6    bg 111722
+active-border        fg 7180ac    bg 111722
+active-gutter        fg c9bfb6    bg 111722
+inactive             fg c9bfb6    bg 111722
+inactive-border      fg 7180ac    bg 111722
+inactive-gutter      fg c9bfb6    bg 111722
 cursor-line                       bg 355070
 selection                         bg 355070
 search               fg 49d45c    bg 170326    inverse
@@ -11,7 +11,7 @@ search-cursor        fg d4495c    bg 170326    inverse
 attention            fg c00000                 bold
 associate            fg c9bfb6    bg 900040
 status-line          fg 252730    bg 7180ac    bold
-command-line         fg c9bfb6    bg 113537
+command-line         fg c9bfb6    bg 111722
 popup                fg c9bfb6    bg 900040
 popup-alt            fg c9bfb6    bg 900040    inverse
 good                 fg 009000

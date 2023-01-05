@@ -110,7 +110,7 @@ int yed_plugin_boot(yed_plugin *self) {
         APOP();
 
         APUSH("&bad");
-            RANGE("\\\\ERROR"); ONELINE(); ENDRANGE("$");
+            REGEX("\\\\ERROR");
         APOP();
 
         APUSH("&code-string");
