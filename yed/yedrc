@@ -97,8 +97,9 @@ fstyle ~/.config/yed/styles/holly.fstyle
 fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 fstyle ~/.config/yed/styles/alchemist.fstyle
+fstyle ~/.config/yed/styles/hydropump.fstyle
 
-style alchemist
+style hydropump
 # style-use-term-bg
 
 ### @keybindings ###

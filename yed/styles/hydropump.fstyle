@@ -1,0 +1,57 @@
+# bg             1d212a
+# fg             F8F8F2
+# selection      44475A
+# comment        6272A4
+# red            f05c8e
+# orange         9bdffc
+# yellow         dafd89
+# dark_green     013435
+# green          18eece
+# purple         d0adfe
+# cyan           9bb9fc
+# pink           ff9fd9
+# bright_red     ff3c7e
+# bright_green   01d6b6
+# bright_yellow  dafd89
+# bright_blue    73c5ff
+# bright_magenta dbbfff
+# bright_cyan    9bdffc
+# bright_white   F8F8F2
+# menu           1b202a
+# visual         3E4452
+# gutter_fg      4B5263
+# nontext        3B4048
+# white          ABB2BF
+# black          111318
+
+active               fg F8F8F2    bg 1d212a
+active-border        fg F8F8F2    bg 1d212a
+active-gutter        fg F8F8F2    bg 1d212a
+inactive             fg F8F8F2    bg 1d212a
+inactive-border      fg F8F8F2    bg 1d212a
+inactive-gutter      fg F8F8F2    bg 1d212a
+cursor-line                       bg 44475A
+selection                         bg 44475A
+search               fg 9bdffc    bg 111318    inverse
+search-cursor        fg 6272A4    bg 9bdffc    inverse
+attention            fg c00000                 bold
+associate                                      underline
+status-line          fg ABB2BF    bg 111318    bold
+command-line         fg F8F8F2    bg 1d212a
+popup                fg ABB2BF    bg 111318
+popup-alt            fg ABB2BF    bg 44475A
+good                 fg 18eece
+bad                  fg ff3c7e
+code-comment         fg 6272A4                 bold
+code-keyword         fg 9bb9fc
+code-control-flow    fg 9bb9fc
+code-typename        fg 9bdffc
+code-preprocessor    fg ff9fd9                 bold
+code-fn-call         fg dafd89
+code-number          fg ff9fd9
+code-constant        fg d0adfe                 bold
+code-field           fg 9bdffc
+# code-variable        fg a99fc6
+code-string          fg 18eece    bg 013435
+code-character       fg 18eece
+code-escape          fg 9bb9fc

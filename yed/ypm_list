@@ -22,7 +22,6 @@ paren_hl
 log_hl
 indent_c
 comment
-completer
 man
 style_pack
 builder
@@ -58,3 +57,4 @@ terminal
 yule_2021
 yule_2022
 extension_mapper
+completer
