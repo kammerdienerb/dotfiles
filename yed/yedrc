@@ -34,7 +34,6 @@ set chatty-kathy-port               2324
 set chatty-kathy-server             "com1635.eecs.utk.edu"
 set chatty-kathy-client-autoconnect "yes"
 set macro-instant-playback          "yes"
-set my-frames-force-split           "no"
 set go-menu-persistent-items        ".yedrc build.sh"
 set completer-sources               "word tags"
 set completer-auto                  "yes"
