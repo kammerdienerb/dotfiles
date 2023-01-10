@@ -67,6 +67,8 @@ int yed_plugin_boot(yed_plugin *self) {
 
     char *commands[] = {
         "point",
+        "save",
+        "restore",
         "speed",
         "resolution",
         "include",
@@ -87,8 +89,12 @@ int yed_plugin_boot(yed_plugin *self) {
         "rjust",
         "vspace",
         "vfill",
+        "counter",
         "bullet",
         "image",
+        "goto",
+        "gotox",
+        "gotoy",
         "translate",
     };
     char *constants[] = {
