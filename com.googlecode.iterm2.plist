@@ -4,8 +4,10 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<true/>
-	<key>AlternateMouseScroll</key>
+	<key>AllowTabbarInTitlebarAccessoryBigSur</key>
 	<true/>
+	<key>AlternateMouseScroll</key>
+	<false/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>3024 Day</key>
@@ -72478,16 +72480,24 @@
 	<false/>
 	<key>DisableMetalWhenIdle</key>
 	<true/>
+	<key>DismemberScrollView</key>
+	<true/>
 	<key>DrawOutlineAroundCursor</key>
 	<false/>
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>EnableProxyIcon</key>
 	<false/>
+	<key>FastForegroundJobUpdates</key>
+	<true/>
+	<key>FastTrackpad</key>
+	<false/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HdrCursor</key>
 	<false/>
+	<key>HideMenuBarInFullscreen</key>
+	<true/>
 	<key>HideScrollbar</key>
 	<true/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
@@ -72734,6 +72744,8 @@
 			</dict>
 			<key>Background Image Location</key>
 			<string></string>
+			<key>Background Image Mode</key>
+			<integer>0</integer>
 			<key>Badge Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -72766,6 +72778,8 @@
 				<key>Red Component</key>
 				<real>0.99997550249099731</real>
 			</dict>
+			<key>Brighten Bold Text</key>
+			<false/>
 			<key>Character Encoding</key>
 			<integer>4</integer>
 			<key>Close Sessions On End</key>
@@ -73219,6 +73233,8 @@
 			<false/>
 			<key>Smart Cursor Color</key>
 			<true/>
+			<key>Space</key>
+			<integer>0</integer>
 			<key>Status Bar Layout</key>
 			<dict>
 				<key>advanced configuration</key>
@@ -73242,7 +73258,7 @@
 			<key>Terminal Type</key>
 			<string>screen-256color</string>
 			<key>Transparency</key>
-			<real>0.50274268617021323</real>
+			<real>0.20187832446808568</real>
 			<key>Unicode Normalization</key>
 			<integer>0</integer>
 			<key>Unicode Version</key>
@@ -73264,7 +73280,7 @@
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
-			<integer>12</integer>
+			<integer>0</integer>
 			<key>Working Directory</key>
 			<string>/Users/kammerdienerb</string>
 		</dict>
