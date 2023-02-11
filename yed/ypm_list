@@ -59,3 +59,5 @@ extension_mapper
 completer
 word_wrap
 terminal
+lang/csharp
+lang/syntax/csharp
