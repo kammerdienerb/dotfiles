@@ -48,7 +48,6 @@ autotrim
 styles/zulu
 styles/crunchy_leaves
 style_use_term_bg
-ctags
 go_menu
 mouse_frame_control
 fstyle
@@ -61,3 +60,4 @@ word_wrap
 terminal
 lang/csharp
 lang/syntax/csharp
+ctags
