@@ -98,7 +98,7 @@ fstyle ~/.config/yed/styles/slate.fstyle
 fstyle ~/.config/yed/styles/alchemist.fstyle
 fstyle ~/.config/yed/styles/hydropump.fstyle
 
-style mordechai
+style byte
 # style-use-term-bg
 
 ### @keybindings ###
