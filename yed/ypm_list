@@ -50,7 +50,6 @@ styles/crunchy_leaves
 style_use_term_bg
 go_menu
 mouse_frame_control
-fstyle
 calc
 yule_2021
 yule_2022
@@ -61,3 +60,4 @@ terminal
 lang/csharp
 lang/syntax/csharp
 ctags
+fstyle

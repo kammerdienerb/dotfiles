@@ -1,0 +1,32 @@
+# fstyle generated for 'doug'
+active               fg eee1b3  bg 506066
+inactive             fg eee1b3  bg 506066
+active-border        fg eee1b3  bg 506066
+inactive-border      fg eee1b3  bg 506066
+active-gutter        fg eee1b3  bg 506066
+inactive-gutter      fg eee1b3  bg 506066
+cursor-line          fg eee1b3  bg 2f394d
+selection            fg eee1b3  bg 2f394d
+search               fg eee1b3    inverse
+search-cursor        fg ef476f    inverse
+attention            fg ef476f    bold
+associate            bg 617188  bold
+status-line          fg 506066  bg eee1b3  bold
+command-line         fg eee1b3  bg 506066
+popup                fg cec1a3  bg 417188  bold
+popup-alt            fg cec1a3  bg 417188  bold inverse
+good                 fg 007f00
+bad                  fg 7f0000
+code-comment         fg ccf3ff    bold
+code-keyword         fg ff7878    bold
+code-control-flow    fg ff7878    bold
+code-typename        fg ff7878    bold
+code-preprocessor    fg ffffff    bold
+code-fn-call         fg 78c0e0
+code-number          fg ffb31c
+code-constant        fg ffb31c
+code-field           fg 78a0e0
+code-variable        fg 78a0e0
+code-string          fg 17b890
+code-character       fg 17b890
+code-escape          fg fff275
