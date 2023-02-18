@@ -97,8 +97,9 @@ fstyle ~/.config/yed/styles/aerostar.fstyle
 fstyle ~/.config/yed/styles/slate.fstyle
 fstyle ~/.config/yed/styles/alchemist.fstyle
 fstyle ~/.config/yed/styles/hydropump.fstyle
+fstyle ~/.config/yed/styles/doug.fstyle
 
-style byte
+style doug
 # style-use-term-bg
 
 ### @keybindings ###
