@@ -99,7 +99,7 @@ fstyle ~/.config/yed/styles/alchemist.fstyle
 fstyle ~/.config/yed/styles/hydropump.fstyle
 fstyle ~/.config/yed/styles/doug.fstyle
 
-style doug
+style hydropump
 # style-use-term-bg
 
 ### @keybindings ###
