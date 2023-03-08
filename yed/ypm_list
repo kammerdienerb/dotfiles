@@ -21,7 +21,6 @@ vimish
 paren_hl
 log_hl
 indent_c
-comment
 man
 style_pack
 builder
@@ -56,8 +55,9 @@ yule_2022
 extension_mapper
 completer
 word_wrap
-terminal
 lang/csharp
 lang/syntax/csharp
 ctags
 fstyle
+terminal
+comment

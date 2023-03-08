@@ -98,8 +98,9 @@ fstyle ~/.config/yed/styles/slate.fstyle
 fstyle ~/.config/yed/styles/alchemist.fstyle
 fstyle ~/.config/yed/styles/hydropump.fstyle
 fstyle ~/.config/yed/styles/doug.fstyle
+fstyle ~/.config/yed/styles/squire.fstyle
 
-style hydropump
+style squire
 # style-use-term-bg
 
 ### @keybindings ###
