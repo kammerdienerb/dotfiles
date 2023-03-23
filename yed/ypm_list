@@ -17,7 +17,6 @@ lang/conf
 lang/syntax/conf
 lang/make
 lang/syntax/make
-vimish
 paren_hl
 log_hl
 indent_c
@@ -61,3 +60,4 @@ ctags
 fstyle
 terminal
 comment
+xul
