@@ -36,10 +36,10 @@ inactive-border      fg @230    bg @233
 inactive-gutter      fg @230    bg @233
 cursor-line                     bg @236
 selection                       bg @238
-search               fg @236    bg @230    inverse
-search-cursor        fg @236    bg @230
+search               fg @236    bg @230
+search-cursor        fg @163    bg @230
 attention            fg @160               bold
-associate                       bg @235    underline
+associate                                  inverse underline
 status-line          fg @234    bg @246    bold
 command-line         fg @230    bg @233
 popup                fg @230    bg @238
