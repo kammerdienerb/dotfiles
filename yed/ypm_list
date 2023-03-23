@@ -60,6 +60,6 @@ ctags
 fstyle
 terminal
 comment
-xul
 lang/scheme
 lang/syntax/scheme
+xul
