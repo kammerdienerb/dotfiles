@@ -61,5 +61,7 @@ fstyle
 terminal
 comment
 lang/scheme
-lang/syntax/scheme
 xul
+lang/syntax/scheme
+lang/nickel
+lang/syntax/nickel
