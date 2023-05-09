@@ -65,3 +65,6 @@ xul
 lang/syntax/scheme
 lang/nickel
 lang/syntax/nickel
+lang/go
+lang/syntax/go
+line_numbers

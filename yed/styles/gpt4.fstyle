@@ -1,0 +1,31 @@
+active               fg FFFFFF    bg 455A64
+active-border        fg FFFFFF    bg 455A64
+active-gutter        fg FFFFFF    bg 455A64
+inactive             fg FFFFFF    bg 263238
+inactive-border      fg FFFFFF    bg 263238
+inactive-gutter      fg FFFFFF    bg 263238
+cursor-line                      bg 546E7A
+selection                        bg 546E7A
+search               fg FFFFFF    bg 90CAF9
+search-cursor        fg FBC02D    bg 90CAF9
+attention            fg D32F2F               bold
+associate                                  inverse underline
+status-line          fg FFFFFF    bg 607D8B    bold
+command-line         fg FFFFFF    bg 37474F
+popup                fg FFFFFF    bg 546E7A
+popup-alt            fg 455A64    bg FFFFFF
+good                 fg 4CAF50
+bad                  fg D32F2F
+code-comment         fg 90A4AE
+code-keyword         fg AB5FA2
+code-control-flow    fg 2196F3
+code-typename        fg 4CAF50
+code-preprocessor    fg FF5722                 bold
+code-fn-call         fg 039BE5
+code-number          fg FF9800
+code-constant        fg FF9800                 bold
+code-field           fg 8BC34A
+code-variable        fg 8BC34A
+code-string          fg FFEB3B
+code-character       fg FFEB3B
+code-escape          fg FF5722

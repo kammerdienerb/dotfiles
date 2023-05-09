@@ -1,0 +1,31 @@
+active               fg @255    bg @236
+active-border        fg @255    bg @236
+active-gutter        fg @255    bg @236
+inactive             fg @246    bg @239
+inactive-border      fg @246    bg @239
+inactive-gutter      fg @246    bg @239
+cursor-line                     bg @238
+selection                       bg @238
+search               fg @214    bg @239
+search-cursor        fg @249    bg @239
+attention            fg @203    bold
+associate            fg @249    bg @238    inverse underline
+status-line          fg @249    bg @240    bold
+command-line         fg @250    bg @236
+popup                fg @255    bg @238
+popup-alt            fg @246    bg @239
+good                 fg @82
+bad                  fg @167
+code-comment         fg @245
+code-keyword         fg @147
+code-control-flow    fg @212
+code-typename        fg @159
+code-preprocessor    fg @202    bold
+code-fn-call         fg @214
+code-number          fg @138
+code-constant        fg @140    bold
+code-field           fg @141
+code-variable        fg @141
+code-string          fg @155
+code-character       fg @155
+code-escape          fg @166
