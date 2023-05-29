@@ -102,8 +102,14 @@ fstyle ~/.config/yed/styles/alchemist.fstyle
 fstyle ~/.config/yed/styles/hydropump.fstyle
 fstyle ~/.config/yed/styles/doug.fstyle
 fstyle ~/.config/yed/styles/squire.fstyle
+fstyle ~/.config/yed/styles/gpt1.fstyle
+fstyle ~/.config/yed/styles/gpt2.fstyle
+fstyle ~/.config/yed/styles/gpt3.fstyle
+fstyle ~/.config/yed/styles/gpt4.fstyle
+fstyle ~/.config/yed/styles/gpt5.fstyle
+fstyle ~/.config/yed/styles/jon.fstyle
 
-style squire
+style jon
 # style-use-term-bg
 
 ### @commands ###

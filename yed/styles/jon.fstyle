@@ -1,0 +1,31 @@
+active            fg d2be9b bg 102a2a
+active-border     fg d2be9b bg 102a2a
+active-gutter     fg d2be9b bg 102a2a
+inactive          fg d2be9b bg 001a1a
+inactive-border   fg d2be9b bg 001a1a
+inactive-gutter   fg d2be9b bg 001a1a
+cursor-line                 bg 001a1a
+selection                   bg 4400e6
+search            fg d2be9b bg 7c9696
+search-cursor     fg 8d2840 bg e388a8
+attention         fg cd4860 bold
+associate         fg 064701 bg a6efa1
+status-line       fg 000000 bg d2be9b
+command-line      fg d2be9b bg 102a2a
+popup             fg 000000 bg d2be9b
+popup-alt         fg 000000 bg ffffff
+good              fg 4caf50
+bad               fg ff5722
+code-comment      fg 60b953
+code-keyword      fg ffffff
+code-control-flow fg ffffff
+code-typename     fg 9fccac
+code-preprocessor fg ffffff bold
+code-fn-call      fg b29e7b
+code-number       fg 84aea7
+code-constant     fg 84aea7 bold
+code-field        fg 9faccc
+code-variable     fg 9faccc
+code-string       fg 84aea7
+code-character    fg 84aea7
+code-escape       fg 009f9f

@@ -58,7 +58,6 @@ lang/csharp
 lang/syntax/csharp
 ctags
 fstyle
-terminal
 comment
 lang/scheme
 xul
@@ -67,4 +66,4 @@ lang/nickel
 lang/syntax/nickel
 lang/go
 lang/syntax/go
-line_numbers
+terminal
