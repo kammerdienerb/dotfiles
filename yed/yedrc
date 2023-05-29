@@ -109,7 +109,7 @@ fstyle ~/.config/yed/styles/gpt4.fstyle
 fstyle ~/.config/yed/styles/gpt5.fstyle
 fstyle ~/.config/yed/styles/jon.fstyle
 
-style jon
+style casey
 # style-use-term-bg
 
 ### @commands ###
