@@ -1,0 +1,61 @@
+# White           15  #ffffff
+# Black           16  #000000
+# DeepSkyBlue4    23  #005f5f
+# DeepSkyBlue4    24  #005f87
+# Turquoise4      30  #008787
+# PaleTurquoise4  66  #5f8787
+# SteelBlue       67  #5f87af
+# SkyBlue3        74  #5fafd7
+# DarkRed         88  #87005f
+# Grey53          102 #878787
+# LightSlateGrey  103 #8787af
+# DarkSeaGreen    108 #87af87
+# RosyBrown       138 #af8787
+# DarkSeaGreen3   150 #afd787
+# HotPink2        169 #d75faf
+# LightGoldenrod2 221 #ffd75f
+# Cornsilk1       230 #ffffd7
+
+# Grey Index
+
+# Grey100         231 #ffffff
+# Grey7           233 #121212
+# Grey11          234 #1c1c1c
+# Grey19          236 #303030
+# Grey23          237 #3a3a3a
+# Grey27          238 #444444
+# Grey42          242 #6c6c6c
+# Grey58          246 #949494
+# Grey74          250 #bcbcbc
+
+active               fg @230    bg @17
+active-border        fg @230    bg @17
+active-gutter        fg @230    bg @17
+inactive             fg @230    bg @17
+inactive-border      fg @230    bg @17
+inactive-gutter      fg @230    bg @17
+cursor-line                     bg @236
+selection                       bg @238
+search               fg @236    bg @230
+search-cursor        fg @163    bg @230
+attention            fg @160               bold
+associate                                  inverse underline
+status-line          fg @234    bg @246    bold
+command-line         fg @230    bg @17
+popup                fg @230    bg @238
+popup-alt            fg @17    bg @230
+good                 fg @34
+bad                  fg @160
+code-comment         fg @66
+code-keyword         fg @108
+code-control-flow    fg @74
+code-typename        fg @30
+code-preprocessor    fg @231                 bold
+code-fn-call         fg @103
+code-number          fg @138
+code-constant        fg @138                 bold
+code-field           fg @67
+code-variable        fg @67
+code-string          fg @150
+code-character       fg @150
+code-escape          fg @221
