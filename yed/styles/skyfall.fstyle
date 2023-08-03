@@ -1,0 +1,32 @@
+# fstyle generated for 'skyfall'
+active               fg c6c6c6  bg 191919
+inactive             fg c6c6c6  bg 292929
+active-border        fg 1d9c80  bg 191919
+inactive-border      fg c6c6c6  bg 292929
+active-gutter        fg c6c6c6  bg 191919
+inactive-gutter      fg c6c6c6  bg 292929
+cursor-line          fg c6c6c6  bg 393939
+selection            fg ffffff  bg 191919  inverse
+search               fg ffffff  bg 191919  inverse
+search-cursor        fg c6c6c6  bg 191919  inverse  bold
+attention            fg c6c6c6  bg 7f0000  bold
+associate            fg c6c6c6  bg 7f7f7f  bold
+status-line          fg c6c6c6  bg 1d9c80  bold
+command-line         fg c6c6c6  bg 292929
+popup                fg c6c6c6  bg 083D77
+popup-alt            fg 083D77  bg ffffff
+good                 fg 00af00
+bad                  fg cf0000
+code-comment         fg a1efd3    bold
+code-keyword         fg fffdaf    bold
+code-control-flow    fg fffdaf    bold
+code-typename        fg fffdaf    bold
+code-preprocessor    fg fffdaf    bold
+code-fn-call         fg 87dfeb
+code-number          fg bd99ff
+code-constant        fg 51e2c2
+code-field           fg 5E91B8
+code-variable        fg 227C9D
+code-string          fg ec4890
+code-character       fg ec4890
+code-escape          fg E7BBE3

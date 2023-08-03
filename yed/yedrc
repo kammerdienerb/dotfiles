@@ -22,33 +22,33 @@ set status-line-right  "%(builder-status)  %{status-line-location-attrs} (%3p%%)
 
 
 ### @variables ###
-set tab-width                       4
-set fill-string                     "▒"
-set border-style                    "thin"
-set my-frames-force-split           "yes"
-set latex-comp-prg                  "xelatex -halt-on-error --interaction=nonstopmode '%'"
-set latex-view-prg                  "echo \"zathura '%'\" | $SHELL &"
-set latex-update-view-prg           "" # "pkill -HUP mupdf 2>&1 > /dev/null"
-set cursor-line                     "yes"
-set vimish-insert-no-cursor-line    "yes"
-set cursor-word-hl-idle-threshold   1500
-set chatty-kathy-id                 "kammerdienerb"
-set chatty-kathy-port               2324
-set chatty-kathy-server             "com1635.eecs.utk.edu"
-set chatty-kathy-client-autoconnect "yes"
-set macro-instant-playback          "yes"
-set go-menu-persistent-items        ".yedrc build.sh"
-set completer-sources               "word tags"
-set completer-auto                  "yes"
-set builder-popup-rg                "yes"
-set builder-build-command           "./build.sh"
-set auto-paren-skip                 "yes"
-set auto-dquote-skip                "yes"
-set auto-quote-skip                 "yes"
-set universal-copy-on-yank          "yes"
-set universal-clipboard-trim-nl     "yes"
-set terminal-scrollback             10000
-set mouse-menu-on-nothing "                                                                                           \
+set tab-width                        4
+set fill-string                      "▒"
+set border-style                     "thin"
+set my-frames-force-split            "yes"
+set latex-comp-prg                   "xelatex -halt-on-error --interaction=nonstopmode '%'"
+set latex-view-prg                   "echo \"zathura '%'\" | $SHELL &"
+set latex-update-view-prg            "" # "pkill -HUP mupdf 2>&1 > /dev/null"
+set cursor-line                      "yes"
+set vimish-insert-no-cursor-line     "yes"
+set cursor-word-hl-idle-threshold-ms 1500
+set chatty-kathy-id                  "kammerdienerb"
+set chatty-kathy-port                2324
+set chatty-kathy-server              "com1635.eecs.utk.edu"
+set chatty-kathy-client-autoconnect  "yes"
+set macro-instant-playback           "yes"
+set go-menu-persistent-items         ".yedrc build.sh"
+set completer-sources                "word tags"
+set completer-auto                   "yes"
+set builder-popup-rg                 "yes"
+set builder-build-command            "./build.sh"
+set auto-paren-skip                  "yes"
+set auto-dquote-skip                 "yes"
+set auto-quote-skip                  "yes"
+set universal-copy-on-yank           "yes"
+set universal-clipboard-trim-nl      "yes"
+set terminal-scrollback              10000
+set mouse-menu-on-nothing "                                                                                            \
     'Build'              'multi builder-view-output builder-start \"special-buffer-prepare-unfocus *builder-output\"' \
     'Jump Back'          'jump-stack-pop'                                                                             \
     'Reload'             'reload'                                                                                     \
@@ -109,8 +109,9 @@ fstyle ~/.config/yed/styles/gpt3.fstyle
 fstyle ~/.config/yed/styles/gpt4.fstyle
 fstyle ~/.config/yed/styles/gpt5.fstyle
 fstyle ~/.config/yed/styles/jon.fstyle
+fstyle ~/.config/yed/styles/skyfall.fstyle
 
-style squire_blue
+style skyfall
 # style-use-term-bg
 
 ### @commands ###
@@ -149,6 +150,8 @@ xul-bind  normal  "ctrl-x"     go-menu
 term-bind         "ctrl-x"     go-menu
 xul-bind  normal  "ctrl-t"     toggle-term-mode
 term-bind         "ctrl-l"     kammerdienerb-frame-next-skip-tray
+xul-bind  normal  "ctrl-k"     whence-you-came
+term-bind         "ctrl-k"     whence-you-came
 
 # vimish-bind  insert  "j j"        vimish-exit-insert
 # vimish-bind  normal  "spc c o"    comment-toggle

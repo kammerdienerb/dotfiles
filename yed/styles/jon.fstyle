@@ -4,8 +4,8 @@ active-gutter     fg d2be9b bg 102a2a
 inactive          fg d2be9b bg 001a1a
 inactive-border   fg d2be9b bg 001a1a
 inactive-gutter   fg d2be9b bg 001a1a
-cursor-line                 bg 001a1a
-selection                   bg 001a1a
+cursor-line       fg f2debb bg 001a1a
+selection         fg f2debb bg 001a1a
 search            fg d2be9b bg 7c9696
 search-cursor     fg 8d2840 bg e388a8
 attention         fg cd4860 bold

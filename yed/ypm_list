@@ -41,7 +41,6 @@ lang/sh
 loc_history
 align
 find_file
-grep
 autotrim
 styles/zulu
 styles/crunchy_leaves
@@ -49,8 +48,6 @@ style_use_term_bg
 go_menu
 mouse_frame_control
 calc
-yule_2021
-yule_2022
 extension_mapper
 completer
 word_wrap
@@ -60,10 +57,15 @@ ctags
 fstyle
 comment
 lang/scheme
-xul
 lang/syntax/scheme
 lang/nickel
 lang/syntax/nickel
 lang/go
 lang/syntax/go
+yule_2021
 terminal
+whence_you_came
+yule_2022
+cursor_word_hl
+grep
+xul
