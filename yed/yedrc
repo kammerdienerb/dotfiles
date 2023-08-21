@@ -111,7 +111,7 @@ fstyle ~/.config/yed/styles/gpt5.fstyle
 fstyle ~/.config/yed/styles/jon.fstyle
 fstyle ~/.config/yed/styles/skyfall.fstyle
 
-style skyfall
+style first-dark
 # style-use-term-bg
 
 ### @commands ###
