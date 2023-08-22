@@ -104,7 +104,7 @@ static yed_frame * make_right_frame(void) {
     }
 
 resize:;
-    yed_resize_frame(ys->active_frame, 0, (int)((0.4 - ys->active_frame->width_f) * ys->term_cols));
+/*     yed_resize_frame(ys->active_frame, 0, (int)((0.4 - ys->active_frame->width_f) * ys->term_cols)); */
     yed_frame_set_name(ys->active_frame, "right");
 
     return ys->active_frame;
