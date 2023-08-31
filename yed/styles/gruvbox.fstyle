@@ -1,0 +1,33 @@
+# fstyle generated for 'gruvbox'
+active               fg d5c4a1  bg 1d2021
+inactive             fg d5c4a1  bg 282828
+active-border        fg fe8019  bg 1d2021
+inactive-border      fg d5c4a1  bg 282828
+active-gutter        fg d5c4a1  bg 1d2021
+inactive-gutter      fg d5c4a1  bg 282828
+cursor-line          fg d5c4a1  bg 3c3836
+selection            fg d5c4a1  bg 504945
+search               fg 3c3836  bg fabd2f  bold
+search-cursor        fg 3c3836  bg fe8019  bold
+attention            fg fb4934    bold
+associate            bg 282828  bold
+status-line          fg 1d2021  bg 83a598  bold
+command-line         fg d5c4a1  bg 1d2021
+popup                fg 000000  bg 83a598
+popup-alt            fg 83a598  bg 282828
+good                 fg 7f00
+bad                  fg 7f0000
+code-comment         fg 665c54
+code-keyword         fg fb4934    bold
+code-control-flow    fg fb4934    bold
+code-typename        fg fe8019    bold
+code-preprocessor    fg fabd2f    bold
+code-fn-call         fg d5c4a1    bold
+code-number          fg d3869b
+code-constant        fg fe8019
+code-field           fg 83a598
+code-variable        fg 83a598
+code-string          fg b8bb26
+code-character       fg b8bb26
+code-escape          fg 8ec07c
+# status-line          fg d5c4a1  bg 665c54  bold

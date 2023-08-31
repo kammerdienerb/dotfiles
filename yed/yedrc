@@ -110,8 +110,9 @@ fstyle ~/.config/yed/styles/gpt4.fstyle
 fstyle ~/.config/yed/styles/gpt5.fstyle
 fstyle ~/.config/yed/styles/jon.fstyle
 fstyle ~/.config/yed/styles/skyfall.fstyle
+fstyle ~/.config/yed/styles/gruvbox.fstyle
 
-style first-dark
+style gruvbox
 # style-use-term-bg
 
 ### @commands ###
