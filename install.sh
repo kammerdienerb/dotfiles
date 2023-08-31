@@ -24,6 +24,8 @@ echo ".config/kitty"
 cp -r .config/kitty $HM/.config
 echo ".config/alacritty"
 cp -r .config/alacritty $HM/.config
+echo ".config/wezterm"
+cp -r .config/wezterm $HM/.config
 
 
 YED_DIR=${DIR}/yed
