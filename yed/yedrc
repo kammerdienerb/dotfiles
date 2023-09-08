@@ -109,10 +109,12 @@ fstyle ~/.config/yed/styles/gpt3.fstyle
 fstyle ~/.config/yed/styles/gpt4.fstyle
 fstyle ~/.config/yed/styles/gpt5.fstyle
 fstyle ~/.config/yed/styles/jon.fstyle
+fstyle ~/.config/yed/styles/jon-dark.fstyle
 fstyle ~/.config/yed/styles/skyfall.fstyle
 fstyle ~/.config/yed/styles/gruvbox.fstyle
+fstyle ~/.config/yed/styles/modus-vivendi.fstyle
 
-style gruvbox
+style jon-dark
 # style-use-term-bg
 
 ### @commands ###
