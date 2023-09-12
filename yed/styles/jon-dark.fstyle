@@ -23,7 +23,7 @@ code-typename     fg 9fecac
 code-preprocessor fg ffffff
 code-fn-call      fg a26b7e
 code-number       fg 84aea7
-code-constant     fg 009fcf
+code-constant     fg 007faf
 code-field        fg 9faccc
 code-variable     fg 9faccc
 code-string       fg 84aea7
