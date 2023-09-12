@@ -2,7 +2,6 @@ lang/c
 lang/syntax/c
 lang/cpp
 lang/syntax/cpp
-lang/syntax/sh
 lang/latex
 lang/syntax/latex
 lang/python
@@ -71,3 +70,4 @@ grep
 xul
 lang/jule
 lang/syntax/jule
+lang/syntax/sh
