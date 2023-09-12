@@ -1,17 +1,21 @@
 #include <yed/plugin.h>
 
+
+#define TRAY (0)
+
 static yed_plugin        *Self;
 static yed_frame         *last_frame;
+#if TRAY
 static yed_event_handler  epump_anim;
 static yed_event_handler  eframe_act;
-static yed_event_handler  eframe_del;
 static int                animating;
 static int                want_tray_size;
 static int                tray_big_dynamic;
 static int                save_hz;
+#endif
+static yed_event_handler  eframe_del;
 static char              *save_buff;
 static yed_frame         *save_frame;
-
 
 #define GO_MENU_SPLIT_RATIO (2.5)
 #define TRAY_BIG            (16)
@@ -25,7 +29,10 @@ void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args);
 void kammerdienerb_quit(int n_args, char **args);
 void kammerdienerb_write_quit(int n_args, char **args);
 void kammerdienerb_find_cursor_word(int n_args, char **args);
+
+#if TRAY
 void kammerdienerb_frame_next_skip_tray(int n_args, char **args);
+#endif
 
 #define ARGS_SCRATCH_BUFF "*scratch", (BUFF_SPECIAL)
 
@@ -110,6 +117,7 @@ resize:;
     return ys->active_frame;
 }
 
+#if TRAY
 static yed_frame *find_tray_frame(void) {
     yed_frame      *frame;
     yed_frame_tree *tree;
@@ -225,6 +233,7 @@ static void act_tray(yed_event *event) {
 
     last_frame = event->frame;
 }
+#endif
 
 static void frame_del(yed_event *event) {
     if (event->frame == last_frame) { last_frame = NULL; }
@@ -247,21 +256,31 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_log("\n# **  This is Brandon Kammerdiener's yed configuration  **");
     yed_log("\n# ********************************************************");
 
-    yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
-    yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);
-    yed_plugin_set_command(self, "special-buffer-prepare-unfocus",    kammerdienerb_special_buffer_prepare_unfocus);
+
+#if TRAY
     eframe_act.kind = EVENT_FRAME_ACTIVATED;
     eframe_act.fn   = act_tray;
     yed_plugin_add_event_handler(Self, eframe_act);
+#endif
+
     eframe_del.kind = EVENT_FRAME_PRE_DELETE;
     eframe_del.fn   = frame_del;
     yed_plugin_add_event_handler(Self, eframe_del);
+
+    yed_plugin_set_command(self, "special-buffer-prepare-focus",      kammerdienerb_special_buffer_prepare_focus);
+    yed_plugin_set_command(self, "special-buffer-prepare-jump-focus", kammerdienerb_special_buffer_prepare_jump_focus);
+    yed_plugin_set_command(self, "special-buffer-prepare-unfocus",    kammerdienerb_special_buffer_prepare_unfocus);
+
     yed_log("\ninit.c: added overrides for 'special-buffer-prepare-*' commands");
+
 
     get_or_make_buffer(ARGS_SCRATCH_BUFF);
 
     yed_plugin_set_command(self, "kammerdienerb-find-cursor-word",     kammerdienerb_find_cursor_word);
+
+#if TRAY
     yed_plugin_set_command(self, "kammerdienerb-frame-next-skip-tray", kammerdienerb_frame_next_skip_tray);
+#endif
 
     YEXE("plugin-load", "yedrc");
 
@@ -333,6 +352,7 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
     ||  strcmp(args[0], "*shell-output")   == 0
     ||  strcmp(args[0], "*calc")           == 0) {
 
+#if TRAY
         /* These go to the tray. */
 
         f = find_tray_frame();
@@ -342,7 +362,13 @@ void kammerdienerb_special_buffer_prepare_focus(int n_args, char **args) {
 
         yed_activate_frame(f);
 
-    } else if (strcmp(args[0], "*find-file-list")  == 0
+    } else
+#else
+        save_frame = ys->active_frame;
+    }
+#endif
+
+           if (strcmp(args[0], "*find-file-list")  == 0
     ||         strcmp(args[0], "*grep-list")       == 0
     ||         strcmp(args[0], "*ctags-find-list") == 0) {
 
@@ -409,8 +435,7 @@ void kammerdienerb_special_buffer_prepare_unfocus(int n_args, char **args) {
     }
 
     if (strcmp(args[0], "*builder-output") == 0
-    ||  strcmp(args[0], "*shell-output")   == 0
-    ||  strcmp(args[0], "*calc")           == 0) {
+    ||  strcmp(args[0], "*shell-output")   == 0) {
         if (save_frame != NULL) {
             yed_activate_frame(save_frame);
         }
@@ -460,6 +485,7 @@ void kammerdienerb_find_cursor_word(int n_args, char **args) {
     free(word);
 }
 
+#if TRAY
 void kammerdienerb_frame_next_skip_tray(int n_args, char **args) {
     yed_frame *tray;
     yed_frame *cur_frame, *frame, **frame_it;
@@ -500,3 +526,4 @@ void kammerdienerb_frame_next_skip_tray(int n_args, char **args) {
 
     yed_activate_frame(frame);
 }
+#endif

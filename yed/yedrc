@@ -129,7 +129,7 @@ xul-bind  normal  "spc b d"    buffer-delete
 xul-bind  normal  "ctrl-n"     buffer-next
 xul-bind  normal  "ctrl-p"     buffer-prev
 xul-bind  normal  "M M"        man-word
-xul-bind  normal  "ctrl-l"     kammerdienerb-frame-next-skip-tray
+xul-bind  normal  "ctrl-l"     frame-next # kammerdienerb-frame-next-skip-tray
 xul-bind  normal  "meta-l"     frame-next
 # Don't really use this that much and would prefer to not see the warnings.
 # xul-bind  normal  "ctrl-h"     frame-prev
