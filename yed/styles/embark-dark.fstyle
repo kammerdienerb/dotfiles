@@ -1,0 +1,32 @@
+# fstyle generated for 'embark'
+active               fg cbe3e7  bg 03000c
+inactive             fg cbe3e7  bg 000000
+active-border        fg 2e2b4c  bg 000000
+inactive-border      fg 2e2b4c  bg 000000
+active-gutter        fg cbe3e7  bg 03000c
+inactive-gutter      fg cbe3e7  bg 000000
+cursor-line          fg cbe3e7  bg 3e3b4c
+selection            fg cbe3e7  bg 3e3b4c
+search               fg 63f2f1             inverse
+search-cursor        fg 62d196             inverse
+attention            fg f02e6e             bold
+associate            bg 2f2d53             bold underline
+status-line          fg cbe3e7  bg 0e0b2c  bold
+command-line         fg cbe3e7  bg 03000c
+popup                fg cbe3e7  bg 2f2d53
+popup-alt            fg 2f2d53  bg cbe3e7
+good                 fg 007f00
+bad                  fg 7f0000
+code-comment         fg 767676
+code-keyword         fg f48fb1             bold
+code-control-flow    fg ffe6b3             bold
+code-typename        fg d4bfff             bold
+code-preprocessor    fg a37acc             bold
+code-fn-call         fg 91ddff
+code-number          fg f2b482
+code-constant        fg f2b482
+code-field           fg abf8f7
+code-variable        fg abf8f7
+code-string          fg a1efd3
+code-character       fg a1efd3
+code-escape          fg a10fd3

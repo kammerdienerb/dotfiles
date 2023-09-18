@@ -113,8 +113,9 @@ fstyle ~/.config/yed/styles/jon-dark.fstyle
 fstyle ~/.config/yed/styles/skyfall.fstyle
 fstyle ~/.config/yed/styles/gruvbox.fstyle
 fstyle ~/.config/yed/styles/modus-vivendi.fstyle
+fstyle ~/.config/yed/styles/embark-dark.fstyle
 
-style jon-dark
+style embark-dark
 # style-use-term-bg
 
 ### @commands ###
