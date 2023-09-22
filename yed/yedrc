@@ -115,7 +115,7 @@ fstyle ~/.config/yed/styles/gruvbox.fstyle
 fstyle ~/.config/yed/styles/modus-vivendi.fstyle
 fstyle ~/.config/yed/styles/embark-dark.fstyle
 
-style embark-dark
+style modus-vivendi
 # style-use-term-bg
 
 ### @commands ###
@@ -153,7 +153,7 @@ xul-bind  normal  "pageup"     scroll-buffer -20
 xul-bind  normal  "ctrl-x"     go-menu
 term-bind         "ctrl-x"     go-menu
 xul-bind  normal  "ctrl-t"     toggle-term-mode
-term-bind         "ctrl-l"     kammerdienerb-frame-next-skip-tray
+term-bind         "ctrl-l"     frame-next
 xul-bind  normal  "ctrl-k"     whence-you-came
 term-bind         "ctrl-k"     whence-you-came
 
