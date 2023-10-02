@@ -5,7 +5,6 @@ lang/syntax/cpp
 lang/latex
 lang/syntax/latex
 lang/python
-lang/syntax/python
 lang/yedrc
 lang/syntax/yedrc
 lang/jgraph
@@ -72,3 +71,4 @@ lang/jule
 lang/syntax/jule
 lang/syntax/sh
 diff
+lang/syntax/python

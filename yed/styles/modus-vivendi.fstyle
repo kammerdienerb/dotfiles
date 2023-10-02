@@ -12,7 +12,7 @@ attention         fg a4202a bold
 associate         fg ffffff bg 5f362f
 status-line       fg f4f4f4 bg 323232
 command-line      fg e0e6f0 bg 100f10
-popup             fg f4f4f4 bg 323232
+popup             fg f4f4f4 bg 202020
 popup-alt         fg e0e6f0 bg 100f10
 good              fg 44bc44
 bad               fg ff8059

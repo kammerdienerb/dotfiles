@@ -51,6 +51,12 @@ void eline(yed_event *event)  {
 
     yed_syntax_line_event(&syn, event);
 }
+void ehigh(yed_event *event)  {
+    if (event->ft == yed_get_ft("Simon")) {
+        yed_syntax_highlight_request_event(&syn, event);
+        event->cancel = 1;
+    }
+}
 
 
 void unload(yed_plugin *self) {
@@ -62,6 +68,7 @@ int yed_plugin_boot(yed_plugin *self) {
     yed_event_handler buffdel;
     yed_event_handler buffmod;
     yed_event_handler line;
+    yed_event_handler high;
 
     char              *kwds[] = {
         "or",
@@ -101,6 +108,10 @@ int yed_plugin_boot(yed_plugin *self) {
     line.kind = EVENT_LINE_PRE_DRAW;
     line.fn   = eline;
     yed_plugin_add_event_handler(self, line);
+
+    high.kind = EVENT_HIGHLIGHT_REQUEST;
+    high.fn   = ehigh;
+    yed_plugin_add_event_handler(self, high);
 
 
     SYN();
