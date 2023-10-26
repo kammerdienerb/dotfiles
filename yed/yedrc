@@ -85,6 +85,15 @@ plugin-load 'lang/syntax/simon'
 plugin-load 'lang/slide'
 plugin-load 'lang/syntax/slide'
 
+### @lsp ###
+set lsp-diagnostics-show-message     'cursor'
+set lsp-info-popup-idle-threshold-ms 2500
+set lsp-debug-log                    ON
+
+lsp-define-server CLANGD clangd        C C++
+lsp-define-server RUST   rust-analyzer Rust
+lsp-define-server PYLSP  'tee log.in | pylsp | tee log.out'         Python
+
 ### @misc ###
 map-extension S C
 
@@ -143,7 +152,7 @@ xul-bind  normal  "spc a l"    command-prompt "align "
 xul-bind  normal  "ctrl-y"     multi "builder-view-output" "builder-start" "special-buffer-prepare-unfocus *builder-output"
 xul-bind  normal  "E E"        builder-jump-to-error
 xul-bind  normal  "spc t"      ctags-find
-xul-bind  normal  "T T"        multi jump-stack-push ctags-jump-to-definition
+xul-bind  normal  "T T"        multi "jump-stack-push" "forward-cursor-word ctags-find"
 xul-bind  normal  "bsp"        jump-stack-pop
 xul-bind  normal  "tab"        go-menu
 xul-bind  normal  "ctrl-/"     kammerdienerb-find-cursor-word
