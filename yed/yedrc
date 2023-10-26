@@ -87,8 +87,8 @@ plugin-load 'lang/syntax/slide'
 
 ### @lsp ###
 set lsp-diagnostics-show-message     'cursor'
-set lsp-info-popup-idle-threshold-ms 2500
-set lsp-debug-log                    ON
+set lsp-info-popup-idle-threshold-ms -1
+set lsp-debug-log                    OFF
 
 lsp-define-server CLANGD clangd        C C++
 lsp-define-server RUST   rust-analyzer Rust
