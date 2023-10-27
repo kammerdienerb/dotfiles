@@ -62,9 +62,20 @@ config.hide_tab_bar_if_only_one_tab = false
 
 config.window_background_opacity = 0.6
 config.macos_window_background_blur = 64
--- config.text_background_opacity = 0.7
+config.text_background_opacity = 0.7
 
 config.native_macos_fullscreen_mode = false
+
+
+wezterm.on('toggle-text-bg-opacity', function(window, pane)
+    local overrides = window:get_config_overrides() or {}
+    if not overrides.text_background_opacity then
+        overrides.text_background_opacity = 0.7
+    else
+        overrides.text_background_opacity = nil
+    end
+    window:set_config_overrides(overrides)
+end)
 
 config.keys = {
     {
@@ -81,6 +92,11 @@ config.keys = {
         key = 'f',
         mods = 'CMD',
         action = wezterm.action.ToggleFullScreen,
+    },
+    {
+        key = 'B',
+        mods = 'CMD',
+        action = wezterm.action.EmitEvent 'toggle-text-bg-opacity',
     },
 }
 
