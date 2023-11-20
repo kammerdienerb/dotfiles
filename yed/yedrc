@@ -122,9 +122,11 @@ fstyle ~/.config/yed/styles/jon-dark.fstyle
 fstyle ~/.config/yed/styles/skyfall.fstyle
 fstyle ~/.config/yed/styles/gruvbox.fstyle
 fstyle ~/.config/yed/styles/modus-vivendi.fstyle
+fstyle ~/.config/yed/styles/modus-operandi.fstyle
+fstyle ~/.config/yed/styles/modus-operandi-tinted.fstyle
 fstyle ~/.config/yed/styles/embark-dark.fstyle
 
-style modus-vivendi
+style modus-operandi
 # style-use-term-bg
 
 ### @commands ###

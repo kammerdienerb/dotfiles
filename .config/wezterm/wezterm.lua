@@ -21,17 +21,7 @@ config.use_fancy_tab_bar = false
 
 config.alternate_buffer_wheel_scroll_speed = 10
 
--- config.font = wezterm.font 'Victor Mono'
--- config.font_size = 16.0
--- config.line_height = 0.85
 
--- config.font = wezterm.font 'Hack'
--- config.font_size = 16.0
--- config.line_height = 1.0
-
--- config.font = wezterm.font 'Fixed'
--- config.font_size = 28
--- config.line_height = 0.9
 
 if false then
     config.font = wezterm.font 'JuliaMono'
@@ -39,10 +29,31 @@ if false then
     config.line_height = 0.95
 
     config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-else
+elseif false then
     config.font = wezterm.font 'CommitMono'
     config.font_size = 16.0
     -- config.line_height = 0.95
+elseif false then
+    config.font = wezterm.font 'Fixed'
+    config.font_size = 28
+    -- config.line_height = 0.9
+elseif false then
+    config.font = wezterm.font 'Hack'
+    config.font_size = 16.0
+    config.line_height = 1.0
+elseif false then
+    config.font = wezterm.font 'Victor Mono'
+    config.font_size = 16.0
+    config.line_height = 0.85
+elseif true then
+    config.font = wezterm.font 'Berkeley Mono Variable'
+    config.font_size = 14.0
+elseif false then
+    config.font = wezterm.font 'Monaspace Neon'
+    config.font_size = 16.0
+elseif false then
+    config.font = wezterm.font 'Source Code Pro'
+    config.font_size = 16.0
 end
 
 

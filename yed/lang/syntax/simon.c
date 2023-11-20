@@ -74,7 +74,7 @@ int yed_plugin_boot(yed_plugin *self) {
         "or",
         "and",   "not",
         "proc",
-        "macro", "module", "sizeof", "struct", "typeof"
+        "lenof", "macro", "module", "sizeof", "struct", "typeof"
     };
 
     char              *control_flow[] = {
