@@ -6,8 +6,8 @@ inactive-border   fg 282828 bg e8d8cc
 inactive-gutter   fg 282828 bg e8d8cc
 cursor-line       fg 000000 bg d1c1b5
 selection         fg 000000 bg d1c1b5
-search            fg f0e0d4 bg 006800
-search-cursor     fg f0e0d4 bg 006800 bold
+search            fg ffffff bg 004800
+search-cursor     fg ffffff bg 007800 bold
 attention         fg ff8892 bold
 associate         fg 000000 bg e0af82
 status-line       fg 0a0a0a bg c8b8ac
@@ -16,7 +16,7 @@ popup             fg 0a0a0a bg e1d1c5
 popup-alt         fg 282828 bg d1c1b5
 good              fg 005e00
 bad               fg a60000
-code-comment      fg 707070
+code-comment      fg 707070 bold italic
 code-keyword      fg 8f0075
 code-control-flow fg 5317ac
 code-typename     fg 005a5f

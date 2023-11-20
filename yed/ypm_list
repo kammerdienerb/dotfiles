@@ -52,7 +52,6 @@ word_wrap
 lang/csharp
 lang/syntax/csharp
 ctags
-fstyle
 comment
 lang/scheme
 lang/syntax/scheme
@@ -77,3 +76,4 @@ lsp_diagnostics
 lang/syntax/jule
 diff
 terminal
+fstyle

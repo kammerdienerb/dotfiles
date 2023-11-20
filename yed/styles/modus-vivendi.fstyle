@@ -16,7 +16,7 @@ popup             fg f4f4f4 bg 202020
 popup-alt         fg e0e6f0 bg 100f10
 good              fg 44bc44
 bad               fg ff8059
-code-comment      fg a8a8a8
+code-comment      fg a8a8a8 bold italic
 code-keyword      fg f78fe7
 code-control-flow fg b6a0ff
 code-typename     fg 6ae4b9

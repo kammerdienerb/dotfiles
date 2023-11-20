@@ -16,7 +16,7 @@ popup             fg 0a0a0a bg f0f0f0
 popup-alt         fg 282828 bg e0e0e0
 good              fg 006e00
 bad               fg a60000
-code-comment      fg 707070
+code-comment      fg 707070 bold italic
 code-keyword      fg 9f1085
 code-control-flow fg 6327bc
 code-typename     fg 106a6f
