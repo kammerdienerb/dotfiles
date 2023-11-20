@@ -126,7 +126,7 @@ fstyle ~/.config/yed/styles/modus-operandi.fstyle
 fstyle ~/.config/yed/styles/modus-operandi-tinted.fstyle
 fstyle ~/.config/yed/styles/embark-dark.fstyle
 
-style modus-operandi
+style modus-operandi-tinted
 # style-use-term-bg
 
 ### @commands ###
