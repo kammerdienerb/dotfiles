@@ -29,3 +29,17 @@ code-variable     fg 00d3d0
 code-string       fg 79a8ff
 code-character    fg 79a8ff
 code-escape       fg abab00
+white             fg ffffff
+gray              fg 707070
+black             fg 000000
+red               fg ff8059
+orange            fg 702200
+yellow            fg abab00
+lime              fg 00840f
+green             fg 44bc44
+turquoise         fg 6ae4b9
+cyan              fg 00d3d0
+blue              fg 79a8ff
+purple            fg b6a0ff
+magenta           fg f78fe7
+pink              fg ff70a7

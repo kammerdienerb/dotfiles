@@ -47,7 +47,7 @@ elseif false then
     config.line_height = 0.85
 elseif true then
     config.font = wezterm.font 'Berkeley Mono Variable'
-    config.font_size = 18.0
+    config.font_size = 20.0
 elseif false then
     config.font = wezterm.font 'Monaspace Neon'
     config.font_size = 16.0
@@ -60,20 +60,22 @@ end
 
 -- config.force_reverse_video_cursor = true
 
-config.colors = {
-    cursor_bg = '#ff2040',
-}
 -- config.color_scheme = 'Monokai Remastered'
 -- config.color_scheme = 'Pastel White (terminal.sexy)'
 config.color_scheme = 'Modus-Operandi-Tinted'
+
+config.colors = {
+    cursor_bg = '#ff2040',
+    background = '#f0e0d4',
+}
 
 config.default_cursor_style = 'BlinkingBar'
 config.cursor_thickness = '0.2cell'
 
 config.hide_tab_bar_if_only_one_tab = false
 
-config.window_background_opacity = 0.6
-config.macos_window_background_blur = 64
+config.window_background_opacity = 0.9
+config.macos_window_background_blur = 32
 
 config.native_macos_fullscreen_mode = false
 
@@ -93,7 +95,7 @@ wezterm.on('window-config-reloaded', function(window, pane)
     if is_new_window then
         local overrides = window:get_config_overrides() or {}
         if not overrides.text_background_opacity then
-            overrides.text_background_opacity = 0.7
+            overrides.text_background_opacity = 0.9
         end
         window:set_config_overrides(overrides)
     end
@@ -102,7 +104,7 @@ end)
 wezterm.on('toggle-text-bg-opacity', function(window, pane)
     local overrides = window:get_config_overrides() or {}
     if not overrides.text_background_opacity then
-        overrides.text_background_opacity = 0.7
+        overrides.text_background_opacity = 0.9
     else
         overrides.text_background_opacity = nil
     end

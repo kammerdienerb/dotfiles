@@ -29,3 +29,17 @@ code-variable     fg 00538b
 code-string       fg 2544bb
 code-character    fg 2544bb
 code-escape       fg 654d0f
+white             fg f0e0d4
+gray              fg 707070
+black             fg 000000
+red               fg a0132f
+orange            fg 702200
+yellow            fg 654d0f
+lime              fg 008400
+green             fg 005e00
+turquoise         fg 004044
+cyan              fg 00538b
+blue              fg 0000c0
+purple            fg 5f30b0
+magenta           fg 8f0075
+pink              fg bf10d0

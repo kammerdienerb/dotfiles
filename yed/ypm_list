@@ -73,7 +73,9 @@ lang/rust
 lang/syntax/rust
 lsp
 lsp_diagnostics
-lang/syntax/jule
 diff
 terminal
 fstyle
+lang/syntax/jule
+brace_hl
+line_numbers
