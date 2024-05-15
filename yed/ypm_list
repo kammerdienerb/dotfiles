@@ -68,12 +68,11 @@ xul
 lang/jule
 lang/syntax/sh
 lang/syntax/python
-lsp_info_popup
 lang/rust
 lang/syntax/rust
-lsp
-lsp_diagnostics
 diff
 terminal
 fstyle
 lang/syntax/jule
+lang/simon
+lang/syntax/simon

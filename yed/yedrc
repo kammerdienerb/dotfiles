@@ -62,10 +62,18 @@ set mouse-menu-on-nothing "                                                     
 set mouse-menu-on-selection "                                                                                         \
     'Yank'               'yank-selection'                                                                             \
     'Delete'             'delete-back'                                                                                \
-    'Align'              'command-prompt align'"
-set mouse-menu-on-word "                                                                                              \
+    'Align'              'command-prompt align'                                                                       \
     'Paste'              'paste-yank-buffer'                                                                          \
     'Jump to Definition' 'multi jump-stack-push ctags-jump-to-definition'                                             \
+    'LSP Info' 'lsp-info'                                                                                             \
+    'Manpage'            'man-word'"
+set mouse-menu-on-word "                                                                                              \
+    'Yank'               'yank-selection'                                                                             \
+    'Delete'             'delete-back'                                                                                \
+    'Align'              'command-prompt align'                                                                       \
+    'Paste'              'paste-yank-buffer'                                                                          \
+    'Jump to Definition' 'multi jump-stack-push ctags-jump-to-definition'                                             \
+    'LSP Info' 'lsp-info'                                                                                             \
     'Manpage'            'man-word'"
 
 ### @plugins ###
@@ -126,8 +134,10 @@ fstyle ~/.config/yed/styles/modus-operandi.fstyle
 fstyle ~/.config/yed/styles/modus-operandi-tinted.fstyle
 fstyle ~/.config/yed/styles/embark-dark.fstyle
 
-style modus-operandi-tinted
+style modus-vivendi
 # style-use-term-bg
+
+set screen-fake-opacity 0.75
 
 ### @commands ###
 alias w write-buffer
