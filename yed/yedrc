@@ -88,19 +88,19 @@ plugin-load 'mk_src_pair'
 
 plugin-load 'lang/bjou'
 plugin-load 'lang/syntax/bjou'
-plugin-load 'lang/simon'
-plugin-load 'lang/syntax/simon'
+# plugin-load 'lang/simon'
+# plugin-load 'lang/syntax/simon'
 plugin-load 'lang/slide'
 plugin-load 'lang/syntax/slide'
 
 ### @lsp ###
-set lsp-diagnostics-show-message     'cursor'
-set lsp-info-popup-idle-threshold-ms -1
-set lsp-debug-log                    OFF
+# set lsp-diagnostics-show-message     'cursor'
+# set lsp-info-popup-idle-threshold-ms -1
+# set lsp-debug-log                    OFF
 
-lsp-define-server CLANGD clangd        C C++
-lsp-define-server RUST   rust-analyzer Rust
-lsp-define-server PYLSP  'tee log.in | pylsp | tee log.out'         Python
+# lsp-define-server CLANGD clangd        C C++
+# lsp-define-server RUST   rust-analyzer Rust
+# lsp-define-server PYLSP  'tee log.in | pylsp | tee log.out'         Python
 
 ### @misc ###
 map-extension S C
@@ -142,7 +142,7 @@ set screen-fake-opacity 0.75
 ### @commands ###
 alias w write-buffer
 alias W write-buffer
-alias Q q
+# alias Q q
 
 ### @keybindings ###
 xul-bind  insert  "j j"        xul-exit-insert
