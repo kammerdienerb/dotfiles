@@ -24,7 +24,6 @@ jump_stack
 macro
 scroll_buffer
 mouse
-mouse_menu
 confirm-quit
 make-tab
 lang/linker

@@ -1,0 +1,45 @@
+active               fg f6f1d1  # bg 0a141e
+active-border        fg f6f1d1  # bg 0a141e
+active-gutter        fg f6f1d1  # bg 0a141e
+inactive             fg f6f1d1  # bg 000a14
+inactive-border      fg 40798c  # bg 000a14
+inactive-gutter      fg f6f1d1  # bg 000a14
+cursor-line          fg f6f1d1  bg 264452
+selection            fg f6f1d1  bg 264452
+search               fg 0000ff  bg ffff00  bold
+search-cursor        fg 0000ff  bg ff9600  bold
+attention            fg ff0000    bold
+associate            bg 26448e  bold
+status-line          fg f6f1d1  bg 40798c  bold
+command-line         fg f6f1d1  bg 0a141e
+popup                fg f6f1d1  bg 26448e
+popup-alt            fg 40798c  bg f6f1d1  bold
+good                 fg 007f00
+bad                  fg 7f0000
+code-comment         fg 48b4eb
+code-keyword         fg d81e5b
+code-control-flow    fg d81e5b
+code-typename        fg 87b38d
+code-preprocessor    fg d81e5b  bold
+code-fn-call         fg 40798c
+code-number          fg 936181
+code-constant        fg fca311
+code-field           fg cbb9a8
+code-variable        fg cbb9a8
+code-string          fg 53aa6f
+code-character       fg 53aa6f
+code-escape          fg f4c95d
+white                fg ffffff
+gray                 fg 707070
+black                fg 000000
+red                  fg ff8059
+orange               fg fca311
+yellow               fg f4c95d
+lime                 fg 87b38d
+green                fg 53aa6f
+turquoise            fg 6ae4b9
+cyan                 fg 80b9cc
+blue                 fg 48b4eb
+purple               fg 936181
+magenta              fg d81e5b
+pink                 fg ff70a7
