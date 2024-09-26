@@ -46,14 +46,13 @@ word_wrap
 ctags
 comment
 whence_you_came
-cursor_word_hl
 grep
 xul
 lang/jule
 lang/syntax/sh
 lang/syntax/python
-terminal
 fstyle
 lang/syntax/jule
 lang/simon
 lang/syntax/simon
+terminal
