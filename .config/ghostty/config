@@ -133,7 +133,7 @@ font-feature =
 # depending on your `window-inherit-font-size` setting. If that setting is
 # true, only the first window will be affected by this change since all
 # subsequent windows will inherit the font size of the previous window.
-font-size = 20
+font-size = 14
 
 # A repeatable configuration to set one or more font variations values for
 # a variable font. A variable font is a single font, usually with a filename
@@ -213,7 +213,7 @@ adjust-underline-position =
 adjust-underline-thickness =
 adjust-strikethrough-position =
 adjust-strikethrough-thickness =
-adjust-cursor-thickness = 1000%
+adjust-cursor-thickness = 500%
 # The method to use for calculating the cell width of a grapheme cluster.
 # The default value is `unicode` which uses the Unicode standard to determine
 # grapheme width. This results in correct grapheme width but may result in
@@ -1802,7 +1802,7 @@ gtk-single-instance = desktop
 #
 # Changing this value at runtime and reloading the configuration will only
 # affect new windows.
-gtk-titlebar = true
+gtk-titlebar = false
 
 # Determines the side of the screen that the GTK tab bar will stick to.
 # Top, bottom, left, and right are supported. The default is top.
