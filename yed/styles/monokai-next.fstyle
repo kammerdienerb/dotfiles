@@ -1,0 +1,45 @@
+active               fg f8f8f2  bg 272822
+active-border        fg f8f8f2  bg 272822
+active-gutter        fg 90908a  bg 272822
+inactive             fg f8f8f2  bg 272822
+inactive-border      fg f8f8f2  bg 272822
+inactive-gutter      fg 90908a  bg 272822
+cursor-line          fg f8f8f2  bg 2f302b
+selection            fg f8f8f2  bg 555449
+search                          bg 673917  bold
+search-cursor        fg 2f302b  bg f5f5f5  bold
+attention            fg f14c4c             bold
+associate                       bg 5a9ed1
+status-line          fg f6f1d1  bg 31322c  bold
+command-line         fg f8f8f2  bg 272822
+popup                fg f8f8f2  bg 31322c
+popup-alt            fg ffffff  bg 414339  bold
+good                 fg 89d185
+bad                  fg f85149
+code-comment         fg 88846f
+code-keyword         fg f92472
+code-control-flow    fg f92472
+code-typename        fg 67d8ef
+code-preprocessor    fg d81e5b  bold
+code-fn-call         fg a6e22c
+code-number          fg ac80ff
+code-constant        fg ac80ff
+code-field           fg f8f8f2
+code-variable        fg f8f8f2
+code-string          fg e7db74
+code-character       fg e7db74
+code-escape          fg fd9621
+white                fg ffffff
+gray                 fg 7a7a77
+black                fg 000000
+red                  fg f14c4c
+orange               fg fd9621
+yellow               fg e7db74
+lime                 fg a6e22c
+green                fg 89d185
+turquoise            fg 78D5BA
+cyan                 fg 67d8ef
+blue                 fg 3794ff
+purple               fg ac80ff
+magenta              fg f92472
+pink                 fg FC92B9
