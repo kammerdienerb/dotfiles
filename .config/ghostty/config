@@ -133,7 +133,7 @@ font-feature =
 # depending on your `window-inherit-font-size` setting. If that setting is
 # true, only the first window will be affected by this change since all
 # subsequent windows will inherit the font size of the previous window.
-font-size = 14
+font-size = 12
 
 # A repeatable configuration to set one or more font variations values for
 # a variable font. A variable font is a single font, usually with a filename
@@ -593,11 +593,11 @@ palette = 7=#707070
 palette = 15=#ffffff
 
 # The color of the cursor. If this is not set, a default will be chosen.
-cursor-color =
+cursor-color = #ff0000
 
 # Swap the foreground and background colors of the cell under the cursor. This
 # option overrides the `cursor-color` and `cursor-text` options.
-cursor-invert-fg-bg = true
+cursor-invert-fg-bg = false
 
 # The opacity level (opposite of transparency) of the cursor. A value of 1
 # is fully opaque and a value of 0 is fully transparent. A value less than 0
@@ -1197,7 +1197,7 @@ window-inherit-font-size = true
 #
 # macOS: To hide the titlebar without removing the native window borders
 #        or rounded corners, use `macos-titlebar-style = hidden` instead.
-window-decoration = true
+window-decoration = false
 
 # The font that will be used for the application's window and tab titles.
 #
@@ -1802,7 +1802,7 @@ gtk-single-instance = desktop
 #
 # Changing this value at runtime and reloading the configuration will only
 # affect new windows.
-gtk-titlebar = false
+gtk-titlebar = true
 
 # Determines the side of the screen that the GTK tab bar will stick to.
 # Top, bottom, left, and right are supported. The default is top.
@@ -1843,7 +1843,7 @@ gtk-wide-tabs = true
 #
 # This configuration only has an effect if Ghostty was built with
 # libadwaita support.
-gtk-adwaita = true
+gtk-adwaita = false
 
 # If `true` (default), applications running in the terminal can show desktop
 # notifications using certain escape sequences such as OSC 9 or OSC 777.
@@ -1858,7 +1858,7 @@ bold-is-bright = false
 # features. An option exists in vim to modify this: `:set
 # keyprotocol=ghostty:kitty`, however a bug in the implementation prevents it
 # from working properly. https://github.com/vim/vim/pull/13211 fixes this.
-term = screen-256color
+term = xterm-256color
 
 # String to send when we receive `ENQ` (`0x05`) from the command that we are
 # running. Defaults to an empty string if not set.

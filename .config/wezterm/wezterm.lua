@@ -47,7 +47,7 @@ elseif false then
     config.line_height = 0.85
 elseif true then
     config.font = wezterm.font 'Berkeley Mono Variable'
-    config.font_size = 20.0
+    config.font_size = 14.0
 elseif false then
     config.font = wezterm.font 'Monaspace Neon'
     config.font_size = 16.0
@@ -62,11 +62,38 @@ end
 
 -- config.color_scheme = 'Monokai Remastered'
 -- config.color_scheme = 'Pastel White (terminal.sexy)'
-config.color_scheme = 'Modus-Operandi-Tinted'
+-- config.color_scheme = 'Modus-Operandi-Tinted'
+
+config.color_scheme = nil
 
 config.colors = {
-    cursor_bg = '#ff2040',
-    background = '#f0e0d4',
+    cursor_bg    = '#ff2040',
+    background   = '#0a141e',
+    foreground   = '#f6f1d1',
+    selection_bg = '#f6f1d1',
+    selection_fg = '#0a141e',
+
+    ansi = {
+        '#000000',
+        '#ff8059',
+        '#53aa6f',
+        '#f4c95d',
+        '#48b4eb',
+        '#d81e5b',
+        '#80b9cc',
+        '#707070',
+    },
+
+    brights = {
+        '#707070',
+        '#ff8059',
+        '#53aa6f',
+        '#f4c95d',
+        '#48b4eb',
+        '#d81e5b',
+        '#80b9cc',
+        '#ffffff',
+    },
 }
 
 config.default_cursor_style = 'BlinkingBar'
