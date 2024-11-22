@@ -6,6 +6,8 @@ cd $DIR
 
 eval HM=$(echo ~${USER})
 
+echo ".bashrc"
+cp .bashrc $HM/.bashrc
 echo ".zshrc"
 cp .zshrc $HM/.zshrc
 cp -r .zsh $HM

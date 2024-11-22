@@ -21,8 +21,6 @@ PROMPT='%-40<…<%~%<< %# '
 # PROMPT='%~ %# '
 
 source ~/.zsh/zsh-syntax-highlighting.zsh
-export EDITOR=yed
-export VISUAL=yed
 alias sudo='sudo -E'
 
 # HSTR configuration - add this to ~/.zshrc
