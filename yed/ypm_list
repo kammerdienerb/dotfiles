@@ -42,7 +42,6 @@ mouse_frame_control
 calc
 extension_mapper
 completer
-word_wrap
 ctags
 comment
 whence_you_came
@@ -57,3 +56,4 @@ lang/simon
 lang/syntax/simon
 terminal
 flame_graph
+word_wrap

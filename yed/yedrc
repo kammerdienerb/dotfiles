@@ -64,7 +64,7 @@ map-extension S C
 term-new # make *term0
 
 ### @style ###
-fstyle ~/.config/yed/styles/next-dark.fstyle
+fstyle ~/.config/yed/styles/forest.fstyle
 
 set screen-fake-opacity 0.75
 
@@ -91,6 +91,7 @@ xul-bind  normal  "ctrl-y"     multi "builder-view-output" "builder-start" "spec
 xul-bind  normal  "E E"        builder-jump-to-error
 xul-bind  normal  "spc t"      ctags-find
 xul-bind  normal  "T T"        multi "jump-stack-push" "forward-cursor-word ctags-find"
+xul-bind  normal  "R G"        multi "jump-stack-push" "forward-cursor-word grep"
 xul-bind  normal  "bsp"        jump-stack-pop
 xul-bind  normal  "tab"        go-menu
 xul-bind  normal  "ctrl-/"     kammerdienerb-find-cursor-word
