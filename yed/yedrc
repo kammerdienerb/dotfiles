@@ -64,7 +64,8 @@ map-extension S C
 term-new # make *term0
 
 ### @style ###
-fstyle ~/.config/yed/styles/forest.fstyle
+fstyle ~/.config/yed/styles/next-dark.fstyle
+style-use-term-bg
 
 set screen-fake-opacity 0.75
 
