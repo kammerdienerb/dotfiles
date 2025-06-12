@@ -47,13 +47,14 @@ comment
 whence_you_came
 grep
 xul
-lang/jule
 lang/syntax/sh
 lang/syntax/python
 fstyle
-lang/syntax/jule
 lang/simon
 lang/syntax/simon
 terminal
-flame_graph
 word_wrap
+flame_graph
+lang/julie
+lang/syntax/julie
+julie
