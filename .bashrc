@@ -23,7 +23,6 @@ if [ -d ~/.bashrc.d ]; then
     done
 fi
 unset rc
-. "$HOME/.cargo/env"
 
 export EDITOR="${HOME}/.local/bin/yed"
 export VISUAL="${EDITOR}"
