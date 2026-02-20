@@ -57,8 +57,13 @@ plugin-load 'lang/syntax/bjou'
 plugin-load 'lang/slide'
 plugin-load 'lang/syntax/slide'
 
+### @lsp ###
+lsp-define-server CLANGD clangd C C++
+set lsp-info-popup-idle-threshold-ms -1
+
 ### @misc ###
 map-extension S C
+map-extension inl C++
 
 ### @buffers ###
 term-new # make *term0

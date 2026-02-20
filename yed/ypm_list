@@ -45,7 +45,6 @@ completer
 ctags
 comment
 whence_you_came
-grep
 xul
 lang/syntax/sh
 lang/syntax/python
@@ -58,3 +57,8 @@ flame_graph
 lang/julie
 lang/syntax/julie
 julie
+grep
+lsp
+lsp_symbol_buffer
+lsp_info_popup
+tree_view
