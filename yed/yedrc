@@ -58,7 +58,7 @@ plugin-load 'lang/slide'
 plugin-load 'lang/syntax/slide'
 
 ### @lsp ###
-lsp-define-server CLANGD clangd C C++
+lsp-define-server CLANGD 'clangd --background-index' C C++
 set lsp-info-popup-idle-threshold-ms -1
 
 ### @misc ###
@@ -110,6 +110,11 @@ xul-bind  normal  "ctrl-t"     toggle-term-mode
 term-bind         "ctrl-l"     frame-next
 xul-bind  normal  "ctrl-k"     whence-you-came
 term-bind         "ctrl-k"     whence-you-came
+
+# plugin-unload 'ypm/plugins/julie'
+# plugins-add-dir '/home/bkammerd/projects/yed-julie'
+# plugin-load julie
+# julie-eval 'eval-file "/home/bkammerd/.config/yed/julie/main.j"'
 
 ### @project ###
 # Load directory-specific rc file.
