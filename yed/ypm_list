@@ -7,8 +7,6 @@ lang/syntax/latex
 lang/python
 lang/yedrc
 lang/syntax/yedrc
-lang/jgraph
-lang/syntax/jgraph
 lang/conf
 lang/syntax/conf
 lang/make
@@ -19,8 +17,6 @@ indent_c
 man
 style_pack
 builder
-hook
-jump_stack
 macro
 scroll_buffer
 mouse
@@ -28,7 +24,6 @@ confirm-quit
 make-tab
 lang/linker
 lang/syntax/linker
-convert
 universal_clipboard
 command-history
 lang/sh
@@ -38,8 +33,6 @@ find_file
 autotrim
 style_use_term_bg
 go_menu
-mouse_frame_control
-calc
 extension_mapper
 completer
 ctags
@@ -50,8 +43,6 @@ lang/syntax/python
 fstyle
 lang/simon
 lang/syntax/simon
-word_wrap
-flame_graph
 lang/julie
 grep
 lsp

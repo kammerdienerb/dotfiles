@@ -1,6 +1,9 @@
 define-class Xul
-    'mode : nil
-    'vsel : 0
+    'mode                           : nil
+    'vsel                           : 0
+    'num-undo-records-before-insert : 0
+    'repeat-list-pending            : (list)
+    'repeat-list                    : (list)
 
     'map :
         object
@@ -9,16 +12,20 @@ define-class Xul
                     "h" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
                                     @yexe "select"
                                 @yexe "cursor-left"
                     "H" :
                         '
-                            @yexe "cursor-left"
+                            do
+                                (REPEAT-CONTINUE)
+                                @yexe "cursor-left"
                     "j" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (&xul 'vsel)
                                     @yexe "cursor-down"
                                 else
@@ -27,10 +34,13 @@ define-class Xul
                                     @yexe "select-lines"
                     "J" :
                         '
-                            @yexe "cursor-down"
+                            do
+                                (REPEAT-NEW)
+                                @yexe "cursor-down"
                     "k" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (&xul 'vsel)
                                     @yexe "cursor-up"
                                 else
@@ -39,20 +49,26 @@ define-class Xul
                                     @yexe "select-lines"
                     "K" :
                         '
-                            @yexe "cursor-up"
+                            do
+                                (REPEAT-NEW)
+                                @yexe "cursor-up"
                     "l" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
                                     @yexe "select"
                                 @yexe "cursor-right"
                     "L" :
                         '
-                            @yexe "cursor-right"
+                            do
+                                (REPEAT-CONTINUE)
+                                @yexe "cursor-right"
                     "pageup" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (&xul 'vsel)
                                     @yexe "cursor-page-up"
                                 else
@@ -62,6 +78,7 @@ define-class Xul
                     "pagedown" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (&xul 'vsel)
                                     @yexe "cursor-page-down"
                                 else
@@ -71,6 +88,7 @@ define-class Xul
                     "w" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
                                     @yexe "select"
@@ -78,6 +96,7 @@ define-class Xul
                     "W" :
                         '
                             do
+                                (REPEAT-CONTINUE)
                                 if ((not (&xul 'vsel)) and ((@buffer-selection-kind $BUFFNAME) == 'line))
                                     @yexe "select-off"
                                     @yexe "select"
@@ -85,6 +104,7 @@ define-class Xul
                     "b" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
                                     @yexe "select"
@@ -92,6 +112,7 @@ define-class Xul
                     "B" :
                         '
                             do
+                                (REPEAT-CONTINUE)
                                 if ((not (&xul 'vsel)) and ((@buffer-selection-kind $BUFFNAME) == 'line))
                                     @yexe "select-off"
                                     @yexe "select"
@@ -99,6 +120,7 @@ define-class Xul
                     "0" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
                                     @yexe "select"
@@ -106,6 +128,7 @@ define-class Xul
                     "$" :
                         '
                             do
+                                (REPEAT-NEW)
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
                                     @yexe "select"
@@ -113,6 +136,7 @@ define-class Xul
                     "g" :
                         '
                             do
+                                (REPEAT-NEW)
                                 @yexe "cursor-buffer-begin"
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
@@ -120,6 +144,7 @@ define-class Xul
                     "G" :
                         '
                             do
+                                (REPEAT-NEW)
                                 @yexe "cursor-buffer-end"
                                 if (not (&xul 'vsel))
                                     @yexe "select-off"
@@ -197,6 +222,7 @@ define-class Xul
                     "d" :
                         '
                             do
+                                (REPEAT-FINISH)
                                 (&xul 'vsel) = 0
                                 @yexe "yank-selection" 1
                                 @yexe "delete-back"
@@ -239,17 +265,23 @@ define-class Xul
                     "i" :
                         '
                             do
+                                (REPEAT-NEW)
                                 &xul @ ('set-mode 'insert)
                     "a" :
                         '
                             do
+                                (REPEAT-NEW)
                                 @yexe "cursor-right"
                                 &xul @ ('set-mode 'insert)
                     "A" :
                         '
                             do
+                                (REPEAT-NEW)
                                 @yexe "cursor-line-end"
                                 &xul @ ('set-mode 'insert)
+                    "." :
+                        '
+                            &xul @ ('repeat)
 
             'insert :
                 object
@@ -303,8 +335,21 @@ define-class Xul
                 @set-var "xul-mode" (&self @ ('mode-status-string (&self 'mode)))
 
                 match &mode
-                    'normal (@yexe "select-lines")
-                    'insert (@yexe "select-off")
+                    'normal
+                        do
+                            append (&self 'repeat-list-pending) 'insert-mode-sentinel
+                            (&self 'repeat-list) = (move (&self 'repeat-list-pending))
+                            (&self 'repeat-list-pending) = (list)
+
+                            if (($FRAME != nil) and ($BUFFNAME != nil))
+                                while ((@num-undo-records $BUFFNAME) > ((&self 'num-undo-records-before-insert) + 1))
+                                    @merge-undo-records $BUFFNAME
+                            (@yexe "select-lines")
+                    'insert
+                        do
+                            if ($BUFFNAME != nil)
+                                (&self 'num-undo-records-before-insert) = (@num-undo-records $BUFFNAME)
+                            (@yexe "select-off")
 
     'get-sel-kind :
         fn (&self)
@@ -312,16 +357,49 @@ define-class Xul
             select (bname == nil) nil (@buffer-selection-kind bname)
 
 
-    'key-exec-wrapper : (fn (&xul &code) (&code))
+    'key-exec-wrapper :
+        fn (&xul &_key &_code &_repeating)
+            if &_repeating
+                REPEAT-NEW      = (' () )
+                REPEAT-CONTINUE = (' () )
+                REPEAT-FINISH   = (' () )
+            else
+                REPEAT-NEW =
+                    '
+                        do
+                            (&xul 'repeat-list-pending) = (list &_key)
+                REPEAT-CONTINUE =
+                    '
+                        do
+                            append (&xul 'repeat-list-pending) &_key
+                REPEAT-FINISH =
+                    '
+                        do
+                            append (&xul 'repeat-list-pending) &_key
+                            (&xul 'repeat-list) = (move (&xul 'repeat-list-pending))
+                            (&xul 'repeat-list-pending) = (list)
+            (&_code)
 
     'take-key :
-        fn (&self &key)
+        fn (&self &key &repeating)
             &map = ((&self 'map) (&self 'mode))
 
             if (&key in &map)
-                &self @ ('key-exec-wrapper (&map &key))
+                &self @ ('key-exec-wrapper &key (&map &key) &repeating)
             elif (((&self 'mode) == 'insert) and (not (startswith &key "ctrl-")))
                 @yexe "insert" (string (@key-code &key))
+                if (not &repeating)
+                    append (&self 'repeat-list-pending) &key
+
+    'repeat :
+        fn (&self)
+            repeat-list = (&self 'repeat-list)
+            foreach &key repeat-list
+                if (&key == 'insert-mode-sentinel)
+                    &self @ ('set-mode 'normal)
+                else
+                    &self @ ('take-key &key 1)
+            (&self 'repeat-list) = (move repeat-list)
 
     'on-pre-buffer-focus :
         fn (&self &event)
@@ -362,7 +440,7 @@ define-class Xul
 @command xul-take-key
 xul-take-key =
     fn (key-code-string)
-        .xul @ ('take-key (@key-code-to-string (parse-int key-code-string)))
+        .xul @ ('take-key (@key-code-to-string (parse-int key-code-string)) 0)
 
 add-unique-event-handler @on-pre-buffer-focus (' (.xul @ ('on-pre-buffer-focus $EVENT)) )
 add-unique-event-handler @on-pre-draw-everything (' (.xul @ ('on-pre-draw-everything $EVENT)) )

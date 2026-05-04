@@ -8,7 +8,6 @@ vars =
         "fill-string"                      : "▒"
         "border-style"                     : "thin"
         "cursor-line"                      : "yes"
-        "vimish-insert-no-cursor-line"     : "yes"
         "macro-instant-playback"           : "yes"
         "go-menu-persistent-items"         : ".yedrc .yed.j build.sh"
         "completer-sources"                : "word tags"
@@ -65,30 +64,30 @@ eval-file (fmt "%/julie/frames.j"   $CONFIG-PATH)
 @yexe "plugin-unload" "ypm/plugins/xul"
 eval-file (fmt "%/julie/xul.j"      $CONFIG-PATH)
 
-.xul @ ('bind 'normal "spc c o"  (' (@yexe "comment-toggle")                                                                               ))
-.xul @ ('bind 'normal "spc b d"  (' (@yexe "buffer-delete")                                                                                ))
-.xul @ ('bind 'normal "M M"      (' (@yexe "man-word")                                                                                     ))
-.xul @ ('bind 'normal "ctrl-l"   (' (@yexe "frame-next")                                                                                   ))
-.xul @ ('bind 'normal ">"        (' (@yexe "indent")                                                                                       ))
-.xul @ ('bind 'normal "<"        (' (@yexe "unindent")                                                                                     ))
-.xul @ ('bind 'normal "spc l"    (' (@yexe "command-prompt" "cursor-line ")                                                                ))
-.xul @ ('bind 'normal "spc g"    (' (@yexe "grep")                                                                                         ))
-.xul @ ('bind 'normal "spc f"    (' (@yexe "find-file")                                                                                    ))
-.xul @ ('bind 'normal "spc a l"  (' (@yexe "command-prompt" "align ")                                                                      ))
-.xul @ ('bind 'normal "ctrl-y"   (' (@yexe "multi" "builder-view-output" "builder-start" "special-buffer-prepare-unfocus *builder-output") ))
-.xul @ ('bind 'normal "E E"      (' (@yexe "builder-jump-to-error")                                                                        ))
-.xul @ ('bind 'normal "spc t"    (' (@yexe "ctags-find")                                                                                   ))
-.xul @ ('bind 'normal "T T"      (' (@yexe "multi" "jump-stack-push" "forward-cursor-word ctags-find")                                     ))
-.xul @ ('bind 'normal "R G"      (' (@yexe "multi" "jump-stack-push" "forward-cursor-word grep")                                           ))
-.xul @ ('bind 'normal "bsp"      (' (@yexe "jump-stack-pop")                                                                               ))
-.xul @ ('bind 'normal "tab"      (' (@yexe "go-menu")                                                                                      ))
-.xul @ ('bind 'normal "ctrl-/"   (' (@yexe "kammerdienerb-find-cursor-word")                                                               ))
-.xul @ ('bind 'normal "pagedown" (' (@yexe "scroll-buffer" 20)                                                                             ))
-.xul @ ('bind 'normal "pageup"   (' (@yexe "scroll-buffer" -20)                                                                            ))
-.xul @ ('bind 'normal "ctrl-x"   (' (@yexe "go-menu")                                                                                      ))
-.xul @ ('bind 'normal "ctrl-k"   (' (@yexe "whence-you-came")                                                                              ))
-.xul @ ('bind 'normal "ctrl-n"   (' (@yexe "goto-term-or-create")                                                                          ))
-.xul @ ('bind 'normal "ctrl-t"   (' (@yexe "toggle-term-mode")                                                                          ))
+.xul @ ('bind 'normal "spc c o"       (' (@yexe "comment-toggle")                                                                               ))
+.xul @ ('bind 'normal "spc b d"       (' (@yexe "buffer-delete")                                                                                ))
+.xul @ ('bind 'normal "M M"           (' (@yexe "man-word")                                                                                     ))
+.xul @ ('bind 'normal "ctrl-l"        (' (@yexe "frame-next")                                                                                   ))
+.xul @ ('bind 'normal ">"             (' (@yexe "indent")                                                                                       ))
+.xul @ ('bind 'normal "<"             (' (@yexe "unindent")                                                                                     ))
+.xul @ ('bind 'normal "spc l"         (' (@yexe "command-prompt" "cursor-line ")                                                                ))
+.xul @ ('bind 'normal "spc g"         (' (@yexe "grep")                                                                                         ))
+.xul @ ('bind 'normal "spc f"         (' (@yexe "find-file")                                                                                    ))
+.xul @ ('bind 'normal "spc a l"       (' (@yexe "command-prompt" "align ")                                                                      ))
+.xul @ ('bind 'normal "ctrl-y"        (' (@yexe "multi" "builder-view-output" "builder-start" "special-buffer-prepare-unfocus *builder-output") ))
+.xul @ ('bind 'normal "E E"           (' (@yexe "builder-jump-to-error")                                                                        ))
+.xul @ ('bind 'normal "spc t"         (' (@yexe "ctags-find")                                                                                   ))
+.xul @ ('bind 'normal "T T"           (' (@yexe "multi" "forward-cursor-word ctags-find")                                                       ))
+.xul @ ('bind 'normal "R G"           (' (@yexe "multi" "forward-cursor-word grep")                                                             ))
+.xul @ ('bind 'normal "tab"           (' (@yexe "go-menu")                                                                                      ))
+.xul @ ('bind 'normal "ctrl-/"        (' (@yexe "kammerdienerb-find-cursor-word")                                                               ))
+.xul @ ('bind 'normal "pagedown"      (' (@yexe "scroll-buffer" 20)                                                                             ))
+.xul @ ('bind 'normal "pageup"        (' (@yexe "scroll-buffer" -20)                                                                            ))
+.xul @ ('bind 'normal "ctrl-x"        (' (@yexe "go-menu")                                                                                      ))
+.xul @ ('bind 'normal "ctrl-k"        (' (@yexe "whence-you-came")                                                                              ))
+.xul @ ('bind 'normal "ctrl-n"        (' (@yexe "goto-term-or-create")                                                                          ))
+.xul @ ('bind 'normal "ctrl-t"        (' (@yexe "toggle-term-mode")                                                                             ))
+.xul @ ('bind 'normal "ctrl-j ctrl-j" (' (@yexe "multi" "julie-view-output" "special-buffer-prepare-unfocus *julie-output" "julie-eval-buffer") ))
 
 .xul @ ('bind 'insert "j j"    (' (.xul @ ('set-mode 'normal)) ))
 
